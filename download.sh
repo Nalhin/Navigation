@@ -1,0 +1,1 @@
+curl http://download.geofabrik.de/europe/poland-latest.osm.bz2 --output osm-data/map-data.osm
