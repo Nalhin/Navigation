@@ -1,6 +1,7 @@
 plugins {
   id 'groovy'
   id 'java'
+  id 'jacoco'
 }
 
 group 'com.navigation'
@@ -17,6 +18,18 @@ dependencies {
   testImplementation group: 'org.spockframework', name: 'spock-core', version: '2.0-M4-groovy-3.0'
 }
 
+jacoco {
+  toolVersion = '0.8.6'
+}
+
+jacocoTestReport {
+  reports {
+    xml.enabled true
+    csv.enabled false
+  }
+}
+
 test {
   useJUnitPlatform()
+  finalizedBy jacocoTestReport
 }

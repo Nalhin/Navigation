@@ -1,0 +1,29 @@
+name: Test
+on:
+  - push
+
+jobs:
+  backend-tests:
+    name: Backend tests
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 15
+      - name: Restore Gradle cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Build and run tests
+        run: ./gradlew build
+        working-directory: backend/parser
+      - name: Upload coverage
+        uses: codecov/codecov-action@v1
