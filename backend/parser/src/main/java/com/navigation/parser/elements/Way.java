@@ -6,13 +6,13 @@ import java.util.Objects;
 public class Way {
 
     private final String id;
-    private final List<Tag> tags;
     private final List<String> nodeReferences;
+    private final List<Tag> tags;
 
-    public Way(String id, List<Tag> tags, List<String> nodeReferences) {
+    public Way(String id, List<String> nodeReferences, List<Tag> tags) {
         this.id = id;
-        this.tags = tags;
         this.nodeReferences = nodeReferences;
+        this.tags = tags;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.navigation.parser.loader
 
+import com.navigation.parser.elements.Tag
 import com.navigation.parser.exporter.OSMExporterInMemory
 import com.navigation.parser.provider.OSMProviderInMemory
 import spock.lang.Specification
@@ -70,5 +71,53 @@ class OSMLoaderTest extends Specification {
 
     ways.containsKey("38407529")
     ways.size() == 1
+  }
+
+  def "Should load node tag data correctly"() {
+    setup:
+    def exporter = new OSMExporterInMemory()
+    def loader = new OSMLoader(new OSMProviderInMemory(EXAMPLE_XML), exporter)
+    when:
+    loader.loadOSM()
+    then:
+    def tags = exporter.getNodes()["358802885"].tags
+    tags == [new Tag("gnis:created", "06/14/2000"),
+             new Tag("gnis:county_id", "037"),
+             new Tag("name", "Santa Monica Mountains National Recreation Area"),
+             new Tag("leisure", "park"),
+             new Tag("gnis:feature_id", "277263"),
+             new Tag("gnis:state_id", "06"),
+             new Tag("ele", "243")]
+  }
+
+  def "Should load way tag data correctly"() {
+    setup:
+    def exporter = new OSMExporterInMemory()
+    def loader = new OSMLoader(new OSMProviderInMemory(EXAMPLE_XML), exporter)
+    when:
+    loader.loadOSM()
+    then:
+    def tags = exporter.getWays()["38407529"].tags
+
+    tags == [new Tag("park:type", "state_park"),
+             new Tag("csp:unitcode", "537"),
+             new Tag("admin_level", "4"),
+             new Tag("name", "Malibu Creek State Park"),
+             new Tag("csp:globalid", "{4A422954-089E-407F-A5B3-1E808F830EAA}"),
+             new Tag("leisure", "park"),
+             new Tag("attribution", "CASIL CSP_Opbdys072008"),
+             new Tag("note", "simplified with josm to reduce node #"),
+             new Tag("boundary", "national_park")]
+  }
+
+  def "Should load node ref elements correctly"() {
+    setup:
+    def exporter = new OSMExporterInMemory()
+    def loader = new OSMLoader(new OSMProviderInMemory(EXAMPLE_XML), exporter)
+    when:
+    loader.loadOSM()
+    then:
+    def refs = exporter.getWays()["38407529"].nodeReferences
+    refs == ["453966480", "453966490", "453966482", "453966130", "453966143", "453966480"]
   }
 }
