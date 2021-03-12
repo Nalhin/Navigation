@@ -24,10 +24,16 @@ public class OSMLoader {
 
     private final OSMProvider provider;
     private final OSMExporter exporter;
+    private final OSMLoaderSpecification specification;
 
     public OSMLoader(OSMProvider provider, OSMExporter exporter) {
+        this(provider, exporter, new OSMLoadAllSpecification());
+    }
+
+    public OSMLoader(OSMProvider provider, OSMExporter exporter, OSMLoaderSpecification specification) {
         this.provider = provider;
         this.exporter = exporter;
+        this.specification = specification;
     }
 
     public void loadOSM() throws IOException, XMLStreamException {
@@ -37,11 +43,31 @@ public class OSMLoader {
             reader.next();
             if (reader.isStartElement()) {
                 switch (reader.getLocalName()) {
-                    case WAY_ELEMENT -> exporter.export(loadWay(reader));
-                    case NODE_ELEMENT -> exporter.export(loadNode(reader));
-                    case BOUNDS_ELEMENT -> exporter.export(loadBounds(reader));
+                    case WAY_ELEMENT -> {
+                        var way = loadWay(reader);
+                        if (specification.isSatisfiedBy(way)) {
+                            exporter.export(way);
+                        }
+                    }
+                    case NODE_ELEMENT -> {
+                        var node = loadNode(reader);
+                        if (specification.isSatisfiedBy(node)) {
+                            exporter.export(node);
+                        }
+                    }
+                    case BOUNDS_ELEMENT -> {
+                        var bounds = loadBounds(reader);
+                        if (specification.isSatisfiedBy(bounds)) {
+                            exporter.export(bounds);
+                        }
+                    }
                     case METADATA_ELEMENT -> exporter.export(loadMetadata(reader));
-                    case RELATION_ELEMENT -> exporter.export(loadRelation(reader));
+                    case RELATION_ELEMENT -> {
+                        var relation = loadRelation(reader);
+                        if (specification.isSatisfiedBy(relation)) {
+                            exporter.export(relation);
+                        }
+                    }
                 }
             }
         }
