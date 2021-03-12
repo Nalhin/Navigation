@@ -39,4 +39,13 @@ public class Way {
     public List<String> getNodeReferences() {
         return nodeReferences;
     }
+
+    @Override
+    public String toString() {
+        return "Way{" +
+                "id='" + id + '\'' +
+                ", nodeReferences=" + nodeReferences +
+                ", tags=" + tags +
+                '}';
+    }
 }

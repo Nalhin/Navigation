@@ -44,4 +44,14 @@ public class Bounds {
     public String getMaxLongitude() {
         return maxLongitude;
     }
+
+    @Override
+    public String toString() {
+        return "Bounds{" +
+                "minLatitude='" + minLatitude + '\'' +
+                ", maxLatitude='" + maxLatitude + '\'' +
+                ", minLongitude='" + minLongitude + '\'' +
+                ", maxLongitude='" + maxLongitude + '\'' +
+                '}';
+    }
 }

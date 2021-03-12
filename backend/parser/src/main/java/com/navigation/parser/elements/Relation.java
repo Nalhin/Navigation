@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Relation {
+
     private final String id;
     private final List<Member> members;
     private final List<Tag> tags;
@@ -37,5 +38,14 @@ public class Relation {
 
     public List<Tag> getTags() {
         return tags;
+    }
+
+    @Override
+    public String toString() {
+        return "Relation{" +
+                "id='" + id + '\'' +
+                ", members=" + members +
+                ", tags=" + tags +
+                '}';
     }
 }

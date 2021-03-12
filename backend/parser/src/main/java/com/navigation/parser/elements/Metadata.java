@@ -32,4 +32,12 @@ public class Metadata {
     public String getGenerator() {
         return generator;
     }
+
+    @Override
+    public String toString() {
+        return "Metadata{" +
+                "OSMVersion='" + OSMVersion + '\'' +
+                ", generator='" + generator + '\'' +
+                '}';
+    }
 }

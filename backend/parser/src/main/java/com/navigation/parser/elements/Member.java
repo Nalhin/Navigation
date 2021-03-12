@@ -26,4 +26,13 @@ public class Member {
     public int hashCode() {
         return Objects.hash(type, ref, role);
     }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "type='" + type + '\'' +
+                ", ref='" + ref + '\'' +
+                ", role='" + role + '\'' +
+                '}';
+    }
 }
