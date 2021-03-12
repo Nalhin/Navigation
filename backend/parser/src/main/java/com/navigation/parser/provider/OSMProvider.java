@@ -6,5 +6,5 @@ import java.io.IOException;
 
 public interface OSMProvider {
 
-    XMLStreamReader loadOSMXml() throws IOException, XMLStreamException;
+  XMLStreamReader loadOSMXml() throws IOException, XMLStreamException;
 }

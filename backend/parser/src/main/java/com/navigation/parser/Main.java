@@ -9,13 +9,13 @@ import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) throws IOException, XMLStreamException {
-        var provider = new OSMProviderFile(args[0]);
-        var exporter = new OSMExporterInMemory();
-        var loader = new OSMLoader(provider, exporter);
-        loader.loadOSM();
-        System.out.println(exporter.getBounds());
-        System.out.println(exporter.getNodes().size());
-        System.out.println(exporter.getWays().size());
-    }
+  public static void main(String[] args) throws IOException, XMLStreamException {
+    var provider = new OSMProviderFile(args[0]);
+    var exporter = new OSMExporterInMemory();
+    var loader = new OSMLoader(provider, exporter);
+    loader.loadOSM();
+    System.out.println(exporter.getBounds());
+    System.out.println(exporter.getNodes().size());
+    System.out.println(exporter.getWays().size());
+  }
 }
