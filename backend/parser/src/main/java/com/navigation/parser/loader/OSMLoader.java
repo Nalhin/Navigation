@@ -10,15 +10,16 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class OSMLoader {
 
-    private final String WAY_ELEMENT = "way";
-    private final String NODE_ELEMENT = "node";
-    private final String REF_ELEMENT = "nd";
-    private final String TAG_ELEMENT = "tag";
+    private final static String WAY_ELEMENT = "way";
+    private final static String NODE_ELEMENT = "node";
+
+    private final static String REF_NESTED_ELEMENT = "nd";
+    private final static String TAG_NESTED_ELEMENT = "tag";
+
     private final OSMProvider provider;
     private final OSMExporter exporter;
 
@@ -44,45 +45,47 @@ public class OSMLoader {
 
     private Way loadWay(XMLStreamReader reader) throws XMLStreamException {
         var id = reader.getAttributeValue(null, "id");
-        reader.nextTag();
-        var refs = loadRefs(reader);
-        var tags = loadTags(reader);
-        return new Way(id, refs, tags);
+        var nested = loadNestedElements(reader, WAY_ELEMENT);
+
+        return new Way(id, nested.refs, nested.tags);
     }
 
-    private List<String> loadRefs(XMLStreamReader reader) throws XMLStreamException {
-        List<String> refs = new ArrayList<>();
-
-        while (reader.getLocalName().equals(REF_ELEMENT)) {
-            if (reader.getEventType() == XMLStreamReader.START_ELEMENT) {
-                refs.add(reader.getAttributeValue(null, "ref"));
-            }
-            reader.nextTag();
-        }
-
-        return refs;
-    }
 
     private Node loadNode(XMLStreamReader reader) throws XMLStreamException {
         var id = reader.getAttributeValue(null, "id");
         var lat = reader.getAttributeValue(null, "lat");
         var lon = reader.getAttributeValue(null, "lon");
-        reader.nextTag();
-        var tags = loadTags(reader);
+        var nested = loadNestedElements(reader, NODE_ELEMENT);
 
-        return new Node(id, lat, lon, tags);
+        return new Node(id, lat, lon, nested.tags);
     }
 
-    private List<Tag> loadTags(XMLStreamReader reader) throws XMLStreamException {
-        List<Tag> tags = new ArrayList<>();
+    private NestedElements loadNestedElements(XMLStreamReader reader, String endElement) throws XMLStreamException {
+        var result = new NestedElements();
 
-        while (reader.getLocalName().equals(TAG_ELEMENT)) {
+        while (reader.getEventType() != XMLStreamReader.END_ELEMENT || !reader.getLocalName().equals(endElement)) {
             if (reader.getEventType() == XMLStreamReader.START_ELEMENT) {
-                tags.add(new Tag(reader.getAttributeValue(null, "k"), reader.getAttributeValue(null, "v")));
+                switch (reader.getLocalName()) {
+                    case TAG_NESTED_ELEMENT -> result.addTag(new Tag(reader.getAttributeValue(null, "k"), reader.getAttributeValue(null, "v")));
+                    case REF_NESTED_ELEMENT -> result.addRef(reader.getAttributeValue(null, "ref"));
+                }
             }
             reader.nextTag();
         }
 
-        return tags;
+        return result;
+    }
+
+    private static class NestedElements {
+        private final List<Tag> tags = new ArrayList<>();
+        private final List<String> refs = new ArrayList<>();
+
+        public void addTag(Tag tag) {
+            tags.add(tag);
+        }
+
+        public void addRef(String ref) {
+            refs.add(ref);
+        }
     }
 }
