@@ -16,9 +16,11 @@ public class OSMLoader {
     private final static String NODE_ELEMENT = "node";
     private final static String BOUNDS_ELEMENT = "bounds";
     private final static String METADATA_ELEMENT = "osm";
+    private final static String RELATION_ELEMENT = "relation";
 
     private final static String REF_NESTED_ELEMENT = "nd";
     private final static String TAG_NESTED_ELEMENT = "tag";
+    private final static String MEMBER_NESTED_ELEMENT = "member";
 
     private final OSMProvider provider;
     private final OSMExporter exporter;
@@ -39,6 +41,7 @@ public class OSMLoader {
                     case NODE_ELEMENT -> exporter.export(loadNode(reader));
                     case BOUNDS_ELEMENT -> exporter.export(loadBounds(reader));
                     case METADATA_ELEMENT -> exporter.export(loadMetadata(reader));
+                    case RELATION_ELEMENT -> exporter.export(loadRelation(reader));
                 }
             }
         }
@@ -75,6 +78,12 @@ public class OSMLoader {
         return new Metadata(reader.getAttributeValue(null, "version"), reader.getAttributeValue(null, "generator"));
     }
 
+    private Relation loadRelation(XMLStreamReader reader) throws XMLStreamException {
+        var id = reader.getAttributeValue(null, "id");
+        var nested = loadNestedElements(reader, RELATION_ELEMENT);
+        return new Relation(id, nested.members, nested.tags);
+    }
+
     private NestedElements loadNestedElements(XMLStreamReader reader, String endElement) throws XMLStreamException {
         var result = new NestedElements();
 
@@ -83,6 +92,7 @@ public class OSMLoader {
                 switch (reader.getLocalName()) {
                     case TAG_NESTED_ELEMENT -> result.addTag(new Tag(reader.getAttributeValue(null, "k"), reader.getAttributeValue(null, "v")));
                     case REF_NESTED_ELEMENT -> result.addRef(reader.getAttributeValue(null, "ref"));
+                    case MEMBER_NESTED_ELEMENT -> result.addMember(new Member(reader.getAttributeValue(null, "type"), reader.getAttributeValue(null, "ref"), reader.getAttributeValue(null, "role")));
                 }
             }
             reader.nextTag();
@@ -94,6 +104,7 @@ public class OSMLoader {
     private static class NestedElements {
         private final List<Tag> tags = new ArrayList<>();
         private final List<String> refs = new ArrayList<>();
+        private final List<Member> members = new ArrayList<>();
 
         public void addTag(Tag tag) {
             tags.add(tag);
@@ -101,6 +112,10 @@ public class OSMLoader {
 
         public void addRef(String ref) {
             refs.add(ref);
+        }
+
+        public void addMember(Member member) {
+            members.add(member);
         }
     }
 }

@@ -1,9 +1,6 @@
 package com.navigation.parser.exporter;
 
-import com.navigation.parser.elements.Bounds;
-import com.navigation.parser.elements.Metadata;
-import com.navigation.parser.elements.Node;
-import com.navigation.parser.elements.Way;
+import com.navigation.parser.elements.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +9,7 @@ public class OSMExporterInMemory implements OSMExporter {
 
     private final Map<String, Node> nodes = new HashMap<>();
     private final Map<String, Way> ways = new HashMap<>();
+    private final Map<String, Relation> relations = new HashMap<>();
     private Bounds bounds;
     private Metadata metadata;
 
@@ -35,6 +33,11 @@ public class OSMExporterInMemory implements OSMExporter {
         this.metadata = metadata;
     }
 
+    @Override
+    public void export(Relation relation) {
+        relations.put(relation.getId(), relation);
+    }
+
     public Map<String, Node> getNodes() {
         return nodes;
     }
@@ -49,5 +52,9 @@ public class OSMExporterInMemory implements OSMExporter {
 
     public Metadata getMetadata() {
         return metadata;
+    }
+
+    public Map<String, Relation> getRelations() {
+        return relations;
     }
 }
