@@ -37,7 +37,7 @@ public class Node {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Node node = (Node) o;
-        return id.equals(node.id) && latitude.equals(node.latitude) && longitude.equals(node.longitude) && tags.equals(node.tags);
+        return Objects.equals(id, node.id) && Objects.equals(latitude, node.latitude) && Objects.equals(longitude, node.longitude) && Objects.equals(tags, node.tags);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.navigation.parser.loader
 
+import com.navigation.parser.elements.Bounds
+import com.navigation.parser.elements.Metadata
 import com.navigation.parser.elements.Tag
 import com.navigation.parser.exporter.OSMExporterInMemory
 import com.navigation.parser.provider.OSMProviderInMemory
@@ -73,7 +75,7 @@ class OSMLoaderTest extends Specification {
     ways.size() == 1
   }
 
-  def "Should load node tag data correctly"() {
+  def "Should load node tag data"() {
     setup:
     def exporter = new OSMExporterInMemory()
     def loader = new OSMLoader(new OSMProviderInMemory(EXAMPLE_XML), exporter)
@@ -90,7 +92,7 @@ class OSMLoaderTest extends Specification {
              new Tag("ele", "243")]
   }
 
-  def "Should load way tag data correctly"() {
+  def "Should load way tag data"() {
     setup:
     def exporter = new OSMExporterInMemory()
     def loader = new OSMLoader(new OSMProviderInMemory(EXAMPLE_XML), exporter)
@@ -110,7 +112,7 @@ class OSMLoaderTest extends Specification {
              new Tag("boundary", "national_park")]
   }
 
-  def "Should load node ref elements correctly"() {
+  def "Should load node ref elements"() {
     setup:
     def exporter = new OSMExporterInMemory()
     def loader = new OSMLoader(new OSMProviderInMemory(EXAMPLE_XML), exporter)
@@ -119,5 +121,25 @@ class OSMLoaderTest extends Specification {
     then:
     def refs = exporter.getWays()["38407529"].nodeReferences
     refs == ["453966480", "453966490", "453966482", "453966130", "453966143", "453966480"]
+  }
+
+  def "Should load map bounds"() {
+    setup:
+    def exporter = new OSMExporterInMemory()
+    def loader = new OSMLoader(new OSMProviderInMemory(EXAMPLE_XML), exporter)
+    when:
+    loader.loadOSM()
+    then:
+    exporter.getBounds() == new Bounds("34.0662408634219", "34.0731374116421", "-118.736715316772", "-118.73122215271")
+  }
+
+  def "Should load map metadata"() {
+    setup:
+    def exporter = new OSMExporterInMemory()
+    def loader = new OSMLoader(new OSMProviderInMemory(EXAMPLE_XML), exporter)
+    when:
+    loader.loadOSM()
+    then:
+    exporter.getMetadata() == new Metadata("0.6", "JOSM")
   }
 }

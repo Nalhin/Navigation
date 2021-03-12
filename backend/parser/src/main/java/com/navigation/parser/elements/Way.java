@@ -20,7 +20,7 @@ public class Way {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Way way = (Way) o;
-        return id.equals(way.id) && tags.equals(way.tags) && nodeReferences.equals(way.nodeReferences);
+        return Objects.equals(id, way.id) && Objects.equals(nodeReferences, way.nodeReferences) && Objects.equals(tags, way.tags);
     }
 
     @Override
