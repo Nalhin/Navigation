@@ -11,7 +11,6 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import java.io.*;
 import java.util.HashSet;
-import java.util.List;
 
 public class OSMLoader {
 

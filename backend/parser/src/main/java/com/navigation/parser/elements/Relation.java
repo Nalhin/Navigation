@@ -1,15 +1,16 @@
 package com.navigation.parser.elements;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class Relation {
 
   private final String id;
   private final List<Member> members;
-  private final List<Tag> tags;
+  private final Map<String, String> tags;
 
-  public Relation(String id, List<Member> members, List<Tag> tags) {
+  public Relation(String id, List<Member> members, Map<String, String> tags) {
     this.id = id;
     this.members = members;
     this.tags = tags;
@@ -36,7 +37,7 @@ public class Relation {
     return members;
   }
 
-  public List<Tag> getTags() {
+  public Map<String, String> getTags() {
     return tags;
   }
 

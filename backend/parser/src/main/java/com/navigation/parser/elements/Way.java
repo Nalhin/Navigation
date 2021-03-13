@@ -1,15 +1,16 @@
 package com.navigation.parser.elements;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class Way {
 
   private final String id;
   private final List<String> nodeReferences;
-  private final List<Tag> tags;
+  private final Map<String, String> tags;
 
-  public Way(String id, List<String> nodeReferences, List<Tag> tags) {
+  public Way(String id, List<String> nodeReferences, Map<String, String> tags) {
     this.id = id;
     this.nodeReferences = nodeReferences;
     this.tags = tags;
@@ -32,7 +33,7 @@ public class Way {
     return id;
   }
 
-  public List<Tag> getTags() {
+  public Map<String, String> getTags() {
     return tags;
   }
 

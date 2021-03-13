@@ -3,7 +3,7 @@ package com.navigation.parser.loader
 import com.navigation.parser.elements.Bounds
 import com.navigation.parser.elements.Member
 import com.navigation.parser.elements.Metadata
-import com.navigation.parser.elements.Tag
+
 import com.navigation.parser.exporter.OSMExporterInMemory
 import com.navigation.parser.provider.OSMProviderInMemory
 import spock.lang.Specification
@@ -96,13 +96,13 @@ class OSMLoaderTest extends Specification {
     loader.loadOSM()
     then:
     def tags = exporter.nodes["358802885"].tags
-    tags == [new Tag("gnis:created", "06/14/2000"),
-             new Tag("gnis:county_id", "037"),
-             new Tag("name", "Santa Monica Mountains National Recreation Area"),
-             new Tag("leisure", "park"),
-             new Tag("gnis:feature_id", "277263"),
-             new Tag("gnis:state_id", "06"),
-             new Tag("ele", "243")]
+    tags == ["gnis:created"   : "06/14/2000",
+             "gnis:county_id" : "037",
+             "name"           : "Santa Monica Mountains National Recreation Area",
+             "leisure"        : "park",
+             "gnis:feature_id": "277263",
+             "gnis:state_id"  : "06",
+             "ele"            : "243"]
   }
 
   def "Should load way tag data"() {
@@ -114,15 +114,15 @@ class OSMLoaderTest extends Specification {
     then:
     def tags = exporter.ways["38407529"].tags
 
-    tags == [new Tag("park:type", "state_park"),
-             new Tag("csp:unitcode", "537"),
-             new Tag("admin_level", "4"),
-             new Tag("name", "Malibu Creek State Park"),
-             new Tag("csp:globalid", "{4A422954-089E-407F-A5B3-1E808F830EAA}"),
-             new Tag("leisure", "park"),
-             new Tag("attribution", "CASIL CSP_Opbdys072008"),
-             new Tag("note", "simplified with josm to reduce node #"),
-             new Tag("boundary", "national_park")]
+    tags == ["park:type"   : "state_park",
+             "csp:unitcode": "537",
+             "admin_level" : "4",
+             "name"        : "Malibu Creek State Park",
+             "csp:globalid": "{4A422954-089E-407F-A5B3-1E808F830EAA}",
+             "leisure"     : "park",
+             "attribution" : "CASIL CSP_Opbdys072008",
+             "note"        : "simplified with josm to reduce node #",
+             "boundary"    : "national_park"]
   }
 
   def "Should load node ref elements"() {
@@ -176,12 +176,12 @@ class OSMLoaderTest extends Specification {
     then:
     def tags = exporter.relations["56688"].tags
 
-    tags == [new Tag("name", "Kstenbus Linie 123"),
-             new Tag("network", "VVW"),
-             new Tag("operator", "Regionalverkehr Kste"),
-             new Tag("ref", "123"),
-             new Tag("route", "bus"),
-             new Tag("type", "route")]
+    tags == ["name"    : "Kstenbus Linie 123",
+             "network" : "VVW",
+             "operator": "Regionalverkehr Kste",
+             "ref"     : "123",
+             "route"   : "bus",
+             "type"    : "route"]
   }
 
   def "Should load relation member data"() {

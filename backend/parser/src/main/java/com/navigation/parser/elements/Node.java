@@ -1,15 +1,15 @@
 package com.navigation.parser.elements;
 
-import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class Node {
   private final String id;
   private final String latitude;
   private final String longitude;
-  private final List<Tag> tags;
+  private final Map<String, String> tags;
 
-  public Node(String id, String latitude, String longitude, List<Tag> tags) {
+  public Node(String id, String latitude, String longitude, Map<String, String> tags) {
     this.id = id;
     this.latitude = latitude;
     this.longitude = longitude;
@@ -28,7 +28,7 @@ public class Node {
     return longitude;
   }
 
-  public List<Tag> getTags() {
+  public Map<String, String> getTags() {
     return tags;
   }
 
