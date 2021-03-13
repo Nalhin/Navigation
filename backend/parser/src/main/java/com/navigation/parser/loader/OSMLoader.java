@@ -2,6 +2,10 @@ package com.navigation.parser.loader;
 
 import com.navigation.parser.elements.*;
 import com.navigation.parser.exporter.OSMExporter;
+import com.navigation.parser.loader.elements.Elements;
+import com.navigation.parser.loader.elements.NestedElements;
+import com.navigation.parser.loader.specification.OSMLoadAllSpecification;
+import com.navigation.parser.loader.specification.OSMLoaderSpecification;
 import com.navigation.parser.provider.OSMProvider;
 
 import javax.xml.stream.XMLStreamException;
@@ -11,16 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OSMLoader {
-
-  private final static String WAY_ELEMENT = "way";
-  private final static String NODE_ELEMENT = "node";
-  private final static String BOUNDS_ELEMENT = "bounds";
-  private final static String METADATA_ELEMENT = "osm";
-  private final static String RELATION_ELEMENT = "relation";
-
-  private final static String REF_NESTED_ELEMENT = "nd";
-  private final static String TAG_NESTED_ELEMENT = "tag";
-  private final static String MEMBER_NESTED_ELEMENT = "member";
 
   private final OSMProvider provider;
   private final OSMExporter exporter;
@@ -42,27 +36,27 @@ public class OSMLoader {
     while (reader.hasNext()) {
       reader.next();
       if (reader.isStartElement()) {
-        switch (reader.getLocalName()) {
-          case WAY_ELEMENT -> {
+        switch (Elements.fromTag(reader.getLocalName())) {
+          case WAY -> {
             var way = loadWay(reader);
             if (specification.isSatisfiedBy(way)) {
               exporter.export(way);
             }
           }
-          case NODE_ELEMENT -> {
+          case NODE -> {
             var node = loadNode(reader);
             if (specification.isSatisfiedBy(node)) {
               exporter.export(node);
             }
           }
-          case BOUNDS_ELEMENT -> {
+          case BOUNDS -> {
             var bounds = loadBounds(reader);
             if (specification.isSatisfiedBy(bounds)) {
               exporter.export(bounds);
             }
           }
-          case METADATA_ELEMENT -> exporter.export(loadMetadata(reader));
-          case RELATION_ELEMENT -> {
+          case METADATA -> exporter.export(loadMetadata(reader));
+          case RELATION -> {
             var relation = loadRelation(reader);
             if (specification.isSatisfiedBy(relation)) {
               exporter.export(relation);
@@ -76,7 +70,7 @@ public class OSMLoader {
 
   private Way loadWay(XMLStreamReader reader) throws XMLStreamException {
     var id = reader.getAttributeValue(null, "id");
-    var nested = loadNestedElements(reader, WAY_ELEMENT);
+    var nested = loadNestedElements(reader, Elements.WAY);
 
     return new Way(id, nested.refs, nested.tags);
   }
@@ -86,7 +80,7 @@ public class OSMLoader {
     var id = reader.getAttributeValue(null, "id");
     var lat = reader.getAttributeValue(null, "lat");
     var lon = reader.getAttributeValue(null, "lon");
-    var nested = loadNestedElements(reader, NODE_ELEMENT);
+    var nested = loadNestedElements(reader, Elements.NODE);
 
     return new Node(id, lat, lon, nested.tags);
   }
@@ -106,42 +100,40 @@ public class OSMLoader {
 
   private Relation loadRelation(XMLStreamReader reader) throws XMLStreamException {
     var id = reader.getAttributeValue(null, "id");
-    var nested = loadNestedElements(reader, RELATION_ELEMENT);
+    var nested = loadNestedElements(reader, Elements.RELATION);
     return new Relation(id, nested.members, nested.tags);
   }
 
-  private NestedElements loadNestedElements(XMLStreamReader reader, String endElement) throws XMLStreamException {
-    var result = new NestedElements();
+  private NestedElementsReturn loadNestedElements(XMLStreamReader reader, Elements endElement) throws XMLStreamException {
+    var tags = new ArrayList<Tag>();
+    var refs = new ArrayList<String>();
+    var members = new ArrayList<Member>();
 
-    while (!reader.isEndElement() || !reader.getLocalName().equals(endElement)) {
+    reader.nextTag();
+
+    while (!reader.isEndElement() || !reader.getLocalName().equals(endElement.TAG_VALUE)) {
       if (reader.isStartElement()) {
-        switch (reader.getLocalName()) {
-          case TAG_NESTED_ELEMENT -> result.addTag(new Tag(reader.getAttributeValue(null, "k"), reader.getAttributeValue(null, "v")));
-          case REF_NESTED_ELEMENT -> result.addRef(reader.getAttributeValue(null, "ref"));
-          case MEMBER_NESTED_ELEMENT -> result.addMember(new Member(reader.getAttributeValue(null, "type"), reader.getAttributeValue(null, "ref"), reader.getAttributeValue(null, "role")));
+        switch (NestedElements.fromTag(reader.getLocalName())) {
+          case TAG -> tags.add(new Tag(reader.getAttributeValue(null, "k"), reader.getAttributeValue(null, "v")));
+          case REF -> refs.add(reader.getAttributeValue(null, "ref"));
+          case MEMBER -> members.add(new Member(reader.getAttributeValue(null, "type"), reader.getAttributeValue(null, "ref"), reader.getAttributeValue(null, "role")));
         }
       }
       reader.nextTag();
     }
 
-    return result;
+    return new NestedElementsReturn(tags, refs, members);
   }
 
-  private static class NestedElements {
-    private final List<Tag> tags = new ArrayList<>();
-    private final List<String> refs = new ArrayList<>();
-    private final List<Member> members = new ArrayList<>();
+  private static class NestedElementsReturn {
+    private final List<Tag> tags;
+    private final List<String> refs;
+    private final List<Member> members;
 
-    public void addTag(Tag tag) {
-      tags.add(tag);
-    }
-
-    public void addRef(String ref) {
-      refs.add(ref);
-    }
-
-    public void addMember(Member member) {
-      members.add(member);
+    public NestedElementsReturn(List<Tag> tags, List<String> refs, List<Member> members) {
+      this.tags = tags;
+      this.refs = refs;
+      this.members = members;
     }
   }
 }

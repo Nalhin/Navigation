@@ -1,4 +1,4 @@
-package com.navigation.parser.loader;
+package com.navigation.parser.loader.specification;
 
 import com.navigation.parser.elements.Bounds;
 import com.navigation.parser.elements.Node;
