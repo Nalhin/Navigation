@@ -15,7 +15,7 @@ public enum Elements {
   METADATA("osm"),
   RELATION("relation");
 
-  public final String TAG_VALUE;
+  private final String TAG_VALUE;
 
   Elements(String TAG_VALUE) {
     this.TAG_VALUE = TAG_VALUE;
@@ -36,5 +36,9 @@ public enum Elements {
       throw new InvalidOsmTagException(MessageFormat.format("Tag with name {0} is not a valid OSM tag", tag));
     }
     return ALLOWED_VALUES.get(tag);
+  }
+
+  public boolean isElement(String tag) {
+    return TAG_VALUE.equals(tag);
   }
 }

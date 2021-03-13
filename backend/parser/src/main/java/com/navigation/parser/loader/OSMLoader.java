@@ -1,9 +1,8 @@
 package com.navigation.parser.loader;
 
-import com.navigation.parser.elements.*;
 import com.navigation.parser.exporter.OSMExporter;
 import com.navigation.parser.loader.elements.Elements;
-import com.navigation.parser.loader.elements.NestedElements;
+import com.navigation.parser.loader.elements.ElementsFactory;
 import com.navigation.parser.loader.specification.OSMLoadAllSpecification;
 import com.navigation.parser.loader.specification.OSMLoaderSpecification;
 import com.navigation.parser.provider.OSMProvider;
@@ -11,7 +10,7 @@ import com.navigation.parser.provider.OSMProvider;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import java.io.*;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class OSMLoader {
@@ -19,6 +18,7 @@ public class OSMLoader {
   private final OSMProvider provider;
   private final OSMExporter exporter;
   private final OSMLoaderSpecification specification;
+  private final ElementsFactory elementsFactory;
 
   public OSMLoader(OSMProvider provider, OSMExporter exporter) {
     this(provider, exporter, new OSMLoadAllSpecification());
@@ -28,112 +28,85 @@ public class OSMLoader {
     this.provider = provider;
     this.exporter = exporter;
     this.specification = specification;
+    this.elementsFactory = new ElementsFactory();
   }
 
   public void loadOSM() throws IOException, XMLStreamException {
     var reader = provider.loadOSMXml();
+    var readOrder = specification.getReadOrder();
 
-    while (reader.hasNext()) {
-      reader.next();
-      if (reader.isStartElement()) {
-        switch (Elements.fromTag(reader.getLocalName())) {
-          case WAY -> {
-            var way = loadWay(reader);
-            if (specification.isSatisfiedBy(way)) {
-              exporter.export(way);
-            }
-          }
-          case NODE -> {
-            var node = loadNode(reader);
-            if (specification.isSatisfiedBy(node)) {
-              exporter.export(node);
-            }
-          }
-          case BOUNDS -> {
-            var bounds = loadBounds(reader);
-            if (specification.isSatisfiedBy(bounds)) {
-              exporter.export(bounds);
-            }
-          }
-          case METADATA -> exporter.export(loadMetadata(reader));
-          case RELATION -> {
-            var relation = loadRelation(reader);
-            if (specification.isSatisfiedBy(relation)) {
-              exporter.export(relation);
-            }
-          }
-        }
-      }
+    if (new HashSet<>(readOrder).size() < 5) {
+      throw new IllegalArgumentException("Read order must have all 5 unique nodes");
     }
+
+    var prevElement = Elements.METADATA;
+
+    for (var element : readOrder) {
+      if (OSMLoaderSpecification.DEFAULT_ORDER.indexOf(prevElement) > OSMLoaderSpecification.DEFAULT_ORDER.indexOf(element)) {
+        reader.close();
+        reader = provider.loadOSMXml();
+      }
+
+      advanceStreamToFirstElementOfType(reader, element);
+      parseAllElementsOfType(reader, element);
+
+      prevElement = element;
+    }
+
     reader.close();
   }
 
-  private Way loadWay(XMLStreamReader reader) throws XMLStreamException {
-    var id = reader.getAttributeValue(null, "id");
-    var nested = loadNestedElements(reader, Elements.WAY);
+  private void advanceStreamToFirstElementOfType(XMLStreamReader reader, Elements element) throws XMLStreamException {
+    while (reader.hasNext()) {
+      if (reader.isStartElement() && element.isElement(reader.getLocalName())) {
+        return;
+      }
 
-    return new Way(id, nested.refs, nested.tags);
+      reader.next();
+    }
   }
 
+  private void parseAllElementsOfType(XMLStreamReader reader, Elements element) throws XMLStreamException {
+    while (reader.hasNext()) {
+      if (reader.isStartElement() && Elements.fromTag(reader.getLocalName()) != element) {
+        return;
+      }
 
-  private Node loadNode(XMLStreamReader reader) throws XMLStreamException {
-    var id = reader.getAttributeValue(null, "id");
-    var lat = reader.getAttributeValue(null, "lat");
-    var lon = reader.getAttributeValue(null, "lon");
-    var nested = loadNestedElements(reader, Elements.NODE);
-
-    return new Node(id, lat, lon, nested.tags);
-  }
-
-  private Bounds loadBounds(XMLStreamReader reader) {
-    var minLatitude = reader.getAttributeValue(null, "minlat");
-    var maxLatitude = reader.getAttributeValue(null, "maxlat");
-    var minLongitude = reader.getAttributeValue(null, "minlon");
-    var maxLongitude = reader.getAttributeValue(null, "maxlon");
-
-    return new Bounds(minLatitude, maxLatitude, minLongitude, maxLongitude);
-  }
-
-  private Metadata loadMetadata(XMLStreamReader reader) {
-    return new Metadata(reader.getAttributeValue(null, "version"), reader.getAttributeValue(null, "generator"));
-  }
-
-  private Relation loadRelation(XMLStreamReader reader) throws XMLStreamException {
-    var id = reader.getAttributeValue(null, "id");
-    var nested = loadNestedElements(reader, Elements.RELATION);
-    return new Relation(id, nested.members, nested.tags);
-  }
-
-  private NestedElementsReturn loadNestedElements(XMLStreamReader reader, Elements endElement) throws XMLStreamException {
-    var tags = new ArrayList<Tag>();
-    var refs = new ArrayList<String>();
-    var members = new ArrayList<Member>();
-
-    reader.nextTag();
-
-    while (!reader.isEndElement() || !reader.getLocalName().equals(endElement.TAG_VALUE)) {
       if (reader.isStartElement()) {
-        switch (NestedElements.fromTag(reader.getLocalName())) {
-          case TAG -> tags.add(new Tag(reader.getAttributeValue(null, "k"), reader.getAttributeValue(null, "v")));
-          case REF -> refs.add(reader.getAttributeValue(null, "ref"));
-          case MEMBER -> members.add(new Member(reader.getAttributeValue(null, "type"), reader.getAttributeValue(null, "ref"), reader.getAttributeValue(null, "role")));
+        parseElement(reader, element);
+      }
+      reader.next();
+    }
+  }
+
+
+  private void parseElement(XMLStreamReader reader, Elements element) throws XMLStreamException {
+    switch (element) {
+      case WAY -> {
+        var way = elementsFactory.loadWay(reader);
+        if (specification.isSatisfiedBy(way)) {
+          exporter.export(way);
         }
       }
-      reader.nextTag();
-    }
-
-    return new NestedElementsReturn(tags, refs, members);
-  }
-
-  private static class NestedElementsReturn {
-    private final List<Tag> tags;
-    private final List<String> refs;
-    private final List<Member> members;
-
-    public NestedElementsReturn(List<Tag> tags, List<String> refs, List<Member> members) {
-      this.tags = tags;
-      this.refs = refs;
-      this.members = members;
+      case NODE -> {
+        var node = elementsFactory.loadNode(reader);
+        if (specification.isSatisfiedBy(node)) {
+          exporter.export(node);
+        }
+      }
+      case BOUNDS -> {
+        var bounds = elementsFactory.loadBounds(reader);
+        if (specification.isSatisfiedBy(bounds)) {
+          exporter.export(bounds);
+        }
+      }
+      case METADATA -> exporter.export(elementsFactory.loadMetadata(reader));
+      case RELATION -> {
+        var relation = elementsFactory.loadRelation(reader);
+        if (specification.isSatisfiedBy(relation)) {
+          exporter.export(relation);
+        }
+      }
     }
   }
 }
