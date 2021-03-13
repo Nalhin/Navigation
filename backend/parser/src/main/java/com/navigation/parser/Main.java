@@ -1,6 +1,5 @@
 package com.navigation.parser;
 
-
 import com.navigation.parser.exporter.OSMExporterInMemory;
 import com.navigation.parser.loader.OSMLoader;
 import com.navigation.parser.loader.specification.OSMStreetDataSpecification;

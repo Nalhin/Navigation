@@ -1,0 +1,39 @@
+group 'com.navigation'
+version '1.0-SNAPSHOT'
+
+allprojects {
+  repositories {
+    mavenCentral()
+  }
+}
+
+subprojects {
+  apply plugin: 'groovy'
+  apply plugin: 'java'
+  apply plugin: 'jacoco'
+
+
+  dependencies {
+    compile group: 'org.apache.commons', name: 'commons-compress', version: '1.4.1'
+
+    compile 'org.codehaus.groovy:groovy:3.0.7'
+    testImplementation group: 'org.spockframework', name: 'spock-core', version: '2.0-M4-groovy-3.0'
+  }
+
+  jacoco {
+    toolVersion = '0.8.6'
+  }
+
+  jacocoTestReport {
+    reports {
+      xml.enabled true
+      csv.enabled false
+    }
+  }
+
+  test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+  }
+}
+

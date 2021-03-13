@@ -24,6 +24,6 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Build and run tests
         run: ./gradlew build
-        working-directory: backend/parser
+        working-directory: backend
       - name: Upload coverage
         uses: codecov/codecov-action@v1
