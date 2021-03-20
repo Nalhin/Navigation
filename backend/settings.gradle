@@ -1,3 +1,4 @@
 rootProject.name = 'navigation'
 include 'parser'
 include 'pathfinder'
+include 'geocoding'
