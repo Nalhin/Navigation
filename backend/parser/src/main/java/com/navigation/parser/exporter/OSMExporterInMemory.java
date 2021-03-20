@@ -38,23 +38,7 @@ public class OSMExporterInMemory implements OSMExporter {
     relations.put(relation.getId(), relation);
   }
 
-  public Map<String, Node> getNodes() {
-    return nodes;
-  }
-
-  public Map<String, Way> getWays() {
-    return ways;
-  }
-
-  public Bounds getBounds() {
-    return bounds;
-  }
-
-  public Metadata getMetadata() {
-    return metadata;
-  }
-
-  public Map<String, Relation> getRelations() {
-    return relations;
+  public ExportedOSM getExportedData() {
+    return new ExportedOSM(nodes, ways, relations, bounds, metadata);
   }
 }

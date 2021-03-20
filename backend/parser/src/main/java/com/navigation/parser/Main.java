@@ -14,8 +14,5 @@ public class Main {
     var exporter = new OSMExporterInMemory();
     var loader = new OSMLoader(provider, exporter, new OSMStreetDataSpecification());
     loader.loadOSM();
-    System.out.println(exporter.getBounds());
-    System.out.println(exporter.getNodes().size());
-    System.out.println(exporter.getWays().size());
   }
 }

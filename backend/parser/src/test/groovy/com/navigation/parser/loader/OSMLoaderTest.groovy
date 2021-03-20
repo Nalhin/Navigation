@@ -65,7 +65,7 @@ class OSMLoaderTest extends Specification {
     when:
     loader.loadOSM()
     then:
-    def nodes = exporter.getNodes()
+    def nodes = exporter.exportedData.nodes
     nodes["358802885"].id == "358802885"
     nodes["453966480"].id == "453966480"
     nodes["453966482"].id == "453966482"
@@ -82,7 +82,7 @@ class OSMLoaderTest extends Specification {
     when:
     loader.loadOSM()
     then:
-    def ways = exporter.ways
+    def ways = exporter.exportedData.ways
 
     ways["38407529"].id == "38407529"
     ways.size() == 1
@@ -95,7 +95,7 @@ class OSMLoaderTest extends Specification {
     when:
     loader.loadOSM()
     then:
-    def tags = exporter.nodes["358802885"].tags
+    def tags = exporter.exportedData.nodes["358802885"].tags
     tags == ["gnis:created"   : "06/14/2000",
              "gnis:county_id" : "037",
              "name"           : "Santa Monica Mountains National Recreation Area",
@@ -112,7 +112,7 @@ class OSMLoaderTest extends Specification {
     when:
     loader.loadOSM()
     then:
-    def tags = exporter.ways["38407529"].tags
+    def tags = exporter.exportedData.ways["38407529"].tags
 
     tags == ["park:type"   : "state_park",
              "csp:unitcode": "537",
@@ -132,7 +132,7 @@ class OSMLoaderTest extends Specification {
     when:
     loader.loadOSM()
     then:
-    def refs = exporter.ways["38407529"].nodeReferences
+    def refs = exporter.exportedData.ways["38407529"].nodeReferences
     refs == ["453966480", "453966490", "453966482", "453966130", "453966143", "453966480"]
   }
 
@@ -143,7 +143,7 @@ class OSMLoaderTest extends Specification {
     when:
     loader.loadOSM()
     then:
-    exporter.bounds == new Bounds("34.0662408634219", "34.0731374116421", "-118.736715316772", "-118.73122215271")
+    exporter.exportedData.bounds == new Bounds("34.0662408634219", "34.0731374116421", "-118.736715316772", "-118.73122215271")
   }
 
   def "Should load map metadata"() {
@@ -153,7 +153,7 @@ class OSMLoaderTest extends Specification {
     when:
     loader.loadOSM()
     then:
-    exporter.metadata == new Metadata("0.6", "JOSM")
+    exporter.exportedData.metadata == new Metadata("0.6", "JOSM")
   }
 
   def "Should load relation data"() {
@@ -163,7 +163,7 @@ class OSMLoaderTest extends Specification {
     when:
     loader.loadOSM()
     then:
-    def relation = exporter.relations["56688"]
+    def relation = exporter.exportedData.relations["56688"]
     relation.id == "56688"
   }
 
@@ -174,7 +174,7 @@ class OSMLoaderTest extends Specification {
     when:
     loader.loadOSM()
     then:
-    def tags = exporter.relations["56688"].tags
+    def tags = exporter.exportedData.relations["56688"].tags
 
     tags == ["name"    : "Kstenbus Linie 123",
              "network" : "VVW",
@@ -191,7 +191,7 @@ class OSMLoaderTest extends Specification {
     when:
     loader.loadOSM()
     then:
-    def members = exporter.relations["56688"].members
+    def members = exporter.exportedData.relations["56688"].members
 
     members == [new Member("node", "358802885", "inner"),
                 new Member("node", "453966480", "inner"),
