@@ -4,49 +4,37 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class Relation {
+public class Relation extends TaggedElement {
 
-  private final String id;
   private final List<Member> members;
-  private final Map<String, String> tags;
 
-  public Relation(String id, List<Member> members, Map<String, String> tags) {
-    this.id = id;
+  public Relation(long id, Map<String, String> tags, List<Member> members) {
+    super(id, tags);
     this.members = members;
-    this.tags = tags;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    Relation relation = (Relation) o;
-    return Objects.equals(id, relation.id) && Objects.equals(members, relation.members) && Objects.equals(tags, relation.tags);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id);
-  }
-
-  public String getId() {
-    return id;
   }
 
   public List<Member> getMembers() {
     return members;
   }
 
-  public Map<String, String> getTags() {
-    return tags;
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    if (!super.equals(o)) return false;
+    Relation relation = (Relation) o;
+    return Objects.equals(members, relation.members);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(super.hashCode(), members);
   }
 
   @Override
   public String toString() {
     return "Relation{" +
-        "id='" + id + '\'' +
-        ", members=" + members +
-        ", tags=" + tags +
-        '}';
+        "members=" + members +
+        "} " + super.toString();
   }
 }

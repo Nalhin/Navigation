@@ -9,10 +9,10 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 public class Address {
 
   @Id
-  private String id;
+  private long id;
 
-  private String longitude;
-  private String latitude;
+  private double longitude;
+  private double latitude;
 
   @Field(type = FieldType.Text)
   private String city;
@@ -25,27 +25,27 @@ public class Address {
 
   private String postCode;
 
-  public String getId() {
+  public long getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(long id) {
     this.id = id;
   }
 
-  public String getLongitude() {
+  public double getLongitude() {
     return longitude;
   }
 
-  public void setLongitude(String longitude) {
+  public void setLongitude(double longitude) {
     this.longitude = longitude;
   }
 
-  public String getLatitude() {
+  public double getLatitude() {
     return latitude;
   }
 
-  public void setLatitude(String latitude) {
+  public void setLatitude(double latitude) {
     this.latitude = latitude;
   }
 

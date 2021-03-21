@@ -6,14 +6,15 @@ import com.navigation.parser.elements.Relation;
 import com.navigation.parser.elements.Way;
 import com.navigation.parser.loader.elements.Elements;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class OSMStreetDataSpecification implements OSMLoaderSpecification {
 
-  private final static String HIGHWAY_KEY = "highway";
-  private final static Set<String> highwayTags =
+  private final static String HIGHWAY_TAG = "highway";
+  private final static Set<String> HIGHWAY_TAG_VALUES =
       Set.of("road", "service", "living_street",
           "tertiary_link", "secondary_link", "primary_link",
           "trunk_link", "motorway_link", "residential",
@@ -25,19 +26,10 @@ public class OSMStreetDataSpecification implements OSMLoaderSpecification {
 
   @Override
   public boolean isSatisfiedBy(Way way) {
-    Map<String, String> tags = way.getTags();
-
-    if (!tags.containsKey(HIGHWAY_KEY)) {
+    if (!way.containsTagWithAnyValueIn(HIGHWAY_TAG, HIGHWAY_TAG_VALUES)) {
       return false;
     }
-
-    if (!highwayTags.contains(tags.get(HIGHWAY_KEY))) {
-      return false;
-    }
-
-    for (String ref : way.getNodeReferences()) {
-      allowList.allow(ref);
-    }
+    allowList.allowAll(way.getNodeReferences());
     return true;
   }
 

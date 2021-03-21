@@ -4,12 +4,12 @@ import java.util.Objects;
 
 public class Bounds {
 
-  private final String minLatitude;
-  private final String maxLatitude;
-  private final String minLongitude;
-  private final String maxLongitude;
+  private final double minLatitude;
+  private final double maxLatitude;
+  private final double minLongitude;
+  private final double maxLongitude;
 
-  public Bounds(String minLatitude, String maxLatitude, String minLongitude, String maxLongitude) {
+  public Bounds(double minLatitude, double maxLatitude, double minLongitude, double maxLongitude) {
     this.minLatitude = minLatitude;
     this.maxLatitude = maxLatitude;
     this.minLongitude = minLongitude;
@@ -29,19 +29,19 @@ public class Bounds {
     return Objects.hash(minLatitude, maxLatitude, minLongitude, maxLongitude);
   }
 
-  public String getMinLatitude() {
+  public double getMinLatitude() {
     return minLatitude;
   }
 
-  public String getMaxLatitude() {
+  public double getMaxLatitude() {
     return maxLatitude;
   }
 
-  public String getMinLongitude() {
+  public double getMinLongitude() {
     return minLongitude;
   }
 
-  public String getMaxLongitude() {
+  public double getMaxLongitude() {
     return maxLongitude;
   }
 

@@ -41,7 +41,7 @@ public class OSMLoader {
     var prevElement = Elements.METADATA;
 
     for (var element : readOrder) {
-      if (OSMLoaderSpecification.DEFAULT_ORDER.indexOf(prevElement) > OSMLoaderSpecification.DEFAULT_ORDER.indexOf(element)) {
+      if (OSMLoaderSpecification.getDefaultPosition(prevElement) > OSMLoaderSpecification.getDefaultPosition(element)) {
         reader.close();
         reader = provider.loadOSMXml();
       }

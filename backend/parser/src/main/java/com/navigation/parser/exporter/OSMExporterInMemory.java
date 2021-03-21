@@ -7,9 +7,9 @@ import java.util.Map;
 
 public class OSMExporterInMemory implements OSMExporter {
 
-  private final Map<String, Node> nodes = new HashMap<>();
-  private final Map<String, Way> ways = new HashMap<>();
-  private final Map<String, Relation> relations = new HashMap<>();
+  private final Map<Long, Node> nodes = new HashMap<>();
+  private final Map<Long, Way> ways = new HashMap<>();
+  private final Map<Long, Relation> relations = new HashMap<>();
   private Bounds bounds;
   private Metadata metadata;
 

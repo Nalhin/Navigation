@@ -5,10 +5,10 @@ import java.util.Objects;
 public class Member {
 
   private final String type;
-  private final String ref;
+  private final long ref;
   private final String role;
 
-  public Member(String type, String ref, String role) {
+  public Member(String type, long ref, String role) {
     this.type = type;
     this.ref = ref;
     this.role = role;

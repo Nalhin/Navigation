@@ -1,7 +1,5 @@
 package com.navigation.parser.provider;
 
-import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
-
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;

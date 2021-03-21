@@ -19,12 +19,7 @@ public class OSMAddressDataSpecification implements OSMLoaderSpecification {
 
   @Override
   public boolean isSatisfiedBy(Node node) {
-    for (String tag : addressTags) {
-      if (node.getTags().containsKey(tag)) {
-        return true;
-      }
-    }
-    return false;
+    return node.containsAnyTagIn(addressTags);
   }
 
   @Override

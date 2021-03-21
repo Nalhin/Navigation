@@ -1,5 +1,7 @@
 package com.navigation.parser.loader.specification;
 
+import java.util.Collection;
+
 class TrieAllowList {
 
   private final TrieNode trie;
@@ -8,9 +10,13 @@ class TrieAllowList {
     trie = new TrieNode();
   }
 
-  public void allow(String id) {
-    TrieNode curr = trie;
+  public void allowAll(Collection<Long> ids) {
+    ids.forEach(this::allow);
+  }
 
+  public void allow(long longId) {
+    TrieNode curr = trie;
+    String id = String.valueOf(longId);
     for (int i = 0; i < id.length(); i++) {
       int index = id.charAt(i) - '0';
       if (curr.children[index] == null) {
@@ -22,10 +28,11 @@ class TrieAllowList {
     curr.allowed = true;
   }
 
-  public boolean isAllowed(String id) {
+  public boolean isAllowed(long id) {
     TrieNode curr = trie;
-    for (int i = 0; i < id.length(); i++) {
-      curr = curr.children[id.charAt(i) - '0'];
+    String stringId = String.valueOf(id);
+    for (int i = 0; i < stringId.length(); i++) {
+      curr = curr.children[stringId.charAt(i) - '0'];
       if (curr == null) {
         return false;
       }

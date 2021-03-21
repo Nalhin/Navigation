@@ -6,13 +6,13 @@ import java.util.Map;
 
 public class ExportedOSM {
 
-  private final Map<String, Node> nodes;
-  private final Map<String, Way> ways;
-  private final Map<String, Relation> relations;
+  private final Map<Long, Node> nodes;
+  private final Map<Long, Way> ways;
+  private final Map<Long, Relation> relations;
   private final Bounds bounds;
   private final Metadata metadata;
 
-  public ExportedOSM(Map<String, Node> nodes, Map<String, Way> ways, Map<String, Relation> relations, Bounds bounds, Metadata metadata) {
+  public ExportedOSM(Map<Long, Node> nodes, Map<Long, Way> ways, Map<Long, Relation> relations, Bounds bounds, Metadata metadata) {
     this.nodes = nodes;
     this.ways = ways;
     this.relations = relations;
@@ -20,11 +20,11 @@ public class ExportedOSM {
     this.metadata = metadata;
   }
 
-  public Map<String, Node> getNodes() {
+  public Map<Long, Node> getNodes() {
     return nodes;
   }
 
-  public Map<String, Way> getWays() {
+  public Map<Long, Way> getWays() {
     return ways;
   }
 
@@ -36,7 +36,7 @@ public class ExportedOSM {
     return metadata;
   }
 
-  public Map<String, Relation> getRelations() {
+  public Map<Long, Relation> getRelations() {
     return relations;
   }
 }

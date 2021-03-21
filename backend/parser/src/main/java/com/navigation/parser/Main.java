@@ -12,7 +12,6 @@ public class Main {
   public static void main(String[] args) throws IOException, XMLStreamException {
     var provider = new OSMProviderFile(args[0]);
     var exporter = new OSMExporterInMemory();
-    var loader = new OSMLoader(provider, exporter, new OSMStreetDataSpecification());
-    loader.loadOSM();
+    new OSMLoader(provider, exporter, new OSMStreetDataSpecification()).loadOSM();
   }
 }

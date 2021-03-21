@@ -4,49 +4,37 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class Way {
+public class Way extends TaggedElement {
 
-  private final String id;
-  private final List<String> nodeReferences;
-  private final Map<String, String> tags;
+  private final List<Long> nodeReferences;
 
-  public Way(String id, List<String> nodeReferences, Map<String, String> tags) {
-    this.id = id;
+  public Way(long id, Map<String, String> tags, List<Long> nodeReferences) {
+    super(id, tags);
     this.nodeReferences = nodeReferences;
-    this.tags = tags;
+  }
+
+  public List<Long> getNodeReferences() {
+    return nodeReferences;
   }
 
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
+    if (!super.equals(o)) return false;
     Way way = (Way) o;
-    return Objects.equals(id, way.id) && Objects.equals(nodeReferences, way.nodeReferences) && Objects.equals(tags, way.tags);
+    return Objects.equals(nodeReferences, way.nodeReferences);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id);
-  }
-
-  public String getId() {
-    return id;
-  }
-
-  public Map<String, String> getTags() {
-    return tags;
-  }
-
-  public List<String> getNodeReferences() {
-    return nodeReferences;
+    return Objects.hash(super.hashCode());
   }
 
   @Override
   public String toString() {
     return "Way{" +
-        "id='" + id + '\'' +
-        ", nodeReferences=" + nodeReferences +
-        ", tags=" + tags +
-        '}';
+        "nodeReferences=" + nodeReferences +
+        "} " + super.toString();
   }
 }

@@ -12,6 +12,10 @@ public interface OSMLoaderSpecification {
 
   List<Elements> DEFAULT_ORDER = List.of(Elements.METADATA, Elements.BOUNDS, Elements.NODE, Elements.WAY, Elements.RELATION);
 
+  static int getDefaultPosition(Elements element) {
+    return DEFAULT_ORDER.indexOf(element);
+  }
+
   boolean isSatisfiedBy(Way way);
 
   boolean isSatisfiedBy(Node node);
