@@ -14,7 +14,7 @@ http://download.geofabrik.de/europe/poland.html
 
 ```
 modules
-  api
+  services 
     geocoding
   core
     parser

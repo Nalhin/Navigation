@@ -1,4 +1,4 @@
 rootProject.name = 'navigation'
-include 'parser'
-include 'pathfinder'
-include 'geocoding'
+include ':core:parser'
+include ':core:pathfinder'
+include ':services:geocoding'

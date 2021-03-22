@@ -1,7 +1,7 @@
 group 'com.navigation'
 version '1.0-SNAPSHOT'
 
-allprojects {
+kallprojects {
   repositories {
     mavenCentral()
   }
@@ -14,8 +14,6 @@ subprojects {
 
 
   dependencies {
-    compile group: 'org.apache.commons', name: 'commons-compress', version: '1.4.1'
-
     compile 'org.codehaus.groovy:groovy:3.0.7'
     testImplementation group: 'org.spockframework', name: 'spock-core', version: '2.0-M4-groovy-3.0'
   }
