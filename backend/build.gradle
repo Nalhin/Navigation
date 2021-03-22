@@ -1,7 +1,7 @@
 group 'com.navigation'
 version '1.0-SNAPSHOT'
 
-kallprojects {
+allprojects {
   repositories {
     mavenCentral()
   }

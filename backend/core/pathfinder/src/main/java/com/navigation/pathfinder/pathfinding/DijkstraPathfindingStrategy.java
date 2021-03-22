@@ -6,7 +6,7 @@ import com.navigation.pathfinder.graph.Path;
 
 import java.util.*;
 
-public class DjikstraPathfindingStrategy implements PathfindingStrategy {
+public class DijkstraPathfindingStrategy implements PathfindingStrategy {
 
   @Override
   public Path findShortestPath(GraphNode start, GraphNode target, Graph graph) {
@@ -25,7 +25,7 @@ public class DjikstraPathfindingStrategy implements PathfindingStrategy {
       }
 
       for (var edge : graph.getNodeEdges(curr.node)) {
-        double distance = curr.distanceSoFar + edge.getDistance();
+        double distance = curr.distanceSoFar + graph.calculateEdgeDistance(edge);
 
         if (distance < minDistances.getOrDefault(edge.getTo(), Double.MAX_VALUE)) {
           minDistances.put(edge.getTo(), distance);

@@ -6,21 +6,15 @@ import java.util.Objects;
 public class GraphNode {
 
   private final int id;
-  private final double latitude;
-  private final double longitude;
+  private final Coordinates coordinates;
 
-  public GraphNode(int id, double latitude, double longitude) {
+  public GraphNode(int id, Coordinates coordinates) {
     this.id = id;
-    this.latitude = latitude;
-    this.longitude = longitude;
+    this.coordinates = coordinates;
   }
 
-  public double getLatitude() {
-    return latitude;
-  }
-
-  public double getLongitude() {
-    return longitude;
+  public Coordinates getCoordinates() {
+    return coordinates;
   }
 
   @Override

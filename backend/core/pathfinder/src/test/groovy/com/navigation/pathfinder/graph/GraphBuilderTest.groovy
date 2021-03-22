@@ -6,7 +6,7 @@ class GraphBuilderTest extends Specification {
   def "addNode() should add node to graph"() {
     given:
     def graphBuilder = new GraphBuilder()
-    def insertedNode = new GraphNode(1, 22.22, 33.33)
+    def insertedNode = new GraphNode(1, new Coordinates(22.22, 33.33))
     when:
     graphBuilder.addNode(insertedNode)
     then:
@@ -16,8 +16,8 @@ class GraphBuilderTest extends Specification {
   def "connect() should connect two nodes in graph"() {
     given:
     def graphBuilder = new GraphBuilder()
-    def from = new GraphNode(1, 22.22, 33.33)
-    def to = new GraphNode(2, 33.22, 44.33)
+    def from = new GraphNode(1, new Coordinates(22.22, 33.33))
+    def to = new GraphNode(2, new Coordinates(33.22, 44.33))
     graphBuilder.addNode(from)
     graphBuilder.addNode(to)
     when:

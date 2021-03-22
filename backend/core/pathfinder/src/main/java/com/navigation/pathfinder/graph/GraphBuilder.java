@@ -1,37 +1,40 @@
 package com.navigation.pathfinder.graph;
 
-import com.navigation.pathfinder.distance.DistanceCalculator;
-import com.navigation.pathfinder.distance.HaversineDistanceCalculator;
+import com.navigation.pathfinder.weight.DistanceEdgeWeightCalculator;
+import com.navigation.pathfinder.weight.EdgeWeightCalculator;
 
 import java.util.*;
 
 public class GraphBuilder {
 
   private final Map<GraphNode, List<GraphEdge>> nodes = new HashMap<>();
-  private final DistanceCalculator distanceCalculator;
+  private final EdgeWeightCalculator edgeWeightCalculator;
 
   public GraphBuilder() {
-    this.distanceCalculator = new HaversineDistanceCalculator();
+    this.edgeWeightCalculator = new DistanceEdgeWeightCalculator();
   }
 
-  public GraphBuilder(DistanceCalculator distanceCalculator) {
-    this.distanceCalculator = distanceCalculator;
+  public GraphBuilder(EdgeWeightCalculator edgeWeightCalculator) {
+    this.edgeWeightCalculator = edgeWeightCalculator;
   }
 
-  public void addNode(GraphNode node) {
+  public GraphBuilder addNode(GraphNode node) {
     nodes.put(node, new ArrayList<>());
+    return this;
   }
 
-  public void connect(GraphNode from, GraphNode to) {
+  public GraphBuilder connect(GraphNode from, GraphNode to) {
     // TODO might not be needed
     if (!nodes.containsKey(from)) {
       nodes.put(from, new ArrayList<>());
     }
     var edges = nodes.get(from);
-    edges.add(new GraphEdge(from, to, distanceCalculator));
+    edges.add(new GraphEdge(from, to));
+
+    return this;
   }
 
   public Graph asGraph() {
-    return new Graph(nodes);
+    return new Graph(nodes, edgeWeightCalculator);
   }
 }
