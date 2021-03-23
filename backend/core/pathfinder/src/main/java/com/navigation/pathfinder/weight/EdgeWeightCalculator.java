@@ -1,9 +1,9 @@
 package com.navigation.pathfinder.weight;
 
-import com.navigation.pathfinder.graph.GraphEdge;
+import com.navigation.pathfinder.graph.Edge;
 
 public interface EdgeWeightCalculator {
 
-  double calculateWeight(GraphEdge edge);
+  double calculateWeight(Edge edge);
 
 }

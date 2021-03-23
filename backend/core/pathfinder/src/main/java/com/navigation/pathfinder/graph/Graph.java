@@ -9,19 +9,19 @@ import java.util.Map;
 
 public class Graph {
 
-  private final Map<GraphNode, List<GraphEdge>> nodesWithEdges;
+  private final Map<Vertex, List<Edge>> nodesWithEdges;
   private final EdgeWeightCalculator edgeWeightCalculator;
 
-  public Graph(Map<GraphNode, List<GraphEdge>> nodesWithEdges, EdgeWeightCalculator edgeWeightCalculator) {
+  public Graph(Map<Vertex, List<Edge>> nodesWithEdges, EdgeWeightCalculator edgeWeightCalculator) {
     this.nodesWithEdges = nodesWithEdges;
     this.edgeWeightCalculator = edgeWeightCalculator;
   }
 
-  public Collection<GraphEdge> getNodeEdges(GraphNode node) {
+  public Collection<Edge> getNodeEdges(Vertex node) {
     return nodesWithEdges.get(node);
   }
 
-  public double calculateEdgeDistance(GraphEdge edge) {
+  public double calculateEdgeDistance(Edge edge) {
     return edgeWeightCalculator.calculateWeight(edge);
   }
 }

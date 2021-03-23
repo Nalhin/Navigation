@@ -7,7 +7,7 @@ import java.util.*;
 
 public class GraphBuilder {
 
-  private final Map<GraphNode, List<GraphEdge>> nodes = new HashMap<>();
+  private final Map<Vertex, List<Edge>> nodes = new HashMap<>();
   private final EdgeWeightCalculator edgeWeightCalculator;
 
   public GraphBuilder() {
@@ -18,18 +18,18 @@ public class GraphBuilder {
     this.edgeWeightCalculator = edgeWeightCalculator;
   }
 
-  public GraphBuilder addNode(GraphNode node) {
+  public GraphBuilder addNode(Vertex node) {
     nodes.put(node, new ArrayList<>());
     return this;
   }
 
-  public GraphBuilder connect(GraphNode from, GraphNode to) {
+  public GraphBuilder connect(Vertex from, Vertex to) {
     // TODO might not be needed
     if (!nodes.containsKey(from)) {
       nodes.put(from, new ArrayList<>());
     }
     var edges = nodes.get(from);
-    edges.add(new GraphEdge(from, to));
+    edges.add(new Edge(from, to));
 
     return this;
   }

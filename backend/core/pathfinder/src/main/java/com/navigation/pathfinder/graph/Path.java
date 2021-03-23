@@ -4,13 +4,13 @@ import java.util.List;
 
 public class Path {
 
-  private final List<GraphNode> nodes;
+  private final List<Vertex> vertices;
 
-  public Path(List<GraphNode> nodes) {
-    this.nodes = nodes;
+  public Path(List<Vertex> vertices) {
+    this.vertices = vertices;
   }
 
-  public List<GraphNode> getNodes() {
-    return nodes;
+  public List<Vertex> getVertices() {
+    return vertices;
   }
 }

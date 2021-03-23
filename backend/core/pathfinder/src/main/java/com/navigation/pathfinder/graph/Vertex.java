@@ -3,12 +3,12 @@ package com.navigation.pathfinder.graph;
 
 import java.util.Objects;
 
-public class GraphNode {
+public class Vertex {
 
   private final int id;
   private final Coordinates coordinates;
 
-  public GraphNode(int id, Coordinates coordinates) {
+  public Vertex(int id, Coordinates coordinates) {
     this.id = id;
     this.coordinates = coordinates;
   }
@@ -21,8 +21,8 @@ public class GraphNode {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    GraphNode graphNode = (GraphNode) o;
-    return id == graphNode.id;
+    Vertex vertex = (Vertex) o;
+    return id == vertex.id;
   }
 
   @Override

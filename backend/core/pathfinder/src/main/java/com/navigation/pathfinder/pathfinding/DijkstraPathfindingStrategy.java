@@ -1,7 +1,7 @@
 package com.navigation.pathfinder.pathfinding;
 
 import com.navigation.pathfinder.graph.Graph;
-import com.navigation.pathfinder.graph.GraphNode;
+import com.navigation.pathfinder.graph.Vertex;
 import com.navigation.pathfinder.graph.Path;
 
 import java.util.*;
@@ -9,9 +9,9 @@ import java.util.*;
 public class DijkstraPathfindingStrategy implements PathfindingStrategy {
 
   @Override
-  public Path findShortestPath(GraphNode start, GraphNode target, Graph graph) {
-    var minDistances = new HashMap<GraphNode, Double>();
-    var prevEdges = new HashMap<GraphNode, GraphNode>();
+  public Path findShortestPath(Vertex start, Vertex target, Graph graph) {
+    var minDistances = new HashMap<Vertex, Double>();
+    var prevEdges = new HashMap<Vertex, Vertex>();
     minDistances.put(start, Double.MAX_VALUE);
 
     var pq = new PriorityQueue<GraphNodeWithDistance>();
@@ -38,8 +38,8 @@ public class DijkstraPathfindingStrategy implements PathfindingStrategy {
     return buildShortestPath(prevEdges, target);
   }
 
-  private Path buildShortestPath(Map<GraphNode, GraphNode> prevEdges, GraphNode last) {
-    var result = new ArrayList<GraphNode>();
+  private Path buildShortestPath(Map<Vertex, Vertex> prevEdges, Vertex last) {
+    var result = new ArrayList<Vertex>();
 
     var currNode = last;
     while (currNode != null) {
@@ -53,10 +53,10 @@ public class DijkstraPathfindingStrategy implements PathfindingStrategy {
   }
 
   private static final class GraphNodeWithDistance implements Comparable<GraphNodeWithDistance> {
-    private final GraphNode node;
+    private final Vertex node;
     private final double distanceSoFar;
 
-    public GraphNodeWithDistance(GraphNode node, double distanceSoFar) {
+    public GraphNodeWithDistance(Vertex node, double distanceSoFar) {
       this.node = node;
       this.distanceSoFar = distanceSoFar;
     }
