@@ -1,4 +1,4 @@
-package com.navigation.geocoding.address;
+package com.navigation.geocodingapi.address;
 
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;

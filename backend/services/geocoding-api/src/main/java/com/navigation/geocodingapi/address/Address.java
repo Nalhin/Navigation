@@ -1,4 +1,4 @@
-package com.navigation.geocoding.address;
+package com.navigation.geocodingapi.address;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;

@@ -1,12 +1,13 @@
-package com.navigation.geocoding;
+package com.navigation.pathfindingapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class GeocodingApplication {
+public class PathfindingApiApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(GeocodingApplication.class, args);
+    SpringApplication.run(PathfindingApiApplication.class, args);
   }
+
 }
