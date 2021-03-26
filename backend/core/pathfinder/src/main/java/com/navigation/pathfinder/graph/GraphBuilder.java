@@ -18,8 +18,8 @@ public class GraphBuilder {
     this.edgeWeightCalculator = edgeWeightCalculator;
   }
 
-  public GraphBuilder addNode(Vertex node) {
-    nodes.put(node, new ArrayList<>());
+  public GraphBuilder addVertex(Vertex vertex) {
+    nodes.put(vertex, new ArrayList<>());
     return this;
   }
 

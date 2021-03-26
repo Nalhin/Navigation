@@ -8,7 +8,7 @@ class GraphBuilderTest extends Specification {
     def graphBuilder = new GraphBuilder()
     def insertedNode = new Vertex(1, new Coordinates(22.22, 33.33))
     when:
-    graphBuilder.addNode(insertedNode)
+    graphBuilder.addVertex(insertedNode)
     then:
     graphBuilder.asGraph().getNodeEdges(insertedNode) == []
   }
@@ -18,8 +18,8 @@ class GraphBuilderTest extends Specification {
     def graphBuilder = new GraphBuilder()
     def from = new Vertex(1, new Coordinates(22.22, 33.33))
     def to = new Vertex(2, new Coordinates(33.22, 44.33))
-    graphBuilder.addNode(from)
-    graphBuilder.addNode(to)
+    graphBuilder.addVertex(from)
+    graphBuilder.addVertex(to)
     when:
     graphBuilder.connect(from, to)
     then:

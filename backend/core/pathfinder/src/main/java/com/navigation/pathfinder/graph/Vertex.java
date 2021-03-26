@@ -5,16 +5,20 @@ import java.util.Objects;
 
 public class Vertex {
 
-  private final int id;
+  private final long id;
   private final Coordinates coordinates;
 
-  public Vertex(int id, Coordinates coordinates) {
+  public Vertex(long id, Coordinates coordinates) {
     this.id = id;
     this.coordinates = coordinates;
   }
 
   public Coordinates getCoordinates() {
     return coordinates;
+  }
+
+  public long getId() {
+    return id;
   }
 
   @Override
