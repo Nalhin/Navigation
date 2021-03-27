@@ -18,6 +18,7 @@ module.exports = {
   root: true,
   rules: {
     '@typescript-eslint/explicit-module-boundary-types': 0,
+    '@typescript-eslint/no-extra-non-null-assertion': 0,
   },
   settings: {
     react: {

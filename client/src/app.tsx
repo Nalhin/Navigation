@@ -1,7 +1,15 @@
 import React from 'react';
+import Map from './pages/map';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const queryClient = new QueryClient();
 
 const App = () => {
-  return <div>Hello world</div>;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Map />
+    </QueryClientProvider>
+  );
 };
 
 export default App;

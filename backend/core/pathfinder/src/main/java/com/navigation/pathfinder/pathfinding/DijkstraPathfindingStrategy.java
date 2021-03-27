@@ -35,18 +35,18 @@ public class DijkstraPathfindingStrategy implements PathfindingStrategy {
       }
     }
 
-    return buildShortestPath(prevEdges, target);
+    return buildShortestPath(prevEdges, target, start);
   }
 
-  private Path buildShortestPath(Map<Vertex, Vertex> prevEdges, Vertex last) {
+  private Path buildShortestPath(Map<Vertex, Vertex> prevEdges, Vertex last, Vertex start) {
     var result = new ArrayList<Vertex>();
 
     var currNode = last;
-    while (currNode != null) {
+    while (currNode != null && currNode != start) {
       result.add(currNode);
       currNode = prevEdges.get(currNode);
     }
-
+    result.add(start);
     Collections.reverse(result);
 
     return new Path(result);

@@ -37,6 +37,13 @@ class OsmMapper {
       prev = curr;
     }
 
+    if(!way.containsTagWithValue("oneway", "yes")){
+      for (int i = 0; i >=0 ; i--) {
+        var curr = nodesAlongWay.get(i);
+        connections.add(new MapConnection(nodes.get(prev), nodes.get(curr)));
+        prev = curr;
+      }
+    }
     return connections;
   }
 
