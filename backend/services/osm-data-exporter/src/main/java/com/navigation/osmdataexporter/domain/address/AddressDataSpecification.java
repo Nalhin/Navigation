@@ -12,8 +12,7 @@ import java.util.Set;
 
 public class AddressDataSpecification implements OSMLoaderSpecification {
 
-  private static final Set<String> addressTags =
-      Set.of("addr:city", "addr:housenumber", "addr:postcode", "addr:street");
+  private static final Set<String> REQUIRED_TAGS = Set.of("addr:housenumber", "addr:street");
 
   @Override
   public boolean isSatisfiedBy(Way way) {
@@ -22,7 +21,7 @@ public class AddressDataSpecification implements OSMLoaderSpecification {
 
   @Override
   public boolean isSatisfiedBy(Node node) {
-    return node.containsAnyTagIn(addressTags);
+    return node.containsAllTagsIn(REQUIRED_TAGS);
   }
 
   @Override
