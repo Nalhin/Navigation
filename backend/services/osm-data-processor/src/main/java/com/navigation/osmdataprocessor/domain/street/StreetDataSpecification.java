@@ -1,4 +1,4 @@
-package com.navigation.osmdataexporter.domain.street;
+package com.navigation.osmdataprocessor.domain.street;
 
 import com.navigation.parser.elements.Bounds;
 import com.navigation.parser.elements.Node;
@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class StreetDataSpecification implements OSMLoaderSpecification {
+class StreetDataSpecification implements OSMLoaderSpecification {
 
   private static final String HIGHWAY_TAG = "highway";
   private static final Set<String> HIGHWAY_TAG_VALUES =

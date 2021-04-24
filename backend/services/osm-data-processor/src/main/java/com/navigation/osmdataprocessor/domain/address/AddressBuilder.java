@@ -1,6 +1,6 @@
-package com.navigation.osmdataexporter.infrastructure.kafka.address;
+package com.navigation.osmdataprocessor.domain.address;
 
-public class AddressDtoBuilder {
+class AddressBuilder {
     private long id;
     private double longitude;
     private double latitude;
@@ -10,47 +10,47 @@ public class AddressDtoBuilder {
     private String street;
     private String postCode;
 
-    public AddressDtoBuilder setId(long id) {
+    public AddressBuilder setId(long id) {
         this.id = id;
         return this;
     }
 
-    public AddressDtoBuilder setLongitude(double longitude) {
+    public AddressBuilder setLongitude(double longitude) {
         this.longitude = longitude;
         return this;
     }
 
-    public AddressDtoBuilder setLatitude(double latitude) {
+    public AddressBuilder setLatitude(double latitude) {
         this.latitude = latitude;
         return this;
     }
 
-    public AddressDtoBuilder setCity(String city) {
+    public AddressBuilder setCity(String city) {
         this.city = city;
         return this;
     }
 
-    public AddressDtoBuilder setCountry(String country) {
+    public AddressBuilder setCountry(String country) {
         this.country = country;
         return this;
     }
 
-    public AddressDtoBuilder setHouseNumber(String houseNumber) {
+    public AddressBuilder setHouseNumber(String houseNumber) {
         this.houseNumber = houseNumber;
         return this;
     }
 
-    public AddressDtoBuilder setStreet(String street) {
+    public AddressBuilder setStreet(String street) {
         this.street = street;
         return this;
     }
 
-    public AddressDtoBuilder setPostCode(String postCode) {
+    public AddressBuilder setPostCode(String postCode) {
         this.postCode = postCode;
         return this;
     }
 
-    public AddressDto createAddressDto() {
-        return new AddressDto(id, longitude, latitude, city, country, houseNumber, street, postCode);
+    public Address createAddressDto() {
+        return new Address(id, longitude, latitude, city, country, houseNumber, street, postCode);
     }
 }

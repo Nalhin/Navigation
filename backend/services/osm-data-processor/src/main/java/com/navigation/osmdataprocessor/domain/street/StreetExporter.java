@@ -1,35 +1,26 @@
-package com.navigation.osmdataexporter.infrastructure.kafka.street;
+package com.navigation.osmdataprocessor.domain.street;
 
-import com.navigation.osmdataexporter.infrastructure.kafka.ExportNotSupportedException;
+import com.navigation.osmdataprocessor.domain.ExportNotSupportedException;
 import com.navigation.parser.elements.*;
 import com.navigation.parser.exporter.OSMExporter;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.regex.Pattern;
 
 @Component
-public class StreetKafkaExporter implements OSMExporter {
-  private final String STREET_CONNECTIONS_TOPIC;
-  private final String STREET_NODES_TOPIC;
-  private final KafkaTemplate<String, Object> kafkaTemplate;
+public class StreetExporter implements OSMExporter {
   public static final Pattern PATTERN = Pattern.compile("^\\d+$");
+  private final ProcessedStreetExporter processedExporter;
 
-  public StreetKafkaExporter(
-      KafkaTemplate<String, Object> kafkaTemplate,
-      @Value("${infrastructure.topics.street-connections}") String streetWaysTopic,
-      @Value("${infrastructure.topics.street-nodes}") String streetNodesTopic) {
-    this.kafkaTemplate = kafkaTemplate;
-    STREET_CONNECTIONS_TOPIC = streetWaysTopic;
-    STREET_NODES_TOPIC = streetNodesTopic;
+  public StreetExporter(ProcessedStreetExporter processedExporter) {
+    this.processedExporter = processedExporter;
   }
 
   @Override
   public void export(Node node) {
-    var streetNode = new StreetNodeDto(node.getLatitude(), node.getLongitude(), node.getId());
-    kafkaTemplate.send(STREET_NODES_TOPIC, String.valueOf(node.getId()), streetNode);
+    var streetNode = new StreetNode(node.getLatitude(), node.getLongitude(), node.getId());
+    processedExporter.exportProcessedStreetNode(String.valueOf(node.getId()), streetNode);
   }
 
   @Override
@@ -39,19 +30,15 @@ public class StreetKafkaExporter implements OSMExporter {
     for (int i = 1; i < nodeReferences.size(); i++) {
       long from = nodeReferences.get(i - 1);
       long to = nodeReferences.get(i);
-      kafkaTemplate.send(
-          STREET_CONNECTIONS_TOPIC,
-          generateId(from, to),
-          new StreetConnectionDto(from, to, maxSpeed));
+      processedExporter.exportProcessedStreetConnection(
+          generateId(from, to), new StreetConnection(from, to, maxSpeed));
     }
     if (!way.containsTagWithValue("oneway", "yes")) {
       for (int i = nodeReferences.size() - 2; i >= 0; i--) {
         long from = nodeReferences.get(i + 1);
         long to = nodeReferences.get(i);
-        kafkaTemplate.send(
-            STREET_CONNECTIONS_TOPIC,
-            generateId(from, to),
-            new StreetConnectionDto(from, to, maxSpeed));
+        processedExporter.exportProcessedStreetConnection(
+            generateId(from, to), new StreetConnection(from, to, maxSpeed));
       }
     }
   }

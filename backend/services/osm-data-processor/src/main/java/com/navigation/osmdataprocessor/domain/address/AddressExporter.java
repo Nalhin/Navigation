@@ -1,29 +1,23 @@
-package com.navigation.osmdataexporter.infrastructure.kafka.address;
+package com.navigation.osmdataprocessor.domain.address;
 
-import com.navigation.osmdataexporter.infrastructure.kafka.ExportNotSupportedException;
+import com.navigation.osmdataprocessor.domain.ExportNotSupportedException;
 import com.navigation.parser.elements.*;
 import com.navigation.parser.exporter.OSMExporter;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AddressKafkaExporter implements OSMExporter {
+public class AddressExporter implements OSMExporter {
 
-  private final KafkaTemplate<String, Object> kafkaTemplate;
-  private final String ADDRESS_TOPIC;
+  private final ProcessedAddressExporter processedAddressExporter;
 
-  public AddressKafkaExporter(
-      KafkaTemplate<String, Object> kafkaTemplate,
-      @Value("${infrastructure.topics.address}") String addressTopic) {
-    this.kafkaTemplate = kafkaTemplate;
-    this.ADDRESS_TOPIC = addressTopic;
+  public AddressExporter(ProcessedAddressExporter processedAddressExporter) {
+    this.processedAddressExporter = processedAddressExporter;
   }
 
   @Override
   public void export(Node node) {
     var address =
-        new AddressDtoBuilder()
+        new AddressBuilder()
             .setCity(node.getTag("addr:city"))
             .setCountry("Poland")
             .setId(node.getId())
@@ -33,7 +27,7 @@ public class AddressKafkaExporter implements OSMExporter {
             .setLatitude(node.getLatitude())
             .setLongitude(node.getLongitude())
             .createAddressDto();
-    kafkaTemplate.send(ADDRESS_TOPIC, String.valueOf(address.getId()), address);
+    processedAddressExporter.exportProcessedAddress(String.valueOf(address.getId()), address);
   }
 
   @Override

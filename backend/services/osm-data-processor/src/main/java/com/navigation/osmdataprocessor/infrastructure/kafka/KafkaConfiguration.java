@@ -1,4 +1,4 @@
-package com.navigation.osmdataexporter.infrastructure.kafka;
+package com.navigation.osmdataprocessor.infrastructure.kafka;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;

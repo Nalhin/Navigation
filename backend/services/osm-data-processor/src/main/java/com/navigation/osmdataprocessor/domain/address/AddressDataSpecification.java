@@ -1,4 +1,4 @@
-package com.navigation.osmdataexporter.domain.address;
+package com.navigation.osmdataprocessor.domain.address;
 
 import com.navigation.parser.elements.Bounds;
 import com.navigation.parser.elements.Node;
@@ -10,7 +10,7 @@ import com.navigation.parser.loader.specification.OSMLoaderSpecification;
 import java.util.List;
 import java.util.Set;
 
-public class AddressDataSpecification implements OSMLoaderSpecification {
+class AddressDataSpecification implements OSMLoaderSpecification {
 
   private static final Set<String> REQUIRED_TAGS = Set.of("addr:housenumber", "addr:street");
 
