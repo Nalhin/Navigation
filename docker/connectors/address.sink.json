@@ -1,0 +1,9 @@
+{
+  "name": "address",
+  "config": {
+    "connector.class": "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector",
+    "connection.url": "http://elasticsearch:9200",
+    "type.name": "type.name=address",
+    "topics": "exporter.address"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "street-connections",
+  "config": {
+    "connector.class": "com.mongodb.kafka.connect.MongoSinkConnector",
+    "connection.uri": "mongodb://mongodb:27017",
+    "collection": "streetConnections",
+    "database": "pathfinding",
+    "topics": "exporter.street-connections"
+  }
+}

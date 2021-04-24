@@ -1,13 +1,21 @@
 version: '3.8'
 services:
+  mongodb:
+    image: mongo:4.4.5
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb:/data/db
+
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.7.0
-    environment:
-      - discovery.type=single-node
     volumes:
       - elastic:/usr/share/elasticsearch/data
     ports:
-      - "9200:9200"
+      - 9200:9200
+    environment:
+      - discovery.type=single-node
+
   zookeeper:
     image: confluentinc/cp-zookeeper:5.5.4
     container_name: zookeeper
@@ -16,6 +24,7 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+
   kafka:
     image: confluentinc/cp-kafka:5.5.4
     container_name: kafka
@@ -31,16 +40,17 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
   kafka-connect:
     image: confluentinc/cp-kafka-connect:5.5.4
     depends_on:
       - zookeeper
     ports:
-      - "8083:8083"
+      - 8083:8083
     environment:
       CONNECT_REST_PORT: 8083
-      CONNECT_ZOOKEEPER_CONNECT: 'zookeeper:2181'
-      CONNECT_BOOTSTRAP_SERVERS: 'kafka:29092'
+      CONNECT_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      CONNECT_BOOTSTRAP_SERVERS: "kafka:29092"
       CONNECT_GROUP_ID: connect-group
       CONNECT_CONFIG_STORAGE_TOPIC: connect.configs
       CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 1
@@ -55,25 +65,23 @@ services:
       CONNECT_INTERNAL_VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
       CONNECT_REST_ADVERTISED_HOST_NAME: kafka-connect
       CONNECT_PLUGIN_PATH: /usr/share/java,/tmp/connect-plugins,/usr/share/confluent-hub-components
-#
-#  schema_registry:
-#    image: confluentinc/cp-schema-registry:5.5.4
-#    depends_on:
-#      - zookeeper
-#      - kafka
-#    ports:
-#      - "8081:8081"
-#    environment:
-#      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'kafka:29092'
-#      SCHEMA_REGISTRY_HOST_NAME: schema_registry
+    command:
+      - bash
+      - -c
+      - |
+        confluent-hub install --no-prompt confluentinc/kafka-connect-elasticsearch:5.5.4
+        confluent-hub install --no-prompt mongodb/kafka-connect-mongodb:1.4.0
+        /etc/confluent/docker/run
+
   kafka-gui:
     image: obsidiandynamics/kafdrop
     depends_on:
       - kafka
     ports:
-      - "9000:9000"
+      - 9000:9000
     environment:
       KAFKA_BROKERCONNECT: "kafka:29092"
 
 volumes:
   elastic:
+  mongodb:

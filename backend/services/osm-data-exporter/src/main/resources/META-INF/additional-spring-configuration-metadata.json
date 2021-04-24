@@ -9,6 +9,16 @@
       "name": "infrastructure.topics.address",
       "type": "java.lang.String",
       "description": "Address data kafka topic name"
+    },
+    {
+      "name": "infrastructure.topics.street-ways",
+      "type": "java.lang.String",
+      "description": "Street ways data kafka topic name"
+    },
+    {
+      "name": "infrastructure.topics.street-nodes",
+      "type": "java.lang.String",
+      "description": "Street nodes data kafka topic name"
     }
   ]
 }
