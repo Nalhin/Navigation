@@ -7,3 +7,5 @@ infrastructure:
     filePath: "/home/nalhin/Desktop/Navigation/data/malopolskie-latest.osm.bz2"
   topics:
     address: "exporter.address"
+    street-ways: "exporter.street-connections"
+    street-nodes: "exporter.street-nodes"
