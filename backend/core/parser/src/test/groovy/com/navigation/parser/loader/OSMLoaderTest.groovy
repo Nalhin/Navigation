@@ -63,7 +63,7 @@ class OSMLoaderTest extends Specification {
     def exporter = new OSMExporterInMemory()
     def loader = new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter)
     when:
-    loader.loadOSM()
+    loader.export()
     then:
     def nodes = exporter.exportedData.nodes
     nodes[358802885L].id == 358802885
@@ -80,7 +80,7 @@ class OSMLoaderTest extends Specification {
     def exporter = new OSMExporterInMemory()
     def loader = new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter)
     when:
-    loader.loadOSM()
+    loader.export()
     then:
     def ways = exporter.exportedData.ways
 
@@ -93,7 +93,7 @@ class OSMLoaderTest extends Specification {
     def exporter = new OSMExporterInMemory()
     def loader = new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter)
     when:
-    loader.loadOSM()
+    loader.export()
     then:
     def tags = exporter.exportedData.nodes[358802885L].tags
     tags == ["gnis:created"   : "06/14/2000",
@@ -110,7 +110,7 @@ class OSMLoaderTest extends Specification {
     def exporter = new OSMExporterInMemory()
     def loader = new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter)
     when:
-    loader.loadOSM()
+    loader.export()
     then:
     def tags = exporter.exportedData.ways[38407529L].tags
 
@@ -129,7 +129,7 @@ class OSMLoaderTest extends Specification {
     setup:
     def exporter = new OSMExporterInMemory()
     when:
-    new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter).loadOSM()
+    new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter).export()
     then:
     def refs = exporter.exportedData.ways[38407529L].nodeReferences
     refs == [453966480L, 453966490L, 453966482L, 453966130L, 453966143L, 453966480L]
@@ -139,7 +139,7 @@ class OSMLoaderTest extends Specification {
     setup:
     def exporter = new OSMExporterInMemory()
     when:
-    new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter).loadOSM()
+    new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter).export()
     then:
     exporter.exportedData.bounds == new Bounds(34.0662408634219, 34.0731374116421, -118.736715316772, -118.73122215271)
   }
@@ -148,7 +148,7 @@ class OSMLoaderTest extends Specification {
     setup:
     def exporter = new OSMExporterInMemory()
     when:
-    new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter).loadOSM()
+    new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter).export()
     then:
     exporter.exportedData.metadata == new Metadata("0.6", "JOSM")
   }
@@ -157,7 +157,7 @@ class OSMLoaderTest extends Specification {
     setup:
     def exporter = new OSMExporterInMemory()
     when:
-    new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter).loadOSM()
+    new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter).export()
     then:
     def relation = exporter.exportedData.relations[56688L]
     relation.id == 56688
@@ -168,7 +168,7 @@ class OSMLoaderTest extends Specification {
     def exporter = new OSMExporterInMemory()
     def loader = new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter)
     when:
-    loader.loadOSM()
+    loader.export()
     then:
     def tags = exporter.exportedData.relations[56688L].tags
 
@@ -184,7 +184,7 @@ class OSMLoaderTest extends Specification {
     setup:
     def exporter = new OSMExporterInMemory()
     when:
-    new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter).loadOSM()
+    new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter).export()
     then:
     def members = exporter.exportedData.relations[56688L].members
 

@@ -1,0 +1,9 @@
+spring:
+  kafka:
+    bootstrap-servers: 'localhost:9092'
+
+infrastructure:
+  osm:
+    filePath: "/home/nalhin/Desktop/Navigation/data/malopolskie-latest.osm.bz2"
+  topics:
+    address: "exporter.address"

@@ -21,7 +21,9 @@ http://download.geofabrik.de/europe/poland.html
 ```
 modules
   services 
-    geocoding
+    geocoding-api
+    pathfinding-api
+    osm-data-exporter
   core
     parser
     pathfinder

@@ -30,12 +30,12 @@ public class OSMLoader {
     this.elementsFactory = new ElementsFactory();
   }
 
-  public void loadOSM() throws IOException, XMLStreamException {
+  public void export() throws IOException, XMLStreamException {
     var reader = provider.loadOSMXml();
     var readOrder = specification.getReadOrder();
 
-    if (new HashSet<>(readOrder).size() < 5) {
-      throw new IllegalArgumentException("Read order must have all 5 unique nodes");
+    if (new HashSet<>(readOrder).size() != readOrder.size()) {
+      throw new IllegalArgumentException("Read order must have all unique nodes");
     }
 
     var prevElement = Elements.METADATA;

@@ -1,0 +1,14 @@
+{
+  "properties": [
+    {
+      "name": "infrastructure.osm.filePath",
+      "type": "java.lang.String",
+      "description": "Osm file path"
+    },
+    {
+      "name": "infrastructure.topics.address",
+      "type": "java.lang.String",
+      "description": "Address data kafka topic name"
+    }
+  ]
+}

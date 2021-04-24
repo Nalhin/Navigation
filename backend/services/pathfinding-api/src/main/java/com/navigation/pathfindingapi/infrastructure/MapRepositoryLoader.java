@@ -2,7 +2,6 @@ package com.navigation.pathfindingapi.infrastructure;
 
 import com.navigation.parser.exporter.OSMExporterInMemory;
 import com.navigation.parser.loader.OSMLoader;
-import com.navigation.parser.loader.specification.OSMStreetDataSpecification;
 import com.navigation.parser.provider.OSMProviderBzipFile;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +18,7 @@ public class MapRepositoryLoader {
     try {
       var provider = new OSMProviderBzipFile(filePath);
       var exporter = new OSMExporterInMemory();
-      new OSMLoader(provider, exporter, new OSMStreetDataSpecification()).loadOSM();
+//      new OSMLoader(provider, exporter, new OSMStreetDataSpecification()).export();
       return osmMapper.exportedOSMToLoadedMap(exporter.getExportedData());
     } catch (Exception e) {
       return null;
