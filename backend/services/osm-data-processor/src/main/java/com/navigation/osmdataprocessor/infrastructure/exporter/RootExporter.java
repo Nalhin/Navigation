@@ -34,7 +34,7 @@ public class RootExporter implements ApplicationListener<ApplicationReadyEvent> 
 
   @Override
   public void onApplicationEvent(@NotNull ApplicationReadyEvent event) {
-    executorService.execute(() -> new AddressDataProcessor(provider, addressExporter).export());
-    executorService.execute(() -> new StreetDataProcessor(provider, streetExporter).export());
+    executorService.execute(() -> new AddressDataProcessor(provider, addressExporter).processAndExport());
+    executorService.execute(() -> new StreetDataProcessor(provider, streetExporter).processAndExport());
   }
 }

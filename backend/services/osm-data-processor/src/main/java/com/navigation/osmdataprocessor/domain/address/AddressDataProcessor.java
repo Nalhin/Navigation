@@ -17,7 +17,7 @@ public class AddressDataProcessor {
     this.exporter = osmExporter;
   }
 
-  public void export() {
+  public void processAndExport() {
     try {
       new OSMLoader(provider, exporter, new AddressDataSpecification()).export();
     } catch (XMLStreamException | IOException e) {

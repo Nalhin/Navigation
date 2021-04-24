@@ -17,7 +17,7 @@ public class StreetDataProcessor {
     this.exporter = osmExporter;
   }
 
-  public void export() {
+  public void processAndExport() {
     try {
       new OSMLoader(provider, exporter, new StreetDataSpecification()).export();
     } catch (XMLStreamException | IOException e) {
