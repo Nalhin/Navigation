@@ -21,7 +21,7 @@ class GraphBuilderTest extends Specification {
     graphBuilder.addVertex(from)
     graphBuilder.addVertex(to)
     when:
-    graphBuilder.connect(from, to)
+    graphBuilder.connect(from, to, 50)
     then:
     def edges = graphBuilder.asGraph().getNodeEdges(from)
     edges.size() == 1

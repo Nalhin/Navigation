@@ -14,8 +14,7 @@ ext {
 
 
 dependencies {
-  implementation project(':core:parser')
-  implementation project(':core:pathfinder')
+  implementation project(':libraries:pathfinder')
 
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: '2.4.5'
   implementation 'org.springframework.boot:spring-boot-starter-web'
