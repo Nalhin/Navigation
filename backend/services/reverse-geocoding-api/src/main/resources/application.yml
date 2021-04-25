@@ -1,0 +1,9 @@
+server:
+  port: 8082
+
+spring:
+  data:
+    mongodb:
+      database: reverseGeocoding
+      port: 27018
+      host: localhost

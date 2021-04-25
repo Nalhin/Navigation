@@ -1,5 +1,7 @@
 package com.navigation.osmdataprocessor.domain.address;
 
+import com.navigation.osmdataprocessor.domain.GeoJsonPoint;
+
 public class Address {
 
   private final long id;
@@ -34,12 +36,8 @@ public class Address {
     return id;
   }
 
-  public double getLongitude() {
-    return longitude;
-  }
-
-  public double getLatitude() {
-    return latitude;
+  public GeoJsonPoint getLocation() {
+    return new GeoJsonPoint(latitude, longitude);
   }
 
   public String getCity() {

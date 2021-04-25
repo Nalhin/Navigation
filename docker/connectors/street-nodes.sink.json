@@ -2,7 +2,7 @@
   "name": "street-nodes",
   "config": {
     "connector.class": "com.mongodb.kafka.connect.MongoSinkConnector",
-    "connection.uri": "mongodb://mongodb:27017/pathfinding?w=1&journal=true",
+    "connection.uri": "mongodb://mongodb_pathfinding:27017",
     "collection": "streetNodes",
     "database": "pathfinding",
     "topics": "exporter.street-nodes",

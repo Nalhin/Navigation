@@ -16,11 +16,12 @@ ext {
 dependencies {
   implementation project(':libraries:pathfinder')
 
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: '2.4.5'
+  implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
   implementation 'org.springframework.boot:spring-boot-starter-web'
   annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
   testImplementation 'org.testcontainers:junit-jupiter'
+  testImplementation 'org.testcontainers:mongodb'
 }
 
 dependencyManagement {

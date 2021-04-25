@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/address")
+@RequestMapping("/address")
 public class AddressController {
 
   private final AddressRepository addressRepository;

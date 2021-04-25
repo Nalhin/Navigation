@@ -1,0 +1,10 @@
+{
+  "name": "address-mongo",
+  "config": {
+    "connector.class": "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector",
+    "connection.uri": "mongodb://mongodb_reverse_geocoding:27018",
+    "collection": "addresses",
+    "database": "reverseGeocoding",
+    "topics": "exporter.address"
+  }
+}

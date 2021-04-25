@@ -2,9 +2,11 @@
   "name": "street-connections",
   "config": {
     "connector.class": "com.mongodb.kafka.connect.MongoSinkConnector",
-    "connection.uri": "mongodb://mongodb:27017",
+    "connection.uri": "mongodb://mongodb_pathfinding:27017",
     "collection": "streetConnections",
     "database": "pathfinding",
-    "topics": "exporter.street-connections"
+    "topics": "exporter.street-connections",
+    "transforms.RenameField.type": "org.apache.kafka.connect.transforms.ReplaceField$Value",
+    "transforms.RenameField.renames": "id:_id"
   }
 }

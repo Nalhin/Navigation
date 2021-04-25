@@ -1,29 +1,28 @@
-package com.navigation.geocodingapi.address;
+package com.navigation.reversegeocodingapi.api;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldType;
-import org.springframework.data.elasticsearch.core.geo.GeoJsonPoint;
+import com.navigation.reversegeocodingapi.infrastructure.database.AddressEntity;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 
-@Document(indexName = "address")
-public class Address {
-
-  @Id
+public class AddressDto {
   private long id;
-
   private GeoJsonPoint location;
-
-  @Field(type = FieldType.Text)
   private String city;
-  @Field(type = FieldType.Text)
   private String country;
-  @Field(type = FieldType.Text)
   private String houseNumber;
-  @Field(type = FieldType.Text)
   private String street;
-
   private String postCode;
+
+  public static AddressDto fromEntity(AddressEntity entity) {
+    var dto = new AddressDto();
+    dto.setCity(entity.getCity());
+    dto.setCountry(entity.getCountry());
+    dto.setId(entity.getId());
+    dto.setLocation(entity.getLocation());
+    dto.setHouseNumber(entity.getHouseNumber());
+    dto.setStreet(entity.getStreet());
+    dto.setPostCode(entity.getPostCode());
+    return dto;
+  }
 
   public long getId() {
     return id;

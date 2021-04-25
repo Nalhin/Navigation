@@ -1,5 +1,5 @@
 {
-  "name": "address",
+  "name": "address-es",
   "config": {
     "connector.class": "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector",
     "connection.url": "http://elasticsearch:9200",
