@@ -1,15 +1,17 @@
 package com.navigation.pathfindingapi.domain;
 
-public class MapNode {
-  private final MapLocation location;
-  private final long id;
+import com.navigation.pathfinder.graph.Coordinates;
 
-  public MapNode(MapLocation location, long id) {
+public class MapNode {
+  private final long id;
+  private final Coordinates location;
+
+  public MapNode(long id, Coordinates location) {
     this.location = location;
     this.id = id;
   }
 
-  public MapLocation getLocation() {
+  public Coordinates getLocation() {
     return location;
   }
 

@@ -1,8 +1,8 @@
 package com.navigation.pathfindingapi.application;
 
+import com.navigation.pathfinder.graph.Coordinates;
 import com.navigation.pathfindingapi.application.dto.PathRequestDtoParams;
 import com.navigation.pathfindingapi.application.dto.PathResponseDto;
-import com.navigation.pathfindingapi.domain.MapLocation;
 import com.navigation.pathfindingapi.domain.PathfindingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +23,8 @@ public class PathfindingController {
 
   @GetMapping("/find-path")
   public ResponseEntity<PathResponseDto> findPath(PathRequestDtoParams requestDtoParams) {
-    var start = new MapLocation(requestDtoParams.getStartLatitude(), requestDtoParams.getStartLongitude());
-    var end = new MapLocation(requestDtoParams.getEndLatitude(), requestDtoParams.getEndLongitude());
+    var start = new Coordinates(requestDtoParams.getStartLatitude(), requestDtoParams.getStartLongitude());
+    var end = new Coordinates(requestDtoParams.getEndLatitude(), requestDtoParams.getEndLongitude());
     var path = service.getClosestPathBetween(start, end);
     return ResponseEntity.ok(mapper.toResponse(path));
   }

@@ -8,7 +8,7 @@ public class Vertex {
   private final long id;
   private final Coordinates coordinates;
 
-  public Vertex(long id, Coordinates coordinates) {
+  Vertex(long id, Coordinates coordinates) {
     this.id = id;
     this.coordinates = coordinates;
   }

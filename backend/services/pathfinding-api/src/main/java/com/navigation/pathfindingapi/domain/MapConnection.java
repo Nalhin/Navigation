@@ -1,19 +1,26 @@
 package com.navigation.pathfindingapi.domain;
 
 public class MapConnection {
-  private final MapNode from;
-  private final MapNode to;
 
-  public MapConnection(MapNode from, MapNode to) {
-    this.from = from;
-    this.to = to;
-  }
+   private final long fromId;
+   private final long toId;
+   private final int maxSpeed;
 
-  public MapNode getFrom() {
-    return from;
-  }
+    public MapConnection(long fromId, long toId, int maxSpeed) {
+        this.fromId = fromId;
+        this.toId = toId;
+        this.maxSpeed = maxSpeed;
+    }
 
-  public MapNode getTo() {
-    return to;
-  }
+    public long getFromId() {
+        return fromId;
+    }
+
+    public long getToId() {
+        return toId;
+    }
+
+    public int getMaxSpeed() {
+        return maxSpeed;
+    }
 }

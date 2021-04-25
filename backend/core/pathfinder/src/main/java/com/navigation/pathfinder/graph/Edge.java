@@ -4,11 +4,12 @@ public class Edge {
 
   private final Vertex from;
   private final Vertex to;
-  private final int maxSpeed = 30;
+  private final int maxSpeed;
 
-  public Edge(Vertex from, Vertex to) {
+  Edge(Vertex from, Vertex to, int maxSpeed) {
     this.from = from;
     this.to = to;
+    this.maxSpeed = maxSpeed;
   }
 
   public Vertex getFrom() {

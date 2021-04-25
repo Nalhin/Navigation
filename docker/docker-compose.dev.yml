@@ -6,6 +6,9 @@ services:
       - 27017:27017
     volumes:
       - mongodb:/data/db
+      - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    environment:
+      MONGO_INITDB_DATABASE: pathfinding
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.7.0
@@ -74,32 +77,6 @@ services:
         confluent-hub install --no-prompt confluentinc/kafka-connect-elasticsearch:5.5.4
         confluent-hub install --no-prompt mongodb/kafka-connect-mongodb:1.4.0
         /etc/confluent/docker/run
-
-  ksql-server:
-    image: confluentinc/ksqldb-server:0.15.0
-    hostname: ksql-server
-    depends_on:
-      - kafka
-      - kafka-connect
-    ports:
-      - "8088:8088"
-    volumes:
-      - ./queries:/etc/ksql/queries
-    environment:
-      KSQL_CONFIG_DIR: /etc/ksql
-      KSQL_BOOTSTRAP_SERVERS: "kafka:29092"
-      KSQL_HOST_NAME: ksql-server
-      KSQL_LISTENERS: "http://0.0.0.0:8088"
-      KSQL_QUERIES_FILE: /etc/ksql/queries/query.sql
-
-  ksql-cli:
-    image: confluentinc/ksqldb-cli:0.17.0
-    depends_on:
-      - kafka
-      - kafka-connect
-      - ksql-server
-    entrypoint: /bin/sh
-    tty: true
 
   kafka-gui:
     image: obsidiandynamics/kafdrop

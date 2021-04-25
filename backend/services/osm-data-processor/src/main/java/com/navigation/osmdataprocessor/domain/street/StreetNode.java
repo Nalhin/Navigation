@@ -1,5 +1,7 @@
 package com.navigation.osmdataprocessor.domain.street;
 
+import com.navigation.osmdataprocessor.domain.GeoJsonPoint;
+
 public class StreetNode {
   private final double latitude;
   private final double longitude;
@@ -11,15 +13,11 @@ public class StreetNode {
     this.id = id;
   }
 
-  public double getLatitude() {
-    return latitude;
-  }
-
-  public double getLongitude() {
-    return longitude;
-  }
-
   public long getId() {
     return id;
+  }
+
+  public GeoJsonPoint getLocation() {
+    return new GeoJsonPoint(latitude, longitude);
   }
 }

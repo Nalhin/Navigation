@@ -1,2 +1,9 @@
-map:
-  filePath: "/home/nalhin/Desktop/Navigation/data/malopolskie-latest.osm.bz2"
+server:
+  port: 8081
+
+spring:
+  data:
+    mongodb:
+      database: pathfinding
+      port: 27017
+      host: localhost
