@@ -5,6 +5,28 @@
     "connection.uri": "mongodb://mongodb:27017",
     "collection": "streetConnections",
     "database": "pathfinding",
-    "topics": "exporter.street-connections"
+    "topics": "transformed.street-connections",
+    "field.renamer.mapping": [
+      {
+        "oldName": "fromLatitude",
+        "newName": "from.latitude"
+      },
+      {
+        "oldName": "fromLongitude",
+        "newName": "from.longitude"
+      },
+      {
+        "oldName": "fromId",
+        "newName": "from.id"
+      },
+      {
+        "oldName": "toLatitude",
+        "newName": "to.latitude"
+      },
+      {
+        "oldName": "toLongitude",
+        "newName": "to.longitude"
+      }
+    ]
   }
 }

@@ -4,7 +4,7 @@ public class Edge {
 
   private final Vertex from;
   private final Vertex to;
-  private final int maxSpeedInKmPerHour = 30;
+  private final int maxSpeed = 30;
 
   public Edge(Vertex from, Vertex to) {
     this.from = from;
@@ -19,7 +19,7 @@ public class Edge {
     return to;
   }
 
-  public int getMaxSpeedInKmPerHour() {
-    return maxSpeedInKmPerHour;
+  public int getMaxSpeed() {
+    return maxSpeed;
   }
 }
