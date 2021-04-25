@@ -1,6 +1,6 @@
 package com.navigation.pathfinder.graph;
 
-public class Edge {
+public final class Edge {
 
   private final Vertex from;
   private final Vertex to;

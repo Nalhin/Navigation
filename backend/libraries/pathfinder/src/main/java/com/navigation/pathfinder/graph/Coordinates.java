@@ -2,7 +2,7 @@ package com.navigation.pathfinder.graph;
 
 import java.util.Objects;
 
-public class Coordinates {
+public final class Coordinates {
   private final double latitude;
   private final double longitude;
 

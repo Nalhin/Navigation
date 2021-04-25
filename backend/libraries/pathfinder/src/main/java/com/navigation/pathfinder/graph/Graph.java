@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-public class Graph {
+public final class Graph {
 
   private final Map<Vertex, List<Edge>> nodesWithEdges;
   private final Map<Long, Vertex> vertices;

@@ -2,7 +2,7 @@ package com.navigation.pathfinder.graph;
 
 import java.util.List;
 
-public class Path {
+public final class Path {
 
   private final List<Vertex> vertices;
 

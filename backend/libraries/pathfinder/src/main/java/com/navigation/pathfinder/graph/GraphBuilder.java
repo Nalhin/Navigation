@@ -5,7 +5,7 @@ import com.navigation.pathfinder.weight.EdgeWeightCalculator;
 
 import java.util.*;
 
-public class GraphBuilder {
+public final class GraphBuilder {
 
   private final Map<Long, Vertex> vertices = new HashMap<>();
   private final Map<Vertex, List<Edge>> nodes = new HashMap<>();
