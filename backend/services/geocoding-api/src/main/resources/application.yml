@@ -1,1 +1,12 @@
 
+server:
+  port: 8082
+
+spring:
+  application:
+    name: geocoding-api
+
+  cloud:
+    consul:
+      host: localhost
+      port: 8500

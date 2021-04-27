@@ -1,7 +1,14 @@
 server:
-  port: 8082
+  port: 8081
 
 spring:
+  application:
+    name: reverse-geocoding-api
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+
   data:
     mongodb:
       database: reverseGeocoding
