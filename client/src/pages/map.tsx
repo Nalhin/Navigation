@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  MapContainer,
-  Marker,
-  Polyline,
-  Popup,
-  TileLayer,
-} from 'react-leaflet';
+import { MapContainer, Marker, Polyline, TileLayer } from 'react-leaflet';
 import L, { LatLng } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import icon from 'leaflet/dist/images/marker-icon.png';
@@ -27,16 +21,18 @@ interface Props {
   points: ListItem[];
   path: [number, number][];
   addPoint: ({ lat, lng }: LatLng) => void;
+  setMap: (map: L.Map) => void;
 }
 
-const Map = ({ points, path, addPoint }: Props) => {
+const Map = ({ setMap, points, path, addPoint }: Props) => {
   return (
     <>
       <MapContainer
         center={CENTER}
         zoom={15}
         scrollWheelZoom={false}
-        style={{ height: '100vh', width: '70vw' }}
+        style={{ height: '100vh', width: '100%' }}
+        whenCreated={setMap}
       >
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -46,15 +42,17 @@ const Map = ({ points, path, addPoint }: Props) => {
           return (
             <Marker
               key={point.id}
-              title={'start'}
-              draggable
+              draggable={false}
+              eventHandlers={{
+                dragend: console.log,
+                drag: console.log,
+                dragstart: console.log,
+              }}
               position={[
                 point.location.coordinates[1],
                 point.location.coordinates[0],
               ]}
-            >
-              <Popup>{point.street}</Popup>
-            </Marker>
+            />
           );
         })}
         <Polyline pathOptions={{ color: 'blue' }} positions={path} />

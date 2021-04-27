@@ -11,6 +11,7 @@ import DraggableListItem from './draggable-list-item';
 interface Props {
   setItems: (items: ListItem[]) => void;
   items: ListItem[];
+  onClick: (index: number) => void;
 }
 
 const reorder = (list: any[], startIndex: number, endIndex: number) => {
@@ -21,7 +22,7 @@ const reorder = (list: any[], startIndex: number, endIndex: number) => {
   return result;
 };
 
-const DraggableList = ({ items, setItems }: Props) => {
+const DraggableList = ({ items, setItems, onClick }: Props) => {
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) {
       return;
@@ -36,36 +37,42 @@ const DraggableList = ({ items, setItems }: Props) => {
     setItems(itemsReordered);
   };
 
+  const onRemove = (index: number) => {
+    setItems([...items.slice(0, index), ...items.slice(index + 1)]);
+  };
+
   return (
-    <div>
-      <h1>Start</h1>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="droppable">
-          {(provided) => (
-            <div {...provided.droppableProps} ref={provided.innerRef}>
-              {items.map((item, index) => (
-                <Draggable
-                  key={item.id}
-                  draggableId={String(item.id)}
-                  index={index}
-                >
-                  {(provided) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                    >
-                      <DraggableListItem item={item} />
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
-    </div>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Droppable droppableId="droppable">
+        {(provided) => (
+          <div {...provided.droppableProps} ref={provided.innerRef}>
+            {items.map((item, index) => (
+              <Draggable
+                key={item.id}
+                draggableId={String(item.id)}
+                index={index}
+              >
+                {(provided) => (
+                  <div
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                    onClick={() => onClick(index)}
+                  >
+                    <DraggableListItem
+                      item={item}
+                      index={index + 1}
+                      onRemove={() => onRemove(index)}
+                    />
+                  </div>
+                )}
+              </Draggable>
+            ))}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
+    </DragDropContext>
   );
 };
 

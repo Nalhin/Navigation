@@ -56,6 +56,10 @@ public class Address {
     return street;
   }
 
+  public String getPostCode() {
+    return postCode;
+  }
+
   @Override
   public String toString() {
     return "Address{"
