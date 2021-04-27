@@ -97,6 +97,11 @@ services:
     environment:
       KAFKA_BROKERCONNECT: "kafka:29092"
 
+  consul:
+    image: consul:1.9.5
+    ports:
+      - 8500:8500
+
 volumes:
   elastic:
   mongodb_pathfinding:

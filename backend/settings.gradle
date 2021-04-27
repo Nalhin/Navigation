@@ -1,6 +1,8 @@
 rootProject.name = 'navigation'
 include ':libraries:parser'
 include ':libraries:pathfinder'
+
 include ':services:geocoding-api'
+include ':services:reverse-geocoding-api'
 include ':services:pathfinding-api'
 include ':services:osm-data-processor'

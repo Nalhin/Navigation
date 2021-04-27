@@ -2,8 +2,15 @@ server:
   port: 8081
 
 spring:
+  application:
+    name: pathfinding-api
   data:
     mongodb:
       database: pathfinding
       port: 27017
       host: localhost
+
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
