@@ -1,6 +1,5 @@
 import React from 'react';
 import Map from './map';
-import DraggableList from './draggable-list/draggable-list';
 import { ListItem } from './list-item.type';
 import { useMutation } from 'react-query';
 import { getPathBetween } from '../api/requests/pathfinding/pathfinding';
@@ -8,10 +7,12 @@ import { getReverseGeocode } from '../api/requests/reverse-geocode/reverse-geoco
 import L, { LatLng } from 'leaflet';
 import { AxiosError } from 'axios';
 import { uniqueId } from '../utils/unique-id';
-import { Flex, Button, Heading } from '@chakra-ui/react';
+import CurrentPoint from './current-point';
+import Search from './search/search';
 
 const Main = () => {
   const [points, setPoints] = React.useState<ListItem[]>([]);
+  const [current, setCurrent] = React.useState<ListItem | null>(null);
   const [map, setMap] = React.useState<null | L.Map>(null);
 
   const { mutate, data } = useMutation(() => {
@@ -29,28 +30,27 @@ const Main = () => {
     {
       onSuccess: (resp, call) => {
         const data = resp.data;
-        setPoints((prev) => [
-          ...prev,
-          {
-            ...data,
-            location: { type: 'Point', coordinates: [call.lng, call.lat] },
-          },
-        ]);
+        const item: ListItem = {
+          ...data,
+          location: { type: 'Point', coordinates: [call.lng, call.lat] },
+        };
+        setPoints((prev) => [...prev, item]);
+        setCurrent(item);
       },
       onError: (error: AxiosError, call) => {
         if (error.response?.status === 404) {
-          setPoints((prev) => [
-            ...prev,
-            {
-              id: uniqueId(),
-              city: 'Unknown',
-              country: 'Unknown',
-              houseNumber: 'Unknown',
-              street: 'Unknown',
-              postCode: 'Unknown',
-              location: { type: 'Point', coordinates: [call.lng, call.lat] },
-            },
-          ]);
+          const item: ListItem = {
+            id: uniqueId(),
+            city: 'Unknown',
+            country: 'Unknown',
+            houseNumber: 'Unknown',
+            street: 'Unknown',
+            postCode: 'Unknown',
+            location: { type: 'Point', coordinates: [call.lng, call.lat] },
+          };
+
+          setPoints((prev) => [...prev, item]);
+          setCurrent(item);
         }
       },
     },
@@ -64,38 +64,22 @@ const Main = () => {
     addGeocodedPoint(mapClick);
   };
 
-  const onElementClick = (index: number) => {
-    const nums = [...points[index].location.coordinates].reverse() as [
-      number,
-      number,
-    ];
-    map?.panTo(nums);
-  };
-
   return (
-    <Flex direction={'row'}>
-      <Flex w={'300px'} h="100vh" direction={'column'}>
-        <Heading as="h3" size="lg" textAlign={'center'}>
-          Path
-        </Heading>
-        <DraggableList
-          setItems={(items) => setPoints(items)}
-          items={points}
-          onClick={onElementClick}
-        />
-        <Button mt={'auto'} onClick={() => mutate()} colorScheme="teal">
-          Find
-        </Button>
-      </Flex>
+    <div>
+      <div>
+        <div>Path</div>
+        <button onClick={() => mutate()}>Find</button>
+      </div>
+      <Search />
       <Map
         points={points}
         path={path}
         addPoint={addPoint}
         setMap={(map) => setMap(map)}
       />
-      ;
-    </Flex>
+
+      {current && <CurrentPoint item={current} />}
+    </div>
   );
 };
-
 export default Main;

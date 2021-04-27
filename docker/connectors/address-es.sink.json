@@ -4,6 +4,11 @@
     "connector.class": "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector",
     "connection.url": "http://elasticsearch:9200",
     "type.name": "type.name=address",
-    "topics": "exporter.address"
+    "topics": "exporter.address",
+    "schema.ignore": "true",
+    "transforms":"dropPrefix",
+    "transforms.dropPrefix.type":"org.apache.kafka.connect.transforms.RegexRouter",
+    "transforms.dropPrefix.regex":"exporter.(.*)",
+    "transforms.dropPrefix.replacement":"$1"
   }
 }

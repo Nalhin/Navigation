@@ -5,8 +5,6 @@
     "connection.uri": "mongodb://mongodb_pathfinding:27017",
     "collection": "streetConnections",
     "database": "pathfinding",
-    "topics": "exporter.street-connections",
-    "transforms.RenameField.type": "org.apache.kafka.connect.transforms.ReplaceField$Value",
-    "transforms.RenameField.renames": "id:_id"
+    "topics": "exporter.street-connections"
   }
 }

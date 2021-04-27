@@ -2,8 +2,6 @@ import React from 'react';
 import { MapContainer, Marker, Polyline, TileLayer } from 'react-leaflet';
 import L, { LatLng } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import icon from 'leaflet/dist/images/marker-icon.png';
-import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import { ListItem } from './list-item.type';
 import PointSetter from './point-setter';
 
@@ -12,9 +10,13 @@ const CENTER = {
   lng: 19.944544,
 };
 
+const mySvgString =
+  '<svg viewBox = "0 0 100 100" xmlns = "http://www.w3.org/2000/svg" ><metadata id="metadata1">image/svg+xml</metadata><circle fill="#FF1A00" cx="50" cy="50" r="50"/></svg>';
+const url = 'data:image/svg+xml,' + encodeURIComponent(mySvgString);
+
 L.Marker.prototype.options.icon = L.icon({
-  iconUrl: icon,
-  shadowUrl: iconShadow,
+  iconUrl: url,
+  iconSize: [20, 20],
 });
 
 interface Props {

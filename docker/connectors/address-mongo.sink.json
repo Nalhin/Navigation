@@ -6,6 +6,7 @@
     "collection": "addresses",
     "database": "reverseGeocoding",
     "topics": "exporter.address",
+    "transforms": "RenameField",
     "transforms.RenameField.type": "org.apache.kafka.connect.transforms.ReplaceField$Value",
     "transforms.RenameField.renames": "id:_id"
   }

@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class AddressEntity {
 
     @Id
-    private String id;
+    private long id;
 
     @GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)
     private GeoJsonPoint location;
@@ -20,11 +20,11 @@ public class AddressEntity {
     private String street;
     private String postCode;
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 

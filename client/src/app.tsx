@@ -1,16 +1,17 @@
 import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { ChakraProvider } from '@chakra-ui/react';
 import Main from './pages/main';
+import GlobalLoader from './pages/global-loader';
+import { CssBaseline } from '@material-ui/core';
 
 const queryClient = new QueryClient();
 
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <ChakraProvider>
-        <Main />
-      </ChakraProvider>
+      <CssBaseline />
+      <GlobalLoader />
+      <Main />
     </QueryClientProvider>
   );
 };
