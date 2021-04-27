@@ -1,4 +1,4 @@
-package com.navigation.geocodingapi.address;
+package com.navigation.geocodingapi.infrastructure;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -7,7 +7,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import org.springframework.data.elasticsearch.core.geo.GeoJsonPoint;
 
 @Document(indexName = "address")
-public class Address {
+public class AddressEntity {
 
   @Id
   private long id;

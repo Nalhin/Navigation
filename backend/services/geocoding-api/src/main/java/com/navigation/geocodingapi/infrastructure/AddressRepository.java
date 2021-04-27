@@ -1,4 +1,4 @@
-package com.navigation.geocodingapi.address;
+package com.navigation.geocodingapi.infrastructure;
 
 import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface AddressRepository extends ElasticsearchRepository<Address, String> {
+public interface AddressRepository extends ElasticsearchRepository<AddressEntity, String> {
 
   @Query("""
         {
@@ -17,6 +17,6 @@ public interface AddressRepository extends ElasticsearchRepository<Address, Stri
         }
        } 
       """)
-  List<Address> searchByAddress(String search);
+  List<AddressEntity> searchByAddress(String search);
 
 }

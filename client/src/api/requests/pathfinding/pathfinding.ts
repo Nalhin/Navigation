@@ -1,8 +1,8 @@
-import { axios } from '../axios';
+import { axios } from '../../axios';
 import { LatLngLiteral } from 'leaflet';
 
-export const getPath = (start: LatLngLiteral, end: LatLngLiteral) => {
-  return axios.get('find-path', {
+export const getPathBetween = (start: LatLngLiteral, end: LatLngLiteral) => {
+  return axios.get('/pathfinding/path-between', {
     params: {
       startLatitude: start.lat,
       startLongitude: start.lng,

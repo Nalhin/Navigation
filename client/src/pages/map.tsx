@@ -6,67 +6,60 @@ import {
   Popup,
   TileLayer,
 } from 'react-leaflet';
-import L, { Marker as LeafletMarker } from 'leaflet';
+import L, { LatLng } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
-import { useMutation } from 'react-query';
-import { getPath } from '../api/requests/pathfinding';
-
-L.Marker.prototype.options.icon = L.icon({
-  iconUrl: icon,
-  shadowUrl: iconShadow,
-});
+import { ListItem } from './list-item.type';
+import PointSetter from './point-setter';
 
 const CENTER = {
   lat: 50.049683,
   lng: 19.944544,
 };
 
-const POINTS = [
-  {
-    lat: 50.048683,
-    lng: 19.93544,
-  },
-  {
-    lat: 50.049683,
-    lng: 19.944544,
-  },
-];
+L.Marker.prototype.options.icon = L.icon({
+  iconUrl: icon,
+  shadowUrl: iconShadow,
+});
 
-const Map = ({}) => {
-  const refPoint1 = React.useRef<null | LeafletMarker<any>>(null);
-  const refPoint2 = React.useRef<null | LeafletMarker<any>>(null);
+interface Props {
+  points: ListItem[];
+  path: [number, number][];
+  addPoint: ({ lat, lng }: LatLng) => void;
+}
 
-  const { mutate, data } = useMutation(() =>
-    getPath(refPoint1.current!?.getLatLng(), refPoint2.current!?.getLatLng()),
-  );
-
-  const points =
-    data?.data.points.map((point: any) => [point.longitude, point.latitude]) ??
-    [];
-
+const Map = ({ points, path, addPoint }: Props) => {
   return (
     <>
       <MapContainer
         center={CENTER}
         zoom={15}
         scrollWheelZoom={false}
-        style={{ height: '100vh', width: '100vw' }}
+        style={{ height: '100vh', width: '70vw' }}
       >
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker ref={refPoint1} title={'start'} draggable position={POINTS[0]}>
-          <Popup>START</Popup>
-        </Marker>
-        <Marker ref={refPoint2} title={'end'} draggable position={POINTS[1]}>
-          <Popup>END</Popup>
-        </Marker>
-        <Polyline pathOptions={{ color: 'blue' }} positions={points} />
+        {points.map((point) => {
+          return (
+            <Marker
+              key={point.id}
+              title={'start'}
+              draggable
+              position={[
+                point.location.coordinates[1],
+                point.location.coordinates[0],
+              ]}
+            >
+              <Popup>{point.street}</Popup>
+            </Marker>
+          );
+        })}
+        <Polyline pathOptions={{ color: 'blue' }} positions={path} />
+        <PointSetter addPoint={addPoint} />
       </MapContainer>
-      <button onClick={() => mutate()}>Find</button>
     </>
   );
 };

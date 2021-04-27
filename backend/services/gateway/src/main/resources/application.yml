@@ -1,0 +1,36 @@
+
+server:
+  port: 8000
+
+spring:
+  application:
+    name: gateway
+
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: geocoding-api
+          uri: lb://geocoding-api
+          predicates:
+            - Path=/api/geocode/**
+          filters:
+            - RewritePath=/api/(?<path>.*), /api/v1/$\{path}
+        - id: reverse-geocoding-api
+          uri: lb://reverse-geocoding-api
+          predicates:
+            - Path=/api/reverse-geocode/**
+          filters:
+            - RewritePath=/api/(?<path>.*), /api/v1/$\{path}
+        - id: pathfinding-api
+          uri: lb://pathfinding-api
+          predicates:
+            - Path=/api/pathfinding/**
+          filters:
+            - RewritePath=/api/(?<path>.*), /api/v1/$\{path}

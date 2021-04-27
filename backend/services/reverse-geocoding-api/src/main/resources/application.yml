@@ -8,6 +8,8 @@ spring:
     consul:
       host: localhost
       port: 8500
+      discovery:
+        hostname: localhost
 
   data:
     mongodb:

@@ -1,15 +1,15 @@
-package com.navigation.pathfindingapi.application;
+package com.navigation.pathfindingapi.api;
 
 import com.navigation.pathfinder.graph.Coordinates;
 import com.navigation.pathfinder.graph.Path;
-import com.navigation.pathfindingapi.application.dto.PathResponseDto;
-import com.navigation.pathfindingapi.application.dto.NodeResponseDto;
+import com.navigation.pathfindingapi.api.dto.PathResponseDto;
+import com.navigation.pathfindingapi.api.dto.NodeResponseDto;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
 @Component
-public class PathfindingMapper {
+public class ResponseMapper {
 
   public PathResponseDto toResponse(Path path) {
     var points = path.getVertices().stream()

@@ -1,4 +1,4 @@
-package com.navigation.pathfindingapi.application.dto;
+package com.navigation.pathfindingapi.api.dto;
 
 import java.util.List;
 

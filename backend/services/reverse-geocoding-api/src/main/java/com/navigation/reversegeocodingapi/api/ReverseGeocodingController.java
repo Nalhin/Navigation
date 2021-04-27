@@ -1,7 +1,6 @@
 package com.navigation.reversegeocodingapi.api;
 
 import com.navigation.reversegeocodingapi.infrastructure.database.MongoAddressRepository;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Metrics;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
 
 @Controller
-@RequestMapping("/api/v1/address")
+@RequestMapping("/api/v1/reverse-geocode")
 public class ReverseGeocodingController {
 
   private final MongoAddressRepository repository;
@@ -23,7 +22,7 @@ public class ReverseGeocodingController {
     this.repository = repository;
   }
 
-  @GetMapping("/closest")
+  @GetMapping
   public ResponseEntity<AddressDto> getClosestAddress(
       @Param("latitude") Double latitude, @Param("longitude") Double longitude) {
     var closestAddress =

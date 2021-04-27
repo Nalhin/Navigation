@@ -1,4 +1,4 @@
-package com.navigation.pathfindingapi.application.dto;
+package com.navigation.pathfindingapi.api.dto;
 
 public class PathRequestDtoParams {
   private Double startLatitude;

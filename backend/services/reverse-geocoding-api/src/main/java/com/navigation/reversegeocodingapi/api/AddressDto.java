@@ -4,7 +4,7 @@ import com.navigation.reversegeocodingapi.infrastructure.database.AddressEntity;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 
 public class AddressDto {
-  private long id;
+  private String id;
   private GeoJsonPoint location;
   private String city;
   private String country;
@@ -24,11 +24,11 @@ public class AddressDto {
     return dto;
   }
 
-  public long getId() {
+  public String getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(String id) {
     this.id = id;
   }
 

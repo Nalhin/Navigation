@@ -61,9 +61,9 @@ services:
     depends_on:
       - zookeeper
     ports:
-      - 8083:8083
+      - 8090:8090
     environment:
-      CONNECT_REST_PORT: 8083
+      CONNECT_REST_PORT: 8090
       CONNECT_ZOOKEEPER_CONNECT: "zookeeper:2181"
       CONNECT_BOOTSTRAP_SERVERS: "kafka:29092"
       CONNECT_GROUP_ID: connect-group
