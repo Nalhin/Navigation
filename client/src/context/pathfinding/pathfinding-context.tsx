@@ -4,6 +4,7 @@ import { AddressItem } from '../../pages/list-item.type';
 import { useMutation } from 'react-query';
 import { getPathBetween } from '../../api/requests/pathfinding/pathfinding';
 import { Coordinates } from '../../api/requests/shared.types';
+import { usePathfindingSettings } from '../pathfinding-settings/pathfinding-settings-context';
 
 const PathfindingContext = React.createContext<PathfindingContext | null>(null);
 
@@ -33,13 +34,19 @@ export const PathfindingProvider: React.FC = ({ children }) => {
     start: null,
     end: null,
   });
+  const settings = usePathfindingSettings();
 
   const {
     data,
     mutate,
     reset,
   } = useMutation((variables: { first: Coordinates; last: Coordinates }) =>
-    getPathBetween(variables.first, variables.last),
+    getPathBetween(
+      variables.first,
+      variables.last,
+      settings.algorithm,
+      settings.optimization,
+    ),
   );
 
   const setEnd = React.useCallback((end: AddressItem | null) => {

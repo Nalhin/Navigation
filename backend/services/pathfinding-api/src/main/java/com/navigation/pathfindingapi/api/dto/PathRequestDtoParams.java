@@ -5,6 +5,20 @@ public class PathRequestDtoParams {
   private Double startLongitude;
   private Double endLatitude;
   private Double endLongitude;
+  private PathfindingAlgorithmsDto algorithm;
+  private OptimizationDto optimization;
+
+  public enum PathfindingAlgorithmsDto {
+    DIJKSTRA,
+    A_STAR,
+    BELLMAN_FORD
+  }
+
+  public enum OptimizationDto {
+    TIME,
+    DISTANCE,
+    NUMBER_OF_NODES
+  }
 
   public Double getStartLatitude() {
     return startLatitude;
@@ -36,5 +50,21 @@ public class PathRequestDtoParams {
 
   public void setEndLongitude(Double endLongitude) {
     this.endLongitude = endLongitude;
+  }
+
+  public PathfindingAlgorithmsDto getAlgorithm() {
+    return algorithm;
+  }
+
+  public void setAlgorithm(PathfindingAlgorithmsDto algorithm) {
+    this.algorithm = algorithm;
+  }
+
+  public OptimizationDto getOptimization() {
+    return optimization;
+  }
+
+  public void setOptimization(OptimizationDto optimization) {
+    this.optimization = optimization;
   }
 }

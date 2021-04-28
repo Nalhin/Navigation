@@ -2,12 +2,11 @@ package com.navigation.pathfinder.weight;
 
 import com.navigation.pathfinder.graph.Coordinates;
 
-// TODO PACKAGE PRIVATE
-public class HaversineDistanceCalculator {
+class HaversineDistanceCalculator {
 
   private static final int EARTH_RADIUS = 6371;
 
-  public double calculateDistance(Coordinates startCoors, Coordinates endCoords) {
+  double calculateDistance(Coordinates startCoors, Coordinates endCoords) {
     double startLat = startCoors.getLatitude();
     double startLong = startCoors.getLongitude();
 

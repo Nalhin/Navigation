@@ -48,6 +48,6 @@ public final class GraphBuilder {
   }
 
   public Graph asGraph() {
-    return new Graph(nodes, vertices, edgeWeightCalculator);
+    return new Graph(nodes, vertices);
   }
 }

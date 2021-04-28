@@ -77,7 +77,7 @@ class DijkstraPathfindingStrategyTest extends Specification {
   def "findShortestPath() should return the shortest path"() {
     given:
     def testGraph = generateTestGraph()
-    def strategy = new DijkstraPathfindingStrategy()
+    def strategy = new DijkstraPathfindingStrategy(calculator)
     when:
     def path = strategy.findShortestPath(testGraph.start, testGraph.end, testGraph.graph)
     then:
