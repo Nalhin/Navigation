@@ -1,14 +1,16 @@
 package com.navigation.pathfindingapi.api.dto;
 
+import java.time.Duration;
 import java.util.List;
 
 public class PathResponseDto {
 
   private List<NodeResponseDto> simplePath;
-  private List<DetailedNodeResponseDto> detailedPath;
   private double totalDistance;
   private double totalDuration;
   private double totalNodes;
+  private int totalVisitedNodes;
+  private Duration executionDuration;
 
   public PathResponseDto() {
   }
@@ -19,14 +21,6 @@ public class PathResponseDto {
 
   public void setSimplePath(List<NodeResponseDto> simplePath) {
     this.simplePath = simplePath;
-  }
-
-  public List<DetailedNodeResponseDto> getDetailedPath() {
-    return detailedPath;
-  }
-
-  public void setDetailedPath(List<DetailedNodeResponseDto> detailedPath) {
-    this.detailedPath = detailedPath;
   }
 
   public double getTotalDistance() {
@@ -51,5 +45,21 @@ public class PathResponseDto {
 
   public void setTotalNodes(double totalNodes) {
     this.totalNodes = totalNodes;
+  }
+
+  public void setExecutionDuration(Duration executionDuration) {
+    this.executionDuration = executionDuration;
+  }
+
+  public double getExecutionDuration() {
+    return executionDuration.getNano() / 1_000_000_000.0;
+  }
+
+  public int getTotalVisitedNodes() {
+    return totalVisitedNodes;
+  }
+
+  public void setTotalVisitedNodes(int totalVisitedNodes) {
+    this.totalVisitedNodes = totalVisitedNodes;
   }
 }

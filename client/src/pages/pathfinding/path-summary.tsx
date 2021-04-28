@@ -17,6 +17,10 @@ const PathSummary = ({ path }: Props) => {
         <Typography>
           Total duration: {path.totalDuration.toFixed()} minutes
         </Typography>
+        <Typography>Total nodes visited: {path.totalVisitedNodes}</Typography>
+        <Typography>
+          Execution duration: {path.executionDuration.toFixed(2)} seconds
+        </Typography>
       </Grid>
     </Box>
   );

@@ -2,9 +2,10 @@ package com.navigation.pathfindingapi.domain;
 
 import com.navigation.pathfinder.graph.Graph;
 import com.navigation.pathfinder.graph.GraphBuilder;
-import com.navigation.pathfinder.graph.Path;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
 
 @Service
@@ -19,7 +20,7 @@ public class PathfindingServiceImpl implements PathfindingService {
   }
 
   @Override
-  public Path calculatePathBetween(CalculatePathBetweenQuery query) {
+  public PathWithExecutionDuration calculatePathBetween(CalculatePathBetweenQuery query) {
     try {
       var startFuture =
           CompletableFuture.supplyAsync(() -> mapRepository.closestNode(query.getStart()));
@@ -30,10 +31,13 @@ public class PathfindingServiceImpl implements PathfindingService {
 
       var graph = loadGraph();
 
-      return factory
+      var now = Instant.now();
+      var path = factory
           .pathfindingStrategy(query.getAlgorithm(), query.getOptimizations())
           .findShortestPath(
               graph.getVertexById(startNode.getId()), graph.getVertexById(endNode.getId()), graph);
+
+      return new PathWithExecutionDuration(path, Duration.between(now, Instant.now()));
     } catch (Exception e) {
       throw new RuntimeException();
     }

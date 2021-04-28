@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.Map;
 
 class PathBuilder {
-
     public Path buildPath(Map<Vertex, Edge> predecessorTree, Vertex last, Vertex start) {
         var result = new ArrayList<Edge>();
 
@@ -20,11 +19,10 @@ class PathBuilder {
             currNode = edge.getFrom();
         }
         if(currNode != start){
-            return new Path(Collections.emptyList());
+            return new Path(Collections.emptyList(), predecessorTree);
         }
         Collections.reverse(result);
 
-        return new Path(result);
+        return new Path(result, predecessorTree);
     }
-
 }

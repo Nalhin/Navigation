@@ -1,9 +1,7 @@
 package com.navigation.pathfinder.graph;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 public final class Graph {
 
@@ -21,6 +19,19 @@ public final class Graph {
 
   public Collection<Edge> getNodeEdges(Vertex node) {
     return nodesWithEdges.get(node);
+  }
+
+  public Graph reversed() {
+    var reversedNodesWithEdges = new HashMap<Vertex, List<Edge>>();
+    for (var entry : nodesWithEdges.entrySet()) {
+      for (var edge : entry.getValue()) {
+        var list = reversedNodesWithEdges.getOrDefault(edge.getTo(), new ArrayList<>());
+        list.add(edge.reversed());
+        reversedNodesWithEdges.put(edge.getTo(), list);
+      }
+    }
+
+    return new Graph(reversedNodesWithEdges, vertices);
   }
 
   public Collection<Vertex> vertices() {

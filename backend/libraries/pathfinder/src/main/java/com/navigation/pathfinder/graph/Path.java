@@ -3,20 +3,22 @@ package com.navigation.pathfinder.graph;
 import com.navigation.pathfinder.weight.DistanceEdgeWeightCalculator;
 import com.navigation.pathfinder.weight.DurationEdgeWeightCalculator;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public final class Path {
 
   private final List<Edge> edges;
+  private final Map<Vertex, Edge> predecessorTree;
   private final DistanceEdgeWeightCalculator distanceCalculator =
       new DistanceEdgeWeightCalculator();
   private final DurationEdgeWeightCalculator durationCalculator =
       new DurationEdgeWeightCalculator();
 
-  public Path(List<Edge> edges) {
+  public Path(List<Edge> edges, Map<Vertex, Edge> predecessorTree) {
     this.edges = edges;
+    this.predecessorTree = predecessorTree;
   }
 
   public List<Vertex> getSimplePath() {
@@ -25,41 +27,19 @@ public final class Path {
     return withoutLast;
   }
 
-  public List<PathDetailsVertex> getDetailedPath() {
-    var result = new ArrayList<PathDetailsVertex>();
-    result.add(new PathDetailsVertex(0, 0, 0, 0, 0, edges.get(0).getFrom()));
-
-    double cumulativeDist = 0.0;
-    double cumulativeDuration = 0.0;
-
-    for (var edge : edges) {
-      var time = durationCalculator.calculateWeight(edge);
-      var dist = distanceCalculator.calculateWeight(edge);
-
-      result.add(
-          new PathDetailsVertex(
-              cumulativeDist + dist,
-              dist,
-              cumulativeDuration + time,
-              time,
-              edge.getMaxSpeed(),
-              edge.getTo()));
-      cumulativeDuration += time;
-      cumulativeDist += dist;
-    }
-
-    return result;
-  }
-
-  public int getNumberOfVertices() {
+  public int numberOfVertices() {
     return edges.size() + 1;
   }
 
-  public double getTotalDistance() {
+  public int totalVisitedVertices() {
+    return predecessorTree.keySet().size();
+  }
+
+  public double totalDistance() {
     return edges.stream().mapToDouble(distanceCalculator::calculateWeight).sum();
   }
 
-  public double getTotalDuration() {
+  public double totalDuration() {
     return edges.stream().mapToDouble(durationCalculator::calculateWeight).sum();
   }
 }

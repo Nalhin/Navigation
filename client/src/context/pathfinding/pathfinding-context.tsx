@@ -5,6 +5,7 @@ import { useMutation } from 'react-query';
 import { getPathBetween } from '../../api/requests/pathfinding/pathfinding';
 import { Coordinates } from '../../api/requests/shared.types';
 import { usePathfindingSettings } from '../pathfinding-settings/pathfinding-settings-context';
+import { useMap } from '../map/map-context';
 
 const PathfindingContext = React.createContext<PathfindingContext | null>(null);
 
@@ -35,6 +36,7 @@ export const PathfindingProvider: React.FC = ({ children }) => {
     end: null,
   });
   const settings = usePathfindingSettings();
+  const { map } = useMap();
 
   const { data, mutate, reset } = useMutation(
     'path-between',
@@ -45,6 +47,17 @@ export const PathfindingProvider: React.FC = ({ children }) => {
         settings.algorithm,
         settings.optimization,
       ),
+    {
+      onSuccess: (data) => {
+        const path = data.data.simplePath;
+        const latitudes = path.map((el) => el.latitude);
+        const longitudes = path.map((el) => el.longitude);
+        map?.fitBounds([
+          [Math.min(...latitudes), Math.min(...longitudes)],
+          [Math.max(...latitudes), Math.max(...longitudes)],
+        ]);
+      },
+    },
   );
 
   const setEnd = React.useCallback((end: AddressItem | null) => {
