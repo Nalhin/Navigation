@@ -6,7 +6,6 @@ public class DetailedNodeResponseDto {
   private double cumulativeTime;
   private double timeFromPrevious;
   private int maxSpeedFromPrevious;
-  private double totalPathPercentage;
   private NodeResponseDto node;
 
   public double getCumulativeDistance() {
@@ -47,14 +46,6 @@ public class DetailedNodeResponseDto {
 
   public void setMaxSpeedFromPrevious(int maxSpeedFromPrevious) {
     this.maxSpeedFromPrevious = maxSpeedFromPrevious;
-  }
-
-  public double getTotalPathPercentage() {
-    return totalPathPercentage;
-  }
-
-  public void setTotalPathPercentage(double totalPathPercentage) {
-    this.totalPathPercentage = totalPathPercentage;
   }
 
   public NodeResponseDto getNode() {

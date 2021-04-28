@@ -36,17 +36,15 @@ export const PathfindingProvider: React.FC = ({ children }) => {
   });
   const settings = usePathfindingSettings();
 
-  const {
-    data,
-    mutate,
-    reset,
-  } = useMutation((variables: { first: Coordinates; last: Coordinates }) =>
-    getPathBetween(
-      variables.first,
-      variables.last,
-      settings.algorithm,
-      settings.optimization,
-    ),
+  const { data, mutate, reset } = useMutation(
+    'path-between',
+    (variables: { first: Coordinates; last: Coordinates }) =>
+      getPathBetween(
+        variables.first,
+        variables.last,
+        settings.algorithm,
+        settings.optimization,
+      ),
   );
 
   const setEnd = React.useCallback((end: AddressItem | null) => {

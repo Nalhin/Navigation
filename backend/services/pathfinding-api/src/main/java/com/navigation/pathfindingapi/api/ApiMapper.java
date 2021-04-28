@@ -45,7 +45,6 @@ public class ApiMapper {
     response.setTimeFromPrevious(detailedVertex.getTimeFromPrevious());
     response.setMaxSpeedFromPrevious(detailedVertex.getMaxSpeedFromPrevious());
     response.setNode(toResponse(detailedVertex.getVertex()));
-    response.setTotalPathPercentage(detailedVertex.getTotalPathPercentage());
     return response;
   }
 

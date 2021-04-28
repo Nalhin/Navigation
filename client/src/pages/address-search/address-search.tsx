@@ -6,6 +6,7 @@ import { useQuery } from 'react-query';
 import { getGeocode } from '../../api/requests/geocode/geocode.requests';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { css } from '@emotion/css';
+import { useDebounce } from 'use-debounce';
 
 interface Props {
   onValueSet: (item: AddressItem | null) => void;
@@ -17,10 +18,16 @@ const AddressSearch = ({ onValueSet, label, value }: Props) => {
   const [inputValue, setInputValue] = React.useState('');
   const [options, setOptions] = React.useState<AddressItem[]>([]);
 
-  useQuery(['search', inputValue], () => getGeocode(inputValue), {
-    onSuccess: (data) => setOptions(data.data),
-    enabled: !!inputValue,
-  });
+  const [debounced] = useDebounce(inputValue, 250);
+
+  const { isLoading } = useQuery(
+    ['search', debounced],
+    () => getGeocode(debounced),
+    {
+      onSuccess: (data) => setOptions(data.data),
+      enabled: !!debounced,
+    },
+  );
 
   return (
     <Autocomplete
@@ -28,6 +35,7 @@ const AddressSearch = ({ onValueSet, label, value }: Props) => {
         width: 260px;
         padding-bottom: 8px;
       `}
+      loading={isLoading}
       filterOptions={(x) => x}
       getOptionLabel={(option: AddressItem | string) =>
         typeof option === 'string'

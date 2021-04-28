@@ -26,12 +26,11 @@ public final class Path {
   }
 
   public List<PathDetailsVertex> getDetailedPath() {
-    double totalTime = getTotalDuration();
     var result = new ArrayList<PathDetailsVertex>();
-    result.add(new PathDetailsVertex(0, 0, 0, 0, 0, 0, edges.get(0).getFrom()));
+    result.add(new PathDetailsVertex(0, 0, 0, 0, 0, edges.get(0).getFrom()));
 
     double cumulativeDist = 0.0;
-    double cumulativeTime = 0.0;
+    double cumulativeDuration = 0.0;
 
     for (var edge : edges) {
       var time = durationCalculator.calculateWeight(edge);
@@ -41,12 +40,11 @@ public final class Path {
           new PathDetailsVertex(
               cumulativeDist + dist,
               dist,
-              cumulativeTime + time,
+              cumulativeDuration + time,
               time,
               edge.getMaxSpeed(),
-              cumulativeTime / totalTime,
               edge.getTo()));
-      cumulativeTime += time;
+      cumulativeDuration += time;
       cumulativeDist += dist;
     }
 

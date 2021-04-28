@@ -4,9 +4,11 @@ import { usePathfinding } from '../../context/pathfinding/pathfinding-context';
 import { Box, Button, Typography } from '@material-ui/core';
 import { css } from '@emotion/css';
 import PathSummary from '../pathfinding/path-summary';
+import { useIsMutating } from 'react-query';
 
 const DrawerContent = ({}) => {
   const pathfinding = usePathfinding();
+  const isMutating = useIsMutating({ mutationKey: 'path-between' });
 
   return (
     <Box p={2}>
@@ -31,6 +33,7 @@ const DrawerContent = ({}) => {
         variant="contained"
         color="primary"
         onClick={pathfinding.findPath}
+        disabled={!!isMutating}
       >
         Find
       </Button>

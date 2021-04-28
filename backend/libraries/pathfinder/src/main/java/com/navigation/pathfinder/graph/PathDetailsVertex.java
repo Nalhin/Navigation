@@ -6,7 +6,6 @@ public class PathDetailsVertex {
   private final double cumulativeTime;
   private final double timeFromPrevious;
   private final int maxSpeedFromPrevious;
-  private final double totalPathPercentage;
   private final Vertex vertex;
 
   public PathDetailsVertex(
@@ -15,14 +14,12 @@ public class PathDetailsVertex {
       double cumulativeTime,
       double timeFromPrevious,
       int maxSpeedFromPrevious,
-      double totalPathPercentage,
       Vertex vertex) {
     this.cumulativeDistance = cumulativeDistance;
     this.distanceFromPrevious = distanceFromPrevious;
     this.cumulativeTime = cumulativeTime;
     this.timeFromPrevious = timeFromPrevious;
     this.maxSpeedFromPrevious = maxSpeedFromPrevious;
-    this.totalPathPercentage = totalPathPercentage;
     this.vertex = vertex;
   }
 
@@ -44,10 +41,6 @@ public class PathDetailsVertex {
 
   public int getMaxSpeedFromPrevious() {
     return maxSpeedFromPrevious;
-  }
-
-  public double getTotalPathPercentage() {
-    return totalPathPercentage;
   }
 
   public Vertex getVertex() {
