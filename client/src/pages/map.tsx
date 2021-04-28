@@ -4,6 +4,7 @@ import L, { LatLng } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { ListItem } from './list-item.type';
 import PointSetter from './point-setter';
+import { useMap } from '../context/settings/map-context';
 
 const CENTER = {
   lat: 50.049683,
@@ -21,12 +22,13 @@ L.Marker.prototype.options.icon = L.icon({
 
 interface Props {
   points: ListItem[];
+  currPoint: ListItem | null;
   path: [number, number][];
   addPoint: ({ lat, lng }: LatLng) => void;
-  setMap: (map: L.Map) => void;
 }
 
-const Map = ({ setMap, points, path, addPoint }: Props) => {
+const Map = ({ points, path, addPoint, currPoint }: Props) => {
+  const map = useMap();
   return (
     <>
       <MapContainer
@@ -34,7 +36,7 @@ const Map = ({ setMap, points, path, addPoint }: Props) => {
         zoom={15}
         scrollWheelZoom={false}
         style={{ height: '100vh', width: '100%' }}
-        whenCreated={setMap}
+        whenCreated={map.setMap}
       >
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -45,11 +47,6 @@ const Map = ({ setMap, points, path, addPoint }: Props) => {
             <Marker
               key={point.id}
               draggable={false}
-              eventHandlers={{
-                dragend: console.log,
-                drag: console.log,
-                dragstart: console.log,
-              }}
               position={[
                 point.location.coordinates[1],
                 point.location.coordinates[0],
@@ -57,6 +54,15 @@ const Map = ({ setMap, points, path, addPoint }: Props) => {
             />
           );
         })}
+        {currPoint && (
+          <Marker
+            draggable={false}
+            position={{
+              lat: currPoint.location.coordinates[1],
+              lng: currPoint.location.coordinates[0],
+            }}
+          />
+        )}
         <Polyline pathOptions={{ color: 'blue' }} positions={path} />
         <PointSetter addPoint={addPoint} />
       </MapContainer>

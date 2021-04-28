@@ -18,11 +18,11 @@ const CurrentPoint = ({ item }: Props) => {
     <Card>
       <CardContent>
         <Typography variant="h5" component="h2">
-          Place info
+          Location info
         </Typography>
         <Divider />
         <Typography variant="body2" component="p">
-          {item.city}, {item.country}
+          {item.city ? `${item.city},` : ''} {item.country}
         </Typography>
         <Typography variant="body2" component="p">
           {item.street} {item.houseNumber}

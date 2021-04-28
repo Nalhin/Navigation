@@ -5,8 +5,13 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import { useQuery } from 'react-query';
 import { getGeocode } from '../../api/requests/geocode/geocode.requests';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import { css } from '@emotion/css';
 
-const Search = () => {
+interface Props {
+  onValueSet: (item: ListItem | null) => void;
+}
+
+const Search = ({ onValueSet }: Props) => {
   const [value, setValue] = React.useState<ListItem | null>(null);
   const [inputValue, setInputValue] = React.useState('');
   const [options, setOptions] = React.useState<ListItem[]>([]);
@@ -18,7 +23,9 @@ const Search = () => {
 
   return (
     <Autocomplete
-      style={{ width: 300 }}
+      className={css`
+        width: 260px;
+      `}
       filterOptions={(x) => x}
       getOptionLabel={(option: ListItem | string) =>
         typeof option === 'string'
@@ -33,17 +40,13 @@ const Search = () => {
       onChange={(event: React.ChangeEvent<unknown>, newValue) => {
         setOptions(newValue ? [newValue, ...options] : options);
         setValue(newValue);
+        onValueSet(newValue);
       }}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue);
       }}
       renderInput={(params) => (
-        <TextField
-          {...params}
-          label="Add a location"
-          variant="outlined"
-          fullWidth
-        />
+        <TextField {...params} label="Find a location" fullWidth />
       )}
       renderOption={(option) => {
         return (
