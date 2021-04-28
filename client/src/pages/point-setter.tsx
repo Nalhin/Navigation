@@ -1,4 +1,3 @@
-import React from 'react';
 import { useMapEvents } from 'react-leaflet';
 import { LatLng } from 'leaflet';
 

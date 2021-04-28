@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import { css } from '@emotion/css';
 import { Close, Settings } from '@material-ui/icons';
-import DrawerSettings from './drawer-settings';
+import PathfindingSettings from '../pathfinding/pathfinding-settings';
 
 interface Props {
   isOpen: boolean;
@@ -37,7 +37,7 @@ const Drawer = ({ isOpen, onClose }: Props) => {
         keepMounted: true,
       }}
     >
-      <DrawerSettings
+      <PathfindingSettings
         isOpen={isSettingsOpen}
         onClose={() => setSettingsOpen(false)}
       />

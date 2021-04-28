@@ -1,8 +1,8 @@
-import { GeoJsonPoint } from '../api/requests/shared.types';
+import { Coordinates  } from '../api/requests/shared.types';
 
-export interface ListItem {
+export interface AddressItem {
   id: number;
-  location: GeoJsonPoint;
+  location: Coordinates;
   city: string;
   country: string;
   houseNumber: string;

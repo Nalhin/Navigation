@@ -1,5 +1,5 @@
 import React from 'react';
-import { ListItem } from './list-item.type';
+import { AddressItem } from '../list-item.type';
 import {
   Button,
   Card,
@@ -8,12 +8,15 @@ import {
   Divider,
   Typography,
 } from '@material-ui/core';
+import { usePathfinding } from '../../context/pathfinding/pathfinding-context';
 
 interface Props {
-  item: ListItem;
+  item: AddressItem;
 }
 
 const CurrentPoint = ({ item }: Props) => {
+  const pathfinding = usePathfinding();
+
   return (
     <Card>
       <CardContent>
@@ -27,9 +30,18 @@ const CurrentPoint = ({ item }: Props) => {
         <Typography variant="body2" component="p">
           {item.street} {item.houseNumber}
         </Typography>
+        <Typography variant="body2" component="p">
+          Latitude: {item.location.latitude}, Longitude:{' '}
+          {item.location.longitude}
+        </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Learn More</Button>
+        <Button size="small" onClick={() => pathfinding.setStart(item)}>
+          Set start
+        </Button>
+        <Button size="small" onClick={() => pathfinding.setEnd(item)}>
+          Set end
+        </Button>
       </CardActions>
     </Card>
   );

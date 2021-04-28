@@ -1,7 +1,6 @@
-package com.navigation.reversegeocodingapi.api;
+package com.navigation.geocodingapi.api;
 
-import com.navigation.reversegeocodingapi.infrastructure.database.AddressEntity;
-import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
+import com.navigation.geocodingapi.infrastructure.AddressEntity;
 
 public class AddressDto {
   private long id;

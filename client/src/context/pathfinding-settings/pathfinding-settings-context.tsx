@@ -20,6 +20,7 @@ export interface SetPathfindingSettingsContextProps {
 export enum OptimizationTypes {
   DISTANCE = 'DISTANCE',
   TIME = 'TIME',
+  NUMBER_OF_NODES = 'NUMBER_OF_NODES',
 }
 
 export enum AlgorithmTypes {

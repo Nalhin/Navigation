@@ -1,8 +1,8 @@
-import { GeoJsonPoint } from '../shared.types';
+import { Coordinates } from '../shared.types';
 
 export interface ReverseGeocodeAddress {
   id: number;
-  location: GeoJsonPoint;
+  location: Coordinates;
   city: string;
   country: string;
   houseNumber: string;

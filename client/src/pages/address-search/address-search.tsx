@@ -1,5 +1,5 @@
 import React from 'react';
-import { ListItem } from '../list-item.type';
+import { AddressItem } from '../list-item.type';
 import { Grid, TextField, Typography } from '@material-ui/core';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import { useQuery } from 'react-query';
@@ -8,13 +8,14 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { css } from '@emotion/css';
 
 interface Props {
-  onValueSet: (item: ListItem | null) => void;
+  onValueSet: (item: AddressItem | null) => void;
+  label: string;
+  value: AddressItem | null;
 }
 
-const Search = ({ onValueSet }: Props) => {
-  const [value, setValue] = React.useState<ListItem | null>(null);
+const AddressSearch = ({ onValueSet, label, value }: Props) => {
   const [inputValue, setInputValue] = React.useState('');
-  const [options, setOptions] = React.useState<ListItem[]>([]);
+  const [options, setOptions] = React.useState<AddressItem[]>([]);
 
   useQuery(['search', inputValue], () => getGeocode(inputValue), {
     onSuccess: (data) => setOptions(data.data),
@@ -25,12 +26,15 @@ const Search = ({ onValueSet }: Props) => {
     <Autocomplete
       className={css`
         width: 260px;
+        padding-bottom: 8px;
       `}
       filterOptions={(x) => x}
-      getOptionLabel={(option: ListItem | string) =>
+      getOptionLabel={(option: AddressItem | string) =>
         typeof option === 'string'
           ? option
-          : `${option.city}, ${option.street} ${option.houseNumber}`
+          : `${option.city ? option.city + ',' : ''}  ${option.street} ${
+              option.houseNumber
+            }`
       }
       options={options}
       autoComplete
@@ -39,14 +43,13 @@ const Search = ({ onValueSet }: Props) => {
       value={value}
       onChange={(event: React.ChangeEvent<unknown>, newValue) => {
         setOptions(newValue ? [newValue, ...options] : options);
-        setValue(newValue);
         onValueSet(newValue);
       }}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue);
       }}
       renderInput={(params) => (
-        <TextField {...params} label="Find a location" fullWidth />
+        <TextField {...params} label={label} fullWidth />
       )}
       renderOption={(option) => {
         return (
@@ -66,4 +69,4 @@ const Search = ({ onValueSet }: Props) => {
   );
 };
 
-export default Search;
+export default AddressSearch;

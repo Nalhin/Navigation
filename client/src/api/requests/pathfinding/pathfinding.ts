@@ -1,13 +1,14 @@
 import { axios } from '../../axios';
-import { LatLngLiteral } from 'leaflet';
+import { Coordinates } from '../shared.types';
+import { PathResponse } from './pathfinding.types';
 
-export const getPathBetween = (start: LatLngLiteral, end: LatLngLiteral) => {
-  return axios.get('/pathfinding/path-between', {
+export const getPathBetween = (start: Coordinates, end: Coordinates) => {
+  return axios.get<PathResponse>('/pathfinding/path-between', {
     params: {
-      startLatitude: start.lat,
-      startLongitude: start.lng,
-      endLatitude: end.lat,
-      endLongitude: end.lng,
+      startLatitude: start.latitude,
+      startLongitude: start.longitude,
+      endLatitude: end.latitude,
+      endLongitude: end.longitude,
     },
   });
 };

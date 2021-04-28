@@ -1,4 +1,4 @@
-export interface GeoJsonPoint {
-  coordinates: [number,number];
-  type: string;
+export interface Coordinates {
+  latitude: number;
+  longitude: number;
 }
