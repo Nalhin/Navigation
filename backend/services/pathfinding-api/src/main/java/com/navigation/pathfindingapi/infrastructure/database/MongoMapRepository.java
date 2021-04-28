@@ -35,7 +35,7 @@ public class MongoMapRepository implements MapRepository {
         first ->
             new MapNode(
                 first.getId(),
-                new Coordinates(first.getLocation().getX(), first.getLocation().getY())));
+                new Coordinates(first.getLocation().getY(), first.getLocation().getX())));
   }
 
   @Override
@@ -45,7 +45,7 @@ public class MongoMapRepository implements MapRepository {
             item ->
                 new MapNode(
                     item.getId(),
-                    new Coordinates(item.getLocation().getX(), item.getLocation().getY())))
+                    new Coordinates(item.getLocation().getY(), item.getLocation().getX())))
         .collect(Collectors.toList());
   }
 

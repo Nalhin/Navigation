@@ -68,8 +68,8 @@ const Map = ({ addPoint, currPoint }: Props) => {
           pathOptions={{ color: 'blue' }}
           positions={(pathfinding.path ?? { points: [] }).points.map(
             (item) => ({
-              lat: item.longitude,
-              lng: item.latitude,
+              lat: item.latitude,
+              lng: item.longitude,
             }),
           )}
         />
