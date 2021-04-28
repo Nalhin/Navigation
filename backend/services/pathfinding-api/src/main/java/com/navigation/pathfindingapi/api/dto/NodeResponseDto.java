@@ -3,13 +3,14 @@ package com.navigation.pathfindingapi.api.dto;
 public class NodeResponseDto {
   private double latitude;
   private double longitude;
+  private long id;
 
-  public NodeResponseDto() {
-  }
+  public NodeResponseDto() {}
 
-  public NodeResponseDto(double latitude, double longitude) {
+  public NodeResponseDto(double latitude, double longitude, long id) {
     this.latitude = latitude;
     this.longitude = longitude;
+    this.id = id;
   }
 
   public double getLatitude() {
@@ -26,5 +27,13 @@ public class NodeResponseDto {
 
   public void setLongitude(double longitude) {
     this.longitude = longitude;
+  }
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
   }
 }

@@ -1,12 +1,12 @@
 package com.navigation.pathfinder.pathfinding;
 
+import com.navigation.pathfinder.graph.Edge;
 import com.navigation.pathfinder.graph.Graph;
 import com.navigation.pathfinder.graph.Path;
 import com.navigation.pathfinder.graph.Vertex;
 import com.navigation.pathfinder.weight.EdgeWeightCalculator;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class BellmanFordPathfindingStrategy implements PathfindingStrategy {
 
@@ -21,7 +21,7 @@ public class BellmanFordPathfindingStrategy implements PathfindingStrategy {
   public Path findShortestPath(Vertex start, Vertex target, Graph graph) {
     var minDistances = new HashMap<Vertex, Double>();
     minDistances.put(start, 0.0);
-    var predecessorTree = new HashMap<Vertex, Vertex>();
+    var predecessorTree = new HashMap<Vertex, Edge>();
 
     var edges = graph.edges();
     for (int i = 0; i < graph.vertices().size() - 1; i++) {
@@ -34,7 +34,7 @@ public class BellmanFordPathfindingStrategy implements PathfindingStrategy {
         double distance = minDistances.get(edge.getFrom()) + calculator.calculateWeight(edge);
         if (distance < minDistances.getOrDefault(edge.getTo(), Double.MAX_VALUE)) {
           minDistances.put(edge.getTo(), distance);
-          predecessorTree.put(edge.getTo(), edge.getFrom());
+          predecessorTree.put(edge.getTo(), edge);
           changed = true;
         }
       }

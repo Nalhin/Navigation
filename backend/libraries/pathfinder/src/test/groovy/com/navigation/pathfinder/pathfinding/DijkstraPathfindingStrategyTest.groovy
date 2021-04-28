@@ -4,6 +4,7 @@ import com.navigation.pathfinder.graph.Coordinates
 import com.navigation.pathfinder.graph.Graph
 import com.navigation.pathfinder.graph.GraphBuilder
 import com.navigation.pathfinder.graph.Vertex
+import com.navigation.pathfinder.weight.DistanceEdgeWeightCalculator
 import spock.lang.Specification
 
 class DijkstraPathfindingStrategyTest extends Specification {
@@ -77,11 +78,11 @@ class DijkstraPathfindingStrategyTest extends Specification {
   def "findShortestPath() should return the shortest path"() {
     given:
     def testGraph = generateTestGraph()
-    def strategy = new DijkstraPathfindingStrategy(calculator)
+    def strategy = new DijkstraPathfindingStrategy(new DistanceEdgeWeightCalculator())
     when:
     def path = strategy.findShortestPath(testGraph.start, testGraph.end, testGraph.graph)
     then:
-    path.vertices == testGraph.shortestPath
+    path.simplePath == testGraph.shortestPath
   }
 
 

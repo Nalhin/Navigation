@@ -1,6 +1,6 @@
 import React from 'react';
 import { PathResponse } from '../../api/requests/pathfinding/pathfinding.types';
-import { Grid, Typography } from '@material-ui/core';
+import { Box, Grid, Typography } from '@material-ui/core';
 
 interface Props {
   path: PathResponse;
@@ -8,9 +8,17 @@ interface Props {
 
 const PathSummary = ({ path }: Props) => {
   return (
-    <Grid>
-      <Typography>Number of nodes: {path.points.length}</Typography>
-    </Grid>
+    <Box mt={2}>
+      <Grid>
+        <Typography>Number of nodes: {path.totalNodes}</Typography>
+        <Typography>
+          Total distance: {path.totalDistance.toFixed(2)} km
+        </Typography>
+        <Typography>
+          Total duration: {path.totalDuration.toFixed()} minutes
+        </Typography>
+      </Grid>
+    </Box>
   );
 };
 

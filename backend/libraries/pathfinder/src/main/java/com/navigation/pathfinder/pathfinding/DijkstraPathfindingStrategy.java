@@ -1,5 +1,6 @@
 package com.navigation.pathfinder.pathfinding;
 
+import com.navigation.pathfinder.graph.Edge;
 import com.navigation.pathfinder.graph.Graph;
 import com.navigation.pathfinder.graph.Vertex;
 import com.navigation.pathfinder.graph.Path;
@@ -19,7 +20,7 @@ public class DijkstraPathfindingStrategy implements PathfindingStrategy {
   @Override
   public Path findShortestPath(Vertex start, Vertex target, Graph graph) {
     var minDistances = new HashMap<Vertex, Double>();
-    var predecessorTree = new HashMap<Vertex, Vertex>();
+    var predecessorTree = new HashMap<Vertex, Edge>();
     minDistances.put(start, Double.MAX_VALUE);
 
     var pq = new PriorityQueue<GraphNodeWithDistance>();
@@ -41,7 +42,7 @@ public class DijkstraPathfindingStrategy implements PathfindingStrategy {
 
         if (distance < minDistances.getOrDefault(edge.getTo(), Double.MAX_VALUE)) {
           minDistances.put(edge.getTo(), distance);
-          predecessorTree.put(edge.getTo(), curr.node);
+          predecessorTree.put(edge.getTo(), edge);
           pq.add(new GraphNodeWithDistance(edge.getTo(), distance));
         }
       }

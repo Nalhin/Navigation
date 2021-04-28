@@ -1,5 +1,5 @@
 import React from 'react';
-import Map from './map';
+import Map from './map/map';
 import { AddressItem } from './list-item.type';
 import { useMutation } from 'react-query';
 import { getReverseGeocode } from '../api/requests/reverse-geocode/reverse-geocode.requests';

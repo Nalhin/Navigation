@@ -2,11 +2,12 @@ import React from 'react';
 import { MapContainer, Marker, Polyline, TileLayer } from 'react-leaflet';
 import { LatLng } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { AddressItem } from './list-item.type';
-import PointSetter from './point-setter';
-import { useMap } from '../context/map/map-context';
-import { usePathfinding } from '../context/pathfinding/pathfinding-context';
-import { currIcon, endIcon, startIcon } from './map-icons/icons';
+import { AddressItem } from '../list-item.type';
+import PointSetter from '../point-setter';
+import { useMap } from '../../context/map/map-context';
+import { usePathfinding } from '../../context/pathfinding/pathfinding-context';
+import { currIcon, endIcon, startIcon } from '../map-icons/icons';
+import MapLayers from './map-layers';
 
 const CENTER = {
   lat: 50.049683,
@@ -26,7 +27,6 @@ const Map = ({ addPoint, currPoint }: Props) => {
       <MapContainer
         center={CENTER}
         zoom={15}
-        scrollWheelZoom={false}
         style={{ height: '100vh', width: '100%' }}
         whenCreated={map.setMap}
       >
@@ -66,14 +66,13 @@ const Map = ({ addPoint, currPoint }: Props) => {
         )}
         <Polyline
           pathOptions={{ color: 'blue' }}
-          positions={(pathfinding.path ?? { points: [] }).points.map(
-            (item) => ({
-              lat: item.latitude,
-              lng: item.longitude,
-            }),
-          )}
+          positions={(pathfinding.path?.simplePath ?? []).map((item) => ({
+            lat: item.latitude,
+            lng: item.longitude,
+          }))}
         />
         <PointSetter addPoint={addPoint} />
+        <MapLayers />
       </MapContainer>
     </>
   );
