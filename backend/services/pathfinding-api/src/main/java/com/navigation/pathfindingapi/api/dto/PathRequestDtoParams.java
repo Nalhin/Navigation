@@ -11,7 +11,8 @@ public class PathRequestDtoParams {
   public enum PathfindingAlgorithmsDto {
     DIJKSTRA,
     A_STAR,
-    BELLMAN_FORD
+    BELLMAN_FOR,
+    BFS
   }
 
   public enum OptimizationDto {

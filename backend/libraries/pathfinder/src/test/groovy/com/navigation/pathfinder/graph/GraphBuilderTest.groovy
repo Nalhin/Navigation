@@ -10,7 +10,7 @@ class GraphBuilderTest extends Specification {
     when:
     graphBuilder.addVertex(insertedNode)
     then:
-    graphBuilder.asGraph().getNodeEdges(insertedNode) == []
+    graphBuilder.asGraph().getVertexEdges(insertedNode) == []
   }
 
   def "connect() should connect two nodes in graph"() {
@@ -23,7 +23,7 @@ class GraphBuilderTest extends Specification {
     when:
     graphBuilder.connect(from, to, 50)
     then:
-    def edges = graphBuilder.asGraph().getNodeEdges(from)
+    def edges = graphBuilder.asGraph().getVertexEdges(from)
     edges.size() == 1
     edges[0].to == to
   }

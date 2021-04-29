@@ -31,6 +31,7 @@ const SETTINGS = {
     { label: 'Number of nodes', value: OptimizationTypes.NUMBER_OF_NODES },
   ],
   algorithms: [
+    { label: 'BFS', value: AlgorithmTypes.BFS },
     { label: 'Dijkstra', value: AlgorithmTypes.DIJKSTRA },
     { label: 'A*', value: AlgorithmTypes.A_STAR },
     { label: 'Bellman-Ford', value: AlgorithmTypes.BELLMAN_FORD },

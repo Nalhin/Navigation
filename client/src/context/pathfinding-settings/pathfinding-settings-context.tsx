@@ -27,6 +27,7 @@ export enum AlgorithmTypes {
   DIJKSTRA = 'DIJKSTRA',
   A_STAR = 'A_STAR',
   BELLMAN_FORD = 'BELLMAN_FORD',
+  BFS = 'BFS',
 }
 
 export const usePathfindingSettings = () => {

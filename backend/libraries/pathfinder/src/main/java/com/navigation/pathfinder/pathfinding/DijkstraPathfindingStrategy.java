@@ -10,7 +10,7 @@ import java.util.*;
 public class DijkstraPathfindingStrategy implements PathfindingStrategy {
 
   private final EdgeWeightCalculator calculator;
-  private final PathBuilder pathBuilder = new PathBuilder();
+  private final static PathBuilder pathBuilder = new PathBuilder();
 
   public DijkstraPathfindingStrategy(EdgeWeightCalculator calculator) {
     this.calculator = calculator;
@@ -36,7 +36,7 @@ public class DijkstraPathfindingStrategy implements PathfindingStrategy {
         continue;
       }
 
-      for (var edge : graph.getNodeEdges(curr.node)) {
+      for (var edge : graph.getVertexEdges(curr.node)) {
         double distance = curr.distanceSoFar + calculator.calculateWeight(edge);
 
         if (distance < minDistances.getOrDefault(edge.getTo(), Double.MAX_VALUE)) {

@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class BellmanFordPathfindingStrategy implements PathfindingStrategy {
 
   private final EdgeWeightCalculator calculator;
-  private final PathBuilder pathBuilder = new PathBuilder();
+  private final static PathBuilder pathBuilder = new PathBuilder();
 
   public BellmanFordPathfindingStrategy(EdgeWeightCalculator calculator) {
     this.calculator = calculator;

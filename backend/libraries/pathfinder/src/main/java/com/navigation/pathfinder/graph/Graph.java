@@ -17,7 +17,7 @@ public final class Graph {
     return vertices.get(id);
   }
 
-  public Collection<Edge> getNodeEdges(Vertex node) {
+  public Collection<Edge> getVertexEdges(Vertex node) {
     return nodesWithEdges.get(node);
   }
 
