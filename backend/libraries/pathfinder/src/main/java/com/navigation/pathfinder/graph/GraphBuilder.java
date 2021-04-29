@@ -9,15 +9,8 @@ public final class GraphBuilder {
 
   private final Map<Long, Vertex> vertices = new HashMap<>();
   private final Map<Vertex, List<Edge>> nodes = new HashMap<>();
-  private final EdgeWeightCalculator edgeWeightCalculator;
 
-  public GraphBuilder() {
-    this.edgeWeightCalculator = new DistanceEdgeWeightCalculator();
-  }
-
-  public GraphBuilder(EdgeWeightCalculator edgeWeightCalculator) {
-    this.edgeWeightCalculator = edgeWeightCalculator;
-  }
+  public GraphBuilder() {}
 
   public GraphBuilder addVertex(long id, Coordinates location) {
     return addVertex(new Vertex(id, location));

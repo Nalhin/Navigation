@@ -2,6 +2,7 @@ package com.navigation.pathfindingapi.domain;
 
 import com.navigation.pathfinder.graph.Coordinates;
 import com.navigation.pathfinder.graph.Edge;
+import com.navigation.pathfinder.graph.Graph;
 import com.navigation.pathfinder.graph.Vertex;
 
 import java.util.List;
@@ -11,7 +12,5 @@ public interface MapRepository {
 
   Optional<MapNode> closestNode(Coordinates location);
 
-  List<MapNode> getNodes();
-
-  List<MapConnection> getConnections();
+  Graph prepareGraph();
 }

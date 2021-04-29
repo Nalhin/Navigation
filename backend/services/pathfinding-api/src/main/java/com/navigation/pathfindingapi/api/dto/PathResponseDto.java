@@ -11,7 +11,7 @@ public class PathResponseDto {
   private double totalDuration;
   private double totalNodes;
   private int totalVisitedNodes;
-  private Duration executionDuration;
+  private double executionDuration;
 
   public PathResponseDto() {
   }
@@ -48,12 +48,12 @@ public class PathResponseDto {
     this.totalNodes = totalNodes;
   }
 
-  public void setExecutionDuration(Duration executionDuration) {
+  public void setExecutionDuration(double executionDuration) {
     this.executionDuration = executionDuration;
   }
 
   public double getExecutionDuration() {
-    return executionDuration.getNano() / 1_000_000_000.0;
+    return executionDuration;
   }
 
   public int getTotalVisitedNodes() {

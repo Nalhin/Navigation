@@ -1,11 +1,11 @@
 package com.navigation.pathfindingapi.infrastructure.database;
 
-import org.springframework.data.geo.Distance;
-import org.springframework.data.geo.Metrics;
 import com.navigation.pathfinder.graph.Coordinates;
-import com.navigation.pathfindingapi.domain.MapConnection;
+import com.navigation.pathfinder.graph.Graph;
+import com.navigation.pathfinder.graph.GraphBuilder;
 import com.navigation.pathfindingapi.domain.MapNode;
 import com.navigation.pathfindingapi.domain.MapRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Component;
 
@@ -38,21 +38,25 @@ public class MongoMapRepository implements MapRepository {
                 new Coordinates(first.getLocation().getY(), first.getLocation().getX())));
   }
 
+  @Cacheable("graph")
   @Override
-  public List<MapNode> getNodes() {
-    return nodeRepository.findAll().stream()
-        .map(
-            item ->
-                new MapNode(
-                    item.getId(),
-                    new Coordinates(item.getLocation().getY(), item.getLocation().getX())))
-        .collect(Collectors.toList());
-  }
+  public Graph prepareGraph() {
+    var builder = new GraphBuilder();
+    nodeRepository
+        .findAll()
+        .forEach(
+            (node) ->
+                builder.addVertex(
+                    node.getId(),
+                    new Coordinates(node.getLocation().getY(), node.getLocation().getX())));
 
-  @Override
-  public List<MapConnection> getConnections() {
-    return connectionRepository.findAll().stream()
-        .map(item -> new MapConnection(item.getFromId(), item.getToId(), item.getMaxSpeed()))
-        .collect(Collectors.toList());
+    connectionRepository
+        .findAll()
+        .forEach(
+            (connection) ->
+                builder.connectByIds(
+                    connection.getFromId(), connection.getToId(), connection.getMaxSpeed()));
+
+    return builder.asGraph();
   }
 }

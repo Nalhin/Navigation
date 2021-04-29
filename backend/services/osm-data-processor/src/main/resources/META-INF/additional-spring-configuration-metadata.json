@@ -19,6 +19,11 @@
       "name": "infrastructure.topics.street-nodes",
       "type": "java.lang.String",
       "description": "Street nodes data kafka topic name"
+    },
+    {
+      "name": "infrastructure.topics.street-connections",
+      "type": "java.lang.String",
+      "description": "Street connections data kafka topic name"
     }
   ]
 }

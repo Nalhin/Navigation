@@ -39,7 +39,7 @@ public final class PathSummary {
   }
 
   public int totalVisitedVertices() {
-    return predecessorTree.keySet().size();
+    return predecessorTree.size();
   }
 
   public double totalDistance() {
