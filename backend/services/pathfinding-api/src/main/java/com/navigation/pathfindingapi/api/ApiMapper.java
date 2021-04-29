@@ -26,6 +26,8 @@ public class ApiMapper {
     response.setTotalVisitedNodes(path.totalVisitedVertices());
     response.setTotalDuration(path.totalDuration());
     response.setExecutionDuration(extendedPath.getExecutionDuration());
+    response.setSearchBoundaries(
+        path.convexHull().stream().map(this::toResponse).collect(Collectors.toList()));
     return response;
   }
 

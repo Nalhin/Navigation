@@ -1,5 +1,11 @@
 import React from 'react';
-import { MapContainer, Marker, Polyline, TileLayer } from 'react-leaflet';
+import {
+  MapContainer,
+  Marker,
+  Polygon,
+  Polyline,
+  TileLayer,
+} from 'react-leaflet';
 import { LatLng } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { AddressItem } from '../list-item.type';
@@ -62,6 +68,15 @@ const Map = ({ addPoint, currPoint }: Props) => {
               lat: pathfinding.selectedPoints.end.location.latitude,
               lng: pathfinding.selectedPoints.end.location.longitude,
             }}
+          />
+        )}
+        {pathfinding.path && (
+          <Polygon
+            pathOptions={{ color: '#b19cd9' }}
+            positions={pathfinding.path.searchBoundaries.map((item) => ({
+              lat: item.latitude,
+              lng: item.longitude,
+            }))}
           />
         )}
         <Polyline

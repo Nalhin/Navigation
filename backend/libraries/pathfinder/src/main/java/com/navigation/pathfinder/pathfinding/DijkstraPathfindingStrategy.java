@@ -3,7 +3,6 @@ package com.navigation.pathfinder.pathfinding;
 import com.navigation.pathfinder.graph.Edge;
 import com.navigation.pathfinder.graph.Graph;
 import com.navigation.pathfinder.graph.Vertex;
-import com.navigation.pathfinder.graph.Path;
 import com.navigation.pathfinder.weight.EdgeWeightCalculator;
 
 import java.util.*;

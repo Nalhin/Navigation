@@ -1,5 +1,6 @@
 export interface PathResponse {
   simplePath: Node[];
+  searchBoundaries: Node[];
   totalDistance: number;
   totalDuration: number;
   totalNodes: number;

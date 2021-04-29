@@ -6,6 +6,7 @@ import java.util.List;
 public class PathResponseDto {
 
   private List<NodeResponseDto> simplePath;
+  private List<NodeResponseDto> searchBoundaries;
   private double totalDistance;
   private double totalDuration;
   private double totalNodes;
@@ -61,5 +62,13 @@ public class PathResponseDto {
 
   public void setTotalVisitedNodes(int totalVisitedNodes) {
     this.totalVisitedNodes = totalVisitedNodes;
+  }
+
+  public List<NodeResponseDto> getSearchBoundaries() {
+    return searchBoundaries;
+  }
+
+  public void setSearchBoundaries(List<NodeResponseDto> searchBoundaries) {
+    this.searchBoundaries = searchBoundaries;
   }
 }
