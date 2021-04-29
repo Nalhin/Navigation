@@ -17,7 +17,7 @@ public class DijkstraPathfindingStrategy implements PathfindingStrategy {
   }
 
   @Override
-  public Path findShortestPath(Vertex start, Vertex target, Graph graph) {
+  public PathSummary findShortestPath(Vertex start, Vertex target, Graph graph) {
     var minDistances = new HashMap<Vertex, Double>();
     var predecessorTree = new HashMap<Vertex, Edge>();
     minDistances.put(start, Double.MAX_VALUE);

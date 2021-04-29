@@ -10,45 +10,45 @@ import java.util.stream.Collectors;
 
 public class AndrewMonotoneChainConvexHullCalculator implements ConvexHullCalculator {
 
-  private static final Comparator<Vertex> vertexComparator =
+  private static final Comparator<Vertex> minLatComparator =
       Comparator.comparingDouble((Vertex v) -> v.getCoordinates().getLatitude())
           .thenComparingDouble(v -> v.getCoordinates().getLongitude());
 
   @Override
-  public List<Vertex> calculateConvexHull(Collection<Vertex> points) {
-    return buildHull(points.stream().sorted(vertexComparator).collect(Collectors.toList()));
-  }
-
-  public List<Vertex> buildHull(List<Vertex> points) {
-    if (points.size() <= 1) return new ArrayList<>(points);
-    var upperHull = new ArrayList<Vertex>();
-    for (var p : points) {
-      filterHull(upperHull, p);
+  public List<Vertex> calculateConvexHull(Collection<Vertex> vertices) {
+    if (vertices.size() <= 2) {
+      return new ArrayList<>(vertices);
     }
-    upperHull.remove(upperHull.size() - 1);
+    var sortedByLat = vertices.stream().sorted(minLatComparator).collect(Collectors.toList());
+
+    var upperHull = new ArrayList<Vertex>();
+    for (var vertex : sortedByLat) {
+      filterCounterClockwise(upperHull, vertex);
+    }
 
     var lowerHull = new ArrayList<Vertex>();
-    for (int i = points.size() - 1; i >= 0; i--) {
-      var p = points.get(i);
-      filterHull(lowerHull, p);
+    for (int i = sortedByLat.size() - 1; i >= 0; i--) {
+      var vertex = sortedByLat.get(i);
+      filterCounterClockwise(lowerHull, vertex);
     }
+
+    upperHull.remove(upperHull.size() - 1);
     lowerHull.remove(lowerHull.size() - 1);
 
-    if (!(upperHull.size() == 1 && upperHull.equals(lowerHull))) upperHull.addAll(lowerHull);
-    return upperHull;
+    lowerHull.addAll(upperHull);
+    return lowerHull;
   }
 
-  private void filterHull(ArrayList<Vertex> lowerHull, Vertex p) {
-    while (lowerHull.size() >= 2) {
-      var q = lowerHull.get(lowerHull.size() - 1);
-      var r = lowerHull.get(lowerHull.size() - 2);
-      if (isGreater(p, q, r)) lowerHull.remove(lowerHull.size() - 1);
-      else break;
+  private void filterCounterClockwise(ArrayList<Vertex> lowerHull, Vertex p) {
+    while (lowerHull.size() >= 2
+        && isCounterClockwiseTurn(
+            p, lowerHull.get(lowerHull.size() - 1), lowerHull.get(lowerHull.size() - 2))) {
+      lowerHull.remove(lowerHull.size() - 1);
     }
     lowerHull.add(p);
   }
 
-  private boolean isGreater(Vertex p, Vertex q, Vertex r) {
+  private boolean isCounterClockwiseTurn(Vertex p, Vertex q, Vertex r) {
     var pp = p.getCoordinates();
     var qq = q.getCoordinates();
     var rr = r.getCoordinates();

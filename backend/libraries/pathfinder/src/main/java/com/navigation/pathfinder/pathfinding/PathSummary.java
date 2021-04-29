@@ -1,8 +1,8 @@
 package com.navigation.pathfinder.pathfinding;
 
 import com.navigation.pathfinder.convexhull.ConvexHullCalculator;
-import com.navigation.pathfinder.convexhull.GrahamScanConvexHullCalculator;
 import com.navigation.pathfinder.convexhull.AndrewMonotoneChainConvexHullCalculator;
+import com.navigation.pathfinder.convexhull.GrahamScanConvexHullCalculator;
 import com.navigation.pathfinder.graph.Edge;
 import com.navigation.pathfinder.graph.Vertex;
 import com.navigation.pathfinder.weight.DistanceEdgeWeightCalculator;
@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public final class Path {
+public final class PathSummary {
 
-  private final List<Edge> edges;
+  private final List<Edge> path;
   private final Map<Vertex, Edge> predecessorTree;
   private static final DistanceEdgeWeightCalculator distanceCalculator =
       new DistanceEdgeWeightCalculator();
@@ -23,19 +23,19 @@ public final class Path {
   private static final ConvexHullCalculator convexHullCalculator =
       new AndrewMonotoneChainConvexHullCalculator();
 
-  public Path(List<Edge> edges, Map<Vertex, Edge> predecessorTree) {
-    this.edges = edges;
+  public PathSummary(List<Edge> path, Map<Vertex, Edge> predecessorTree) {
+    this.path = path;
     this.predecessorTree = predecessorTree;
   }
 
   public List<Vertex> getSimplePath() {
-    var withoutLast = edges.stream().map(Edge::getFrom).collect(Collectors.toList());
-    withoutLast.add(edges.get(edges.size() - 1).getTo());
+    var withoutLast = path.stream().map(Edge::getFrom).collect(Collectors.toList());
+    withoutLast.add(path.get(path.size() - 1).getTo());
     return withoutLast;
   }
 
   public int numberOfVertices() {
-    return edges.size() + 1;
+    return path.size() + 1;
   }
 
   public int totalVisitedVertices() {
@@ -43,11 +43,11 @@ public final class Path {
   }
 
   public double totalDistance() {
-    return edges.stream().mapToDouble(distanceCalculator::calculateWeight).sum();
+    return path.stream().mapToDouble(distanceCalculator::calculateWeight).sum();
   }
 
   public double totalDuration() {
-    return edges.stream().mapToDouble(durationCalculator::calculateWeight).sum();
+    return path.stream().mapToDouble(durationCalculator::calculateWeight).sum();
   }
 
   public List<Vertex> convexHull() {

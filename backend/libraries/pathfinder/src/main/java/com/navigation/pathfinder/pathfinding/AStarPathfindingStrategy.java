@@ -14,7 +14,7 @@ public class AStarPathfindingStrategy implements PathfindingStrategy {
   }
 
   @Override
-  public Path findShortestPath(Vertex start, Vertex target, Graph graph) {
+  public PathSummary findShortestPath(Vertex start, Vertex target, Graph graph) {
     return null;
   }
 }

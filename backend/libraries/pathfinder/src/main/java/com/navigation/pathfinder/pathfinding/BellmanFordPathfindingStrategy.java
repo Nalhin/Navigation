@@ -17,7 +17,7 @@ public class BellmanFordPathfindingStrategy implements PathfindingStrategy {
   }
 
   @Override
-  public Path findShortestPath(Vertex start, Vertex target, Graph graph) {
+  public PathSummary findShortestPath(Vertex start, Vertex target, Graph graph) {
     var minDistances = new HashMap<Vertex, Double>();
     minDistances.put(start, 0.0);
     var predecessorTree = new HashMap<Vertex, Edge>();
