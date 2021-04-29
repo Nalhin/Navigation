@@ -18,8 +18,8 @@ public class BFSPathfindingStrategy implements PathfindingStrategy {
     var queue = new ArrayDeque<Vertex>();
     visited.add(start);
     queue.add(start);
-    while (!queue.isEmpty()) {
 
+    while (!queue.isEmpty()) {
       var curr = queue.poll();
 
       if (curr.equals(target)) {

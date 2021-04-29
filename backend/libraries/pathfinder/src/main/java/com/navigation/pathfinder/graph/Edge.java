@@ -6,7 +6,7 @@ public final class Edge {
   private final Vertex to;
   private final int maxSpeed;
 
-  Edge(Vertex from, Vertex to, int maxSpeed) {
+  public Edge(Vertex from, Vertex to, int maxSpeed) {
     this.from = from;
     this.to = to;
     this.maxSpeed = maxSpeed;

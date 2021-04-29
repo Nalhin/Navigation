@@ -13,7 +13,7 @@ public class PathfindingStrategyFactory {
 
   public enum Algorithms {
     DIJKSTRA(Set.of(Optimizations.values())),
-    A_STAR((Set.of(Optimizations.values()))),
+    A_STAR((Set.of(Optimizations.TIME, Optimizations.DISTANCE))),
     BELLMAN_FORD(Set.of(Optimizations.values())),
     BFS(Set.of(Optimizations.NUMBER_OF_NODES));
 
