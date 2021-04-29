@@ -5,10 +5,7 @@ import com.navigation.pathfinder.graph.Graph;
 import com.navigation.pathfinder.graph.Vertex;
 import com.navigation.pathfinder.weight.EdgeWeightCalculator;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class AStarPathfindingStrategy implements PathfindingStrategy {
 
@@ -23,36 +20,25 @@ public class AStarPathfindingStrategy implements PathfindingStrategy {
   public PathSummary findShortestPath(Vertex start, Vertex target, Graph graph) {
     var predecessorTree = new HashMap<Vertex, Edge>();
     var gScores = new HashMap<Vertex, Double>();
-    var fScores = new HashMap<Vertex, Double>();
-
     gScores.put(start, 0.0);
-    fScores.put(start, calculateHScore(start, target));
 
-    var open = new PriorityQueue<Vertex>(Comparator.comparingDouble(fScores::get));
-    var inOpen = new HashSet<>();
-    open.add(start);
-    inOpen.add(start);
+    var open = new PriorityQueue<GraphNodeWithDistance>();
+    open.add(new GraphNodeWithDistance(start, heuristic(start, target)));
 
     while (!open.isEmpty()) {
-      var curr = open.poll();
+      var curr = open.poll().node;
       if (curr.equals(target)) {
         return pathBuilder.buildPath(predecessorTree, target, start);
       }
-      inOpen.remove(curr);
 
       for (var edge : graph.getVertexEdges(curr)) {
-
-        double tentScore = gScores.get(curr) + calculator.calculateWeight(edge);
         var neighbour = edge.getTo();
-        if (tentScore < gScores.getOrDefault(neighbour, Double.MAX_VALUE)) {
-          predecessorTree.put(neighbour, edge);
-          gScores.put(neighbour, tentScore);
-          fScores.put(neighbour, calculateHScore(neighbour, target));
+        double newScore = gScores.get(curr) + calculator.calculateWeight(edge);
 
-          if (!inOpen.contains(neighbour)) {
-            open.add(neighbour);
-            inOpen.add(neighbour);
-          }
+        if (newScore < gScores.getOrDefault(neighbour, Double.MAX_VALUE)) {
+          gScores.put(neighbour, newScore);
+          predecessorTree.put(neighbour, edge);
+          open.add(new GraphNodeWithDistance(neighbour, newScore + heuristic(neighbour, target)));
         }
       }
     }
@@ -60,7 +46,35 @@ public class AStarPathfindingStrategy implements PathfindingStrategy {
     return pathBuilder.buildPath(predecessorTree, target, start);
   }
 
-  private double calculateHScore(Vertex from, Vertex to) {
+  private double heuristic(Vertex from, Vertex to) {
     return calculator.calculateWeight(new Edge(from, to, 50));
+  }
+
+  private static final class GraphNodeWithDistance implements Comparable<GraphNodeWithDistance> {
+    private final Vertex node;
+    private final double fScore;
+
+    public GraphNodeWithDistance(Vertex node, double fScore) {
+      this.node = node;
+      this.fScore = fScore;
+    }
+
+    @Override
+    public int compareTo(GraphNodeWithDistance graphNodeWithDistance) {
+      return Double.compare(fScore, graphNodeWithDistance.fScore);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      GraphNodeWithDistance that = (GraphNodeWithDistance) o;
+      return Objects.equals(node, that.node);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(node);
+    }
   }
 }

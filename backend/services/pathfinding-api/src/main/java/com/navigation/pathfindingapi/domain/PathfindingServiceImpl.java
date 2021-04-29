@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @Service
 public class PathfindingServiceImpl implements PathfindingService {
@@ -38,7 +39,8 @@ public class PathfindingServiceImpl implements PathfindingService {
               graph.getVertexById(startNode.getId()), graph.getVertexById(endNode.getId()), graph);
 
       return new PathWithExecutionDuration(path, Duration.between(now, Instant.now()));
-    } catch (Exception e) {
+    } catch (ExecutionException | InterruptedException e) {
+      e.printStackTrace();
       throw new RuntimeException();
     }
   }
