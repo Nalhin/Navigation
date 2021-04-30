@@ -16,14 +16,20 @@ import {
   TextField,
 } from '@material-ui/core';
 import {
-  AlgorithmTypes,
-  OptimizationTypes,
   PathfindingSettingsContextProps,
   usePathfindingSettings,
   useSetPathfindingSettings,
 } from '../../context/pathfinding-settings/pathfinding-settings-context';
 import { useForm, Controller } from 'react-hook-form';
 import { Bounds } from '../../api/requests/pathfinding/pathfinding.types';
+import {
+  OPTIMIZATION_TYPES_TRANSLATIONS,
+  OptimizationTypes,
+} from '../../constants/optimizations';
+import {
+  ALGORITHM_TYPE_TRANSLATIONS,
+  AlgorithmTypes,
+} from '../../constants/algorithms';
 
 interface Props {
   isOpen: boolean;
@@ -32,16 +38,16 @@ interface Props {
 
 const SETTINGS = {
   optimization: [
-    { label: 'Distance', value: OptimizationTypes.DISTANCE },
-    { label: 'Time', value: OptimizationTypes.TIME },
-    { label: 'Number of nodes', value: OptimizationTypes.NUMBER_OF_NODES },
+    OptimizationTypes.DISTANCE,
+    OptimizationTypes.TIME,
+    OptimizationTypes.NUMBER_OF_NODES,
   ],
   algorithms: [
-    { label: 'BFS', value: AlgorithmTypes.BFS },
-    { label: 'Bidirectional BFS', value: AlgorithmTypes.BIDIRECTIONAL_BFS },
-    { label: 'Dijkstra', value: AlgorithmTypes.DIJKSTRA },
-    { label: 'A*', value: AlgorithmTypes.A_STAR },
-    { label: 'Bellman-Ford', value: AlgorithmTypes.BELLMAN_FORD },
+    AlgorithmTypes.BFS,
+    AlgorithmTypes.BIDIRECTIONAL_BFS,
+    AlgorithmTypes.DIJKSTRA,
+    AlgorithmTypes.A_STAR,
+    AlgorithmTypes.BELLMAN_FORD,
   ],
 };
 
@@ -66,7 +72,6 @@ const PathfindingSettings = ({ isOpen, onClose }: Props) => {
   });
 
   const onSubmit = (values: PathfindingSettingsContextProps) => {
-    console.log(values);
     setSettings(values);
   };
 
@@ -83,34 +88,34 @@ const PathfindingSettings = ({ isOpen, onClose }: Props) => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <FormControl>
-              <InputLabel>Optimization</InputLabel>
-              <Controller
-                render={({ field }) => (
-                  <Select {...field}>
-                    {SETTINGS.optimization.map((item) => (
-                      <MenuItem value={item.value} key={item.value}>
-                        {item.label}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                )}
-                name="optimization"
-                control={control}
-              />
-            </FormControl>
-            <FormControl>
               <InputLabel>Algorithm</InputLabel>
               <Controller
                 render={({ field }) => (
                   <Select {...field}>
                     {SETTINGS.algorithms.map((item) => (
-                      <MenuItem value={item.value} key={item.value}>
-                        {item.label}
+                      <MenuItem value={item} key={item}>
+                        {ALGORITHM_TYPE_TRANSLATIONS[item]}
                       </MenuItem>
                     ))}
                   </Select>
                 )}
                 name="algorithm"
+                control={control}
+              />
+            </FormControl>
+            <FormControl>
+              <InputLabel>Optimization</InputLabel>
+              <Controller
+                render={({ field }) => (
+                  <Select {...field}>
+                    {SETTINGS.optimization.map((item) => (
+                      <MenuItem value={item} key={item}>
+                        {OPTIMIZATION_TYPES_TRANSLATIONS[item]}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                )}
+                name="optimization"
                 control={control}
               />
             </FormControl>

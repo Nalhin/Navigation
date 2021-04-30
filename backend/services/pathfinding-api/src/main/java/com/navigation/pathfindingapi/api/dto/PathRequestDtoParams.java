@@ -8,20 +8,6 @@ public class PathRequestDtoParams {
   private PathfindingAlgorithmsDto algorithm;
   private OptimizationDto optimization;
 
-  public enum PathfindingAlgorithmsDto {
-    DIJKSTRA,
-    A_STAR,
-    BELLMAN_FORD,
-    BFS,
-    BIDIRECTIONAL_BFS,
-  }
-
-  public enum OptimizationDto {
-    TIME,
-    DISTANCE,
-    NUMBER_OF_NODES
-  }
-
   public Double getStartLatitude() {
     return startLatitude;
   }

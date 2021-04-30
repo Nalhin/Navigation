@@ -1,10 +1,8 @@
 import { axios } from '../../axios';
 import { Coordinates } from '../shared.types';
 import { Bounds, PathResponse } from './pathfinding.types';
-import {
-  AlgorithmTypes,
-  OptimizationTypes,
-} from '../../../context/pathfinding-settings/pathfinding-settings-context';
+import { OptimizationTypes } from '../../../constants/optimizations';
+import { AlgorithmTypes } from '../../../constants/algorithms';
 
 export const getPathBetween = (
   start: Coordinates,

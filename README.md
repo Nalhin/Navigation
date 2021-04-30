@@ -4,7 +4,7 @@
 
 # Navigation
 
-Real time navigation based on OSM data and pathfinding algorithms
+Real time navigation based on OSM data and pathfinding pathfindingAlgorithms
 
 ## Architecture
 

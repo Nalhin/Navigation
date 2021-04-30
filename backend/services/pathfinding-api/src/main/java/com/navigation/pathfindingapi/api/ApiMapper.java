@@ -2,14 +2,8 @@ package com.navigation.pathfindingapi.api;
 
 import com.navigation.pathfinder.graph.Coordinates;
 import com.navigation.pathfinder.graph.Vertex;
-import com.navigation.pathfindingapi.api.dto.BoundsRequestDtoParams;
-import com.navigation.pathfindingapi.api.dto.PathRequestDtoParams;
-import com.navigation.pathfindingapi.api.dto.PathResponseDto;
-import com.navigation.pathfindingapi.api.dto.NodeResponseDto;
-import com.navigation.pathfindingapi.domain.BoundsQuery;
-import com.navigation.pathfindingapi.domain.CalculatePathBetweenQuery;
-import com.navigation.pathfindingapi.domain.PathWithExecutionDuration;
-import com.navigation.pathfindingapi.domain.PathfindingStrategyFactory;
+import com.navigation.pathfindingapi.api.dto.*;
+import com.navigation.pathfindingapi.domain.*;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
@@ -17,9 +11,9 @@ import java.util.stream.Collectors;
 @Component
 public class ApiMapper {
 
-  public PathResponseDto toResponse(PathWithExecutionDuration extendedPath) {
+  public PathResponseDto toResponse(PathWithExecutionSummary pathWithSummary) {
     var response = new PathResponseDto();
-    var path = extendedPath.getPath();
+    var path = pathWithSummary.getPath();
     response.setSimplePath(
         path.getSimplePath().stream().map(this::toResponse).collect(Collectors.toList()));
 
@@ -27,11 +21,13 @@ public class ApiMapper {
     response.setTotalNodes(path.numberOfVertices());
     response.setTotalVisitedNodes(path.totalVisitedVertices());
     response.setTotalDuration(path.totalDuration());
-    response.setExecutionDuration(extendedPath.getExecutionDurationInSeconds());
+    response.setExecutionDuration(pathWithSummary.getExecutionDurationInSeconds());
     response.setSearchBoundaries(
         path.convexHulls().stream()
             .map(hull -> hull.stream().map(this::toResponse).collect(Collectors.toList()))
             .collect(Collectors.toList()));
+    response.setAlgorithm(PathfindingAlgorithmsDto.valueOf(pathWithSummary.getAlgorithm().toString()));
+    response.setOptimization(OptimizationDto.valueOf(pathWithSummary.getOptimization().toString()));
     return response;
   }
 
@@ -45,9 +41,9 @@ public class ApiMapper {
   public CalculatePathBetweenQuery toQuery(PathRequestDtoParams params) {
     var start = new Coordinates(params.getStartLatitude(), params.getStartLongitude());
     var end = new Coordinates(params.getEndLatitude(), params.getEndLongitude());
-    var algorithm = PathfindingStrategyFactory.Algorithms.valueOf(params.getAlgorithm().toString());
+    var algorithm = PathfindingAlgorithms.valueOf(params.getAlgorithm().toString());
     var optimization =
-        PathfindingStrategyFactory.Optimizations.valueOf(params.getOptimization().toString());
+        PathfindingOptimizations.valueOf(params.getOptimization().toString());
     return new CalculatePathBetweenQuery(start, end, algorithm, optimization);
   }
 

@@ -1,3 +1,6 @@
+import { OptimizationTypes } from '../../../constants/optimizations';
+import { AlgorithmTypes } from '../../../constants/algorithms';
+
 export interface PathResponse {
   simplePath: Node[];
   searchBoundaries: Node[][];
@@ -6,6 +9,8 @@ export interface PathResponse {
   totalNodes: number;
   totalVisitedNodes: number;
   executionDuration: number;
+  algorithm: AlgorithmTypes;
+  optimization: OptimizationTypes;
 }
 
 export interface Bounds {

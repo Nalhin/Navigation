@@ -44,7 +44,7 @@ export const PathfindingProvider: React.FC = ({ children }) => {
   const { data, mutate, reset } = useMutation(
     ['path-between'],
     ({ start, end }: { start: Coordinates; end: Coordinates }) =>
-      settings.bounds
+      settings.bounded
         ? getPathBetweenBounded({
             start,
             end,

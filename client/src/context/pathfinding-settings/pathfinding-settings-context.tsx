@@ -1,5 +1,7 @@
 import React from 'react';
 import { Bounds } from '../../api/requests/pathfinding/pathfinding.types';
+import { OptimizationTypes } from '../../constants/optimizations';
+import { AlgorithmTypes } from '../../constants/algorithms';
 
 export const PathfindingSettingsContext = React.createContext<PathfindingSettingsContextProps | null>(
   null,
@@ -17,20 +19,6 @@ export interface PathfindingSettingsContextProps {
 
 export interface SetPathfindingSettingsContextProps {
   setSettings: (settings: PathfindingSettingsContextProps) => void;
-}
-
-export enum OptimizationTypes {
-  DISTANCE = 'DISTANCE',
-  TIME = 'TIME',
-  NUMBER_OF_NODES = 'NUMBER_OF_NODES',
-}
-
-export enum AlgorithmTypes {
-  DIJKSTRA = 'DIJKSTRA',
-  A_STAR = 'A_STAR',
-  BELLMAN_FORD = 'BELLMAN_FORD',
-  BFS = 'BFS',
-  BIDIRECTIONAL_BFS = 'BIDIRECTIONAL_BFS',
 }
 
 export const usePathfindingSettings = () => {

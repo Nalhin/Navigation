@@ -6,15 +6,19 @@ import { getReverseGeocode } from '../api/requests/reverse-geocode/reverse-geoco
 import { LatLng } from 'leaflet';
 import { AxiosError } from 'axios';
 import { uniqueId } from '../utils/unique-id';
-import { Box, Grid, IconButton, Paper } from '@material-ui/core';
+import { Box, Divider, Grid, IconButton, Paper } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
+import SearchIcon from '@material-ui/icons/Search';
+import DirectionsIcon from '@material-ui/icons/Directions';
 import Drawer from './drawer/drawer';
 import CurrentPoint from './current-point/current-point';
 import TopAddressSearch from './address-search/top-address-search';
+import { usePathfinding } from '../context/pathfinding/pathfinding-context';
 
 const Main = () => {
   const [current, setCurrent] = React.useState<AddressItem | null>(null);
   const [isOpen, setIsOpen] = React.useState(false);
+  const pathfinding = usePathfinding();
 
   const { mutate: addGeocodedPoint } = useMutation(
     ({ lat, lng }: LatLng) =>
@@ -60,15 +64,25 @@ const Main = () => {
           display={isOpen && 'none'}
         >
           <Paper>
-            <Grid container direction="row">
-              <IconButton
-                aria-label="open-menu"
-                color="primary"
-                onClick={() => setIsOpen(true)}
-              >
+            <Grid container>
+              <IconButton aria-label="menu" onClick={() => setIsOpen(true)}>
                 <MenuIcon />
               </IconButton>
               <TopAddressSearch setCurrent={setCurrent} />
+              <IconButton type="submit" aria-label="search">
+                <SearchIcon />
+              </IconButton>
+              <Divider orientation="vertical" />
+              <IconButton
+                color="primary"
+                aria-label="directions"
+                onClick={() => {
+                  pathfinding.setStart(current);
+                  setIsOpen(true);
+                }}
+              >
+                <DirectionsIcon />
+              </IconButton>
             </Grid>
           </Paper>
         </Box>

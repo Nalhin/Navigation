@@ -7,14 +7,14 @@ public class CalculatePathBetweenQuery {
     private final Coordinates start;
     private final Coordinates end;
 
-    private final PathfindingStrategyFactory.Algorithms algorithm;
-    private final PathfindingStrategyFactory.Optimizations optimizations;
+    private final PathfindingAlgorithms algorithm;
+    private final PathfindingOptimizations pathfindingOptimizations;
 
-    public CalculatePathBetweenQuery(Coordinates start, Coordinates end, PathfindingStrategyFactory.Algorithms algorithm, PathfindingStrategyFactory.Optimizations optimizations) {
+    public CalculatePathBetweenQuery(Coordinates start, Coordinates end, PathfindingAlgorithms algorithm, PathfindingOptimizations pathfindingOptimizations) {
         this.start = start;
         this.end = end;
         this.algorithm = algorithm;
-        this.optimizations = optimizations;
+        this.pathfindingOptimizations = pathfindingOptimizations;
     }
 
     public Coordinates getStart() {
@@ -25,11 +25,11 @@ public class CalculatePathBetweenQuery {
         return end;
     }
 
-    public PathfindingStrategyFactory.Algorithms getAlgorithm() {
+    public PathfindingAlgorithms getAlgorithm() {
         return algorithm;
     }
 
-    public PathfindingStrategyFactory.Optimizations getOptimizations() {
-        return optimizations;
+    public PathfindingOptimizations getOptimizations() {
+        return pathfindingOptimizations;
     }
 }

@@ -11,9 +11,10 @@ public class PathResponseDto {
   private double totalNodes;
   private int totalVisitedNodes;
   private double executionDuration;
+  private OptimizationDto optimization;
+  private PathfindingAlgorithmsDto algorithm;
 
-  public PathResponseDto() {
-  }
+  public PathResponseDto() {}
 
   public List<NodeResponseDto> getSimplePath() {
     return simplePath;
@@ -69,5 +70,21 @@ public class PathResponseDto {
 
   public void setSearchBoundaries(List<List<NodeResponseDto>> searchBoundaries) {
     this.searchBoundaries = searchBoundaries;
+  }
+
+  public OptimizationDto getOptimization() {
+    return optimization;
+  }
+
+  public void setOptimization(OptimizationDto optimization) {
+    this.optimization = optimization;
+  }
+
+  public PathfindingAlgorithmsDto getAlgorithm() {
+    return algorithm;
+  }
+
+  public void setAlgorithm(PathfindingAlgorithmsDto algorithm) {
+    this.algorithm = algorithm;
   }
 }

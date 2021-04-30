@@ -17,7 +17,7 @@ public class PathfindingServiceImpl implements PathfindingService {
   }
 
   @Override
-  public PathWithExecutionDuration calculatePathBetween(CalculatePathBetweenQuery query) {
+  public PathWithExecutionSummary calculatePathBetween(CalculatePathBetweenQuery query) {
     try {
       var startFuture =
           CompletableFuture.supplyAsync(() -> mapRepository.closestNode(query.getStart()));
@@ -37,7 +37,7 @@ public class PathfindingServiceImpl implements PathfindingService {
                   graph.getVertexById(endNode.getId()),
                   graph);
 
-      return new PathWithExecutionDuration(path, before, Instant.now());
+      return new PathWithExecutionSummary(path, before, Instant.now(), query.getAlgorithm(), query.getOptimizations());
     } catch (ExecutionException | InterruptedException e) {
       e.printStackTrace();
       throw new RuntimeException();
@@ -45,7 +45,7 @@ public class PathfindingServiceImpl implements PathfindingService {
   }
 
   @Override
-  public PathWithExecutionDuration calculateBoundedPathBetween(
+  public PathWithExecutionSummary calculateBoundedPathBetween(
       CalculatePathBetweenQuery query, BoundsQuery boundsQuery) {
     try {
       var startFuture =
@@ -68,7 +68,7 @@ public class PathfindingServiceImpl implements PathfindingService {
                   graph.getVertexById(endNode.getId()),
                   graph);
 
-      return new PathWithExecutionDuration(path, before, Instant.now());
+      return new PathWithExecutionSummary(path, before, Instant.now(), query.getAlgorithm(), query.getOptimizations());
     } catch (ExecutionException | InterruptedException e) {
       e.printStackTrace();
       throw new RuntimeException();
