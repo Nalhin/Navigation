@@ -1,4 +1,4 @@
-package com.navigation.pathfinder.pathfinding;
+package com.navigation.pathfinder.path;
 
 import com.navigation.pathfinder.graph.Edge;
 import com.navigation.pathfinder.graph.Vertex;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 
-class PathBuilder {
+public class PathBuilder {
     public PathSummary buildPath(Map<Vertex, Edge> predecessorTree, Vertex last, Vertex start) {
         var result = new ArrayList<Edge>();
 
@@ -18,10 +18,10 @@ class PathBuilder {
             currNode = edge.getFrom();
         }
         if(currNode != start){
-            return new PathSummary(Collections.emptyList(), predecessorTree);
+            return new SingleDirectionalPathSummary(Collections.emptyList(), predecessorTree);
         }
         Collections.reverse(result);
 
-        return new PathSummary(result, predecessorTree);
+        return new SingleDirectionalPathSummary(result, predecessorTree);
     }
 }

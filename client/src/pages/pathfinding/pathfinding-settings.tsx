@@ -38,6 +38,7 @@ const SETTINGS = {
   ],
   algorithms: [
     { label: 'BFS', value: AlgorithmTypes.BFS },
+    { label: 'Bidirectional BFS', value: AlgorithmTypes.BIDIRECTIONAL_BFS },
     { label: 'Dijkstra', value: AlgorithmTypes.DIJKSTRA },
     { label: 'A*', value: AlgorithmTypes.A_STAR },
     { label: 'Bellman-Ford', value: AlgorithmTypes.BELLMAN_FORD },

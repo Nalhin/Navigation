@@ -30,6 +30,7 @@ export enum AlgorithmTypes {
   A_STAR = 'A_STAR',
   BELLMAN_FORD = 'BELLMAN_FORD',
   BFS = 'BFS',
+  BIDIRECTIONAL_BFS = 'BIDIRECTIONAL_BFS',
 }
 
 export const usePathfindingSettings = () => {

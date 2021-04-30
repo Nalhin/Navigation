@@ -73,15 +73,17 @@ const Map = ({ addPoint, currPoint }: Props) => {
             }}
           />
         )}
-        {pathfinding.path && (
-          <Polygon
-            pathOptions={{ color: '#b19cd9' }}
-            positions={pathfinding.path.searchBoundaries.map((item) => ({
-              lat: item.latitude,
-              lng: item.longitude,
-            }))}
-          />
-        )}
+        {pathfinding.path &&
+          pathfinding.path.searchBoundaries.map((poly, index) => (
+            <Polygon
+              key={index}
+              pathOptions={{ color: '#b19cd9' }}
+              positions={poly.map((item) => ({
+                lat: item.latitude,
+                lng: item.longitude,
+              }))}
+            />
+          ))}
         {settings.bounded && (
           <Rectangle
             color="lightblue"
@@ -91,6 +93,7 @@ const Map = ({ addPoint, currPoint }: Props) => {
             ]}
           />
         )}
+        i
         <Polyline
           pathOptions={{ color: 'blue' }}
           positions={(pathfinding.path?.simplePath ?? []).map((item) => ({

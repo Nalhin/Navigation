@@ -1,12 +1,11 @@
 package com.navigation.pathfindingapi.api.dto;
 
-import java.time.Duration;
 import java.util.List;
 
 public class PathResponseDto {
 
   private List<NodeResponseDto> simplePath;
-  private List<NodeResponseDto> searchBoundaries;
+  private List<List<NodeResponseDto>> searchBoundaries;
   private double totalDistance;
   private double totalDuration;
   private double totalNodes;
@@ -64,11 +63,11 @@ public class PathResponseDto {
     this.totalVisitedNodes = totalVisitedNodes;
   }
 
-  public List<NodeResponseDto> getSearchBoundaries() {
+  public List<List<NodeResponseDto>> getSearchBoundaries() {
     return searchBoundaries;
   }
 
-  public void setSearchBoundaries(List<NodeResponseDto> searchBoundaries) {
+  public void setSearchBoundaries(List<List<NodeResponseDto>> searchBoundaries) {
     this.searchBoundaries = searchBoundaries;
   }
 }

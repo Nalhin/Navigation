@@ -15,7 +15,8 @@ public class PathfindingStrategyFactory {
     DIJKSTRA(Set.of(Optimizations.values())),
     A_STAR((Set.of(Optimizations.TIME, Optimizations.DISTANCE))),
     BELLMAN_FORD(Set.of(Optimizations.values())),
-    BFS(Set.of(Optimizations.NUMBER_OF_NODES));
+    BFS(Set.of(Optimizations.NUMBER_OF_NODES)),
+    BIDIRECTIONAL_BFS(Set.of(Optimizations.NUMBER_OF_NODES));
 
     private final Set<Optimizations> allowedOptimizations;
 
@@ -53,6 +54,7 @@ public class PathfindingStrategyFactory {
       case DIJKSTRA -> new DijkstraPathfindingStrategy(calculator);
       case BELLMAN_FORD -> new BellmanFordPathfindingStrategy(calculator);
       case BFS -> new BFSPathfindingStrategy();
+      case BIDIRECTIONAL_BFS -> new BidirectionalBFSPathfindingStrategy();
     };
   }
 }

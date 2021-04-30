@@ -29,7 +29,9 @@ public class ApiMapper {
     response.setTotalDuration(path.totalDuration());
     response.setExecutionDuration(extendedPath.getExecutionDurationInSeconds());
     response.setSearchBoundaries(
-        path.convexHull().stream().map(this::toResponse).collect(Collectors.toList()));
+        path.convexHulls().stream()
+            .map(hull -> hull.stream().map(this::toResponse).collect(Collectors.toList()))
+            .collect(Collectors.toList()));
     return response;
   }
 

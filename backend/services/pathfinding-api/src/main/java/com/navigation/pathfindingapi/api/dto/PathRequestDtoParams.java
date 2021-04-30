@@ -12,7 +12,8 @@ public class PathRequestDtoParams {
     DIJKSTRA,
     A_STAR,
     BELLMAN_FORD,
-    BFS
+    BFS,
+    BIDIRECTIONAL_BFS,
   }
 
   public enum OptimizationDto {
