@@ -2,7 +2,7 @@ package com.navigation.pathfindingapi.domain;
 
 import com.navigation.pathfinder.pathfinding.*;
 
-public class PathfindingStrategyFactory {
+class PathfindingStrategyFactory {
 
   public PathfindingStrategy pathfindingStrategy(
           PathfindingAlgorithms pathfindingAlgorithms, PathfindingOptimizations pathfindingOptimizations) {

@@ -20,7 +20,7 @@ import {
   usePathfindingSettings,
   useSetPathfindingSettings,
 } from '../../context/pathfinding-settings/pathfinding-settings-context';
-import { useForm, Controller } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { Bounds } from '../../api/requests/pathfinding/pathfinding.types';
 import {
   OPTIMIZATION_TYPES_TRANSLATIONS,

@@ -7,7 +7,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 @Service
-public class PathfindingServiceImpl implements PathfindingService {
+class PathfindingServiceImpl implements PathfindingService {
 
   private final PathfindingStrategyFactory factory = new PathfindingStrategyFactory();
   private final MapRepository mapRepository;
