@@ -4,6 +4,7 @@ import {
   Marker,
   Polygon,
   Polyline,
+  Rectangle,
   TileLayer,
 } from 'react-leaflet';
 import { LatLng } from 'leaflet';
@@ -14,6 +15,7 @@ import { useMap } from '../../context/map/map-context';
 import { usePathfinding } from '../../context/pathfinding/pathfinding-context';
 import { currIcon, endIcon, startIcon } from '../map-icons/icons';
 import MapLayers from './map-layers';
+import { usePathfindingSettings } from '../../context/pathfinding-settings/pathfinding-settings-context';
 
 const CENTER = {
   lat: 50.049683,
@@ -28,6 +30,7 @@ interface Props {
 const Map = ({ addPoint, currPoint }: Props) => {
   const map = useMap();
   const pathfinding = usePathfinding();
+  const settings = usePathfindingSettings();
   return (
     <>
       <MapContainer
@@ -77,6 +80,15 @@ const Map = ({ addPoint, currPoint }: Props) => {
               lat: item.latitude,
               lng: item.longitude,
             }))}
+          />
+        )}
+        {settings.bounded && (
+          <Rectangle
+            color="lightblue"
+            bounds={[
+              [settings.bounds.maxLatitude, settings.bounds.maxLongitude],
+              [settings.bounds.minLatitude, settings.bounds.minLongitude],
+            ]}
           />
         )}
         <Polyline

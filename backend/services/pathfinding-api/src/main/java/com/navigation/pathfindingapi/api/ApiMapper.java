@@ -2,9 +2,11 @@ package com.navigation.pathfindingapi.api;
 
 import com.navigation.pathfinder.graph.Coordinates;
 import com.navigation.pathfinder.graph.Vertex;
+import com.navigation.pathfindingapi.api.dto.BoundsRequestDtoParams;
 import com.navigation.pathfindingapi.api.dto.PathRequestDtoParams;
 import com.navigation.pathfindingapi.api.dto.PathResponseDto;
 import com.navigation.pathfindingapi.api.dto.NodeResponseDto;
+import com.navigation.pathfindingapi.domain.BoundsQuery;
 import com.navigation.pathfindingapi.domain.CalculatePathBetweenQuery;
 import com.navigation.pathfindingapi.domain.PathWithExecutionDuration;
 import com.navigation.pathfindingapi.domain.PathfindingStrategyFactory;
@@ -45,5 +47,11 @@ public class ApiMapper {
     var optimization =
         PathfindingStrategyFactory.Optimizations.valueOf(params.getOptimization().toString());
     return new CalculatePathBetweenQuery(start, end, algorithm, optimization);
+  }
+
+  public BoundsQuery toQuery(BoundsRequestDtoParams params) {
+    var start = new Coordinates(params.getMinLatitude(), params.getMinLongitude());
+    var end = new Coordinates(params.getMaxLatitude(), params.getMaxLongitude());
+    return new BoundsQuery(start, end);
   }
 }

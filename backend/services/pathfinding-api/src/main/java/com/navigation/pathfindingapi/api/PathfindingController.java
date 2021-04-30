@@ -1,5 +1,6 @@
 package com.navigation.pathfindingapi.api;
 
+import com.navigation.pathfindingapi.api.dto.BoundsRequestDtoParams;
 import com.navigation.pathfindingapi.api.dto.PathRequestDtoParams;
 import com.navigation.pathfindingapi.api.dto.PathResponseDto;
 import com.navigation.pathfindingapi.domain.PathfindingService;
@@ -23,6 +24,13 @@ public class PathfindingController {
   @GetMapping("/path-between")
   public ResponseEntity<PathResponseDto> findPath(PathRequestDtoParams requestDtoParams) {
     var path = service.calculatePathBetween(mapper.toQuery(requestDtoParams));
+    return ResponseEntity.ok(mapper.toResponse(path));
+  }
+
+
+  @GetMapping("/path-between/bounded")
+  public ResponseEntity<PathResponseDto> findPath(PathRequestDtoParams requestDtoParams, BoundsRequestDtoParams boundsRequestDtoParams) {
+    var path = service.calculateBoundedPathBetween(mapper.toQuery(requestDtoParams), mapper.toQuery(boundsRequestDtoParams));
     return ResponseEntity.ok(mapper.toResponse(path));
   }
 }

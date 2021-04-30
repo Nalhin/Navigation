@@ -1,4 +1,5 @@
 import React from 'react';
+import { Bounds } from '../../api/requests/pathfinding/pathfinding.types';
 
 export const PathfindingSettingsContext = React.createContext<PathfindingSettingsContextProps | null>(
   null,
@@ -10,11 +11,12 @@ export const SetPathfindingSettingsContext = React.createContext<SetPathfindingS
 export interface PathfindingSettingsContextProps {
   optimization: OptimizationTypes;
   algorithm: AlgorithmTypes;
+  bounded: boolean;
+  bounds: Bounds;
 }
 
 export interface SetPathfindingSettingsContextProps {
-  setAlgorithm: (algorithm: AlgorithmTypes) => void;
-  setOptimization: (optimization: OptimizationTypes) => void;
+  setSettings: (settings: PathfindingSettingsContextProps) => void;
 }
 
 export enum OptimizationTypes {
@@ -57,35 +59,35 @@ interface Props {
 const DEFAULT_SETTINGS = {
   optimization: OptimizationTypes.TIME,
   algorithm: AlgorithmTypes.DIJKSTRA,
+  bounded: false,
+  bounds: {
+    minLatitude: 50.0468,
+    minLongitude: 19.9172,
+    maxLatitude: 50.0562,
+    maxLongitude: 19.9427,
+  },
 };
 
 export const PathfindingSettingsProvider: React.FC<Props> = ({
   defaultPathfindingSettings = DEFAULT_SETTINGS,
   children,
 }) => {
-  const [
-    setting,
-    setSettings,
-  ] = React.useState<PathfindingSettingsContextProps>({
-    ...defaultPathfindingSettings,
-  });
+  const [setting, setSetting] = React.useState<PathfindingSettingsContextProps>(
+    {
+      ...defaultPathfindingSettings,
+    },
+  );
 
-  const setAlgorithm = React.useCallback((algorithm: AlgorithmTypes) => {
-    setSettings((prev) => ({ ...prev, algorithm }));
-  }, []);
-
-  const setOptimization = React.useCallback(
-    (optimization: OptimizationTypes) => {
-      setSettings((prev) => ({ ...prev, optimization }));
+  const setSettings = React.useCallback(
+    (settings: PathfindingSettingsContextProps) => {
+      setSetting((prev) => ({ ...prev, ...settings }));
     },
     [],
   );
 
   return (
     <PathfindingSettingsContext.Provider value={setting}>
-      <SetPathfindingSettingsContext.Provider
-        value={{ setAlgorithm, setOptimization }}
-      >
+      <SetPathfindingSettingsContext.Provider value={{ setSettings }}>
         {children}
       </SetPathfindingSettingsContext.Provider>
     </PathfindingSettingsContext.Provider>

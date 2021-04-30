@@ -2,7 +2,10 @@ import React from 'react';
 import { PathResponse } from '../../api/requests/pathfinding/pathfinding.types';
 import { AddressItem } from '../../pages/list-item.type';
 import { useMutation } from 'react-query';
-import { getPathBetween } from '../../api/requests/pathfinding/pathfinding';
+import {
+  getPathBetween,
+  getPathBetweenBounded,
+} from '../../api/requests/pathfinding/pathfinding';
 import { Coordinates } from '../../api/requests/shared.types';
 import { usePathfindingSettings } from '../pathfinding-settings/pathfinding-settings-context';
 import { useMap } from '../map/map-context';
@@ -39,14 +42,17 @@ export const PathfindingProvider: React.FC = ({ children }) => {
   const { map } = useMap();
 
   const { data, mutate, reset } = useMutation(
-    'path-between',
-    (variables: { first: Coordinates; last: Coordinates }) =>
-      getPathBetween(
-        variables.first,
-        variables.last,
-        settings.algorithm,
-        settings.optimization,
-      ),
+    ['path-between'],
+    ({ start, end }: { start: Coordinates; end: Coordinates }) =>
+      settings.bounds
+        ? getPathBetweenBounded({
+            start,
+            end,
+            algorithm: settings.algorithm,
+            optimization: settings.optimization,
+            bounds: settings.bounds,
+          })
+        : getPathBetween(start, end, settings.algorithm, settings.optimization),
     {
       onSuccess: (data) => {
         const path = data.data.simplePath;
@@ -81,8 +87,8 @@ export const PathfindingProvider: React.FC = ({ children }) => {
       return;
     }
     mutate({
-      first: selectedPoints.start.location,
-      last: selectedPoints.end.location,
+      start: selectedPoints.start.location,
+      end: selectedPoints.end.location,
     });
   }, [selectedPoints.start, selectedPoints.end]);
 

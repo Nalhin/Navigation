@@ -8,6 +8,13 @@ export interface PathResponse {
   executionDuration: number;
 }
 
+export interface Bounds {
+  minLatitude: number;
+  maxLatitude: number;
+  minLongitude: number;
+  maxLongitude: number;
+}
+
 export interface Node {
   latitude: number;
   longitude: number;

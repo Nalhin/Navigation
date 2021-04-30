@@ -29,10 +29,13 @@ public class PathfindingServiceImpl implements PathfindingService {
       var graph = mapRepository.prepareGraph();
 
       var before = Instant.now();
-      var path = factory
-          .pathfindingStrategy(query.getAlgorithm(), query.getOptimizations())
-          .findShortestPath(
-              graph.getVertexById(startNode.getId()), graph.getVertexById(endNode.getId()), graph);
+      var path =
+          factory
+              .pathfindingStrategy(query.getAlgorithm(), query.getOptimizations())
+              .findShortestPath(
+                  graph.getVertexById(startNode.getId()),
+                  graph.getVertexById(endNode.getId()),
+                  graph);
 
       return new PathWithExecutionDuration(path, before, Instant.now());
     } catch (ExecutionException | InterruptedException e) {
@@ -41,5 +44,34 @@ public class PathfindingServiceImpl implements PathfindingService {
     }
   }
 
+  @Override
+  public PathWithExecutionDuration calculateBoundedPathBetween(
+      CalculatePathBetweenQuery query, BoundsQuery boundsQuery) {
+    try {
+      var startFuture =
+          CompletableFuture.supplyAsync(
+              () -> mapRepository.closestNodeWithinBounds(query.getStart(), boundsQuery));
+      var endFuture =
+          CompletableFuture.supplyAsync(
+              () -> mapRepository.closestNodeWithinBounds(query.getEnd(), boundsQuery));
+      var startNode = startFuture.get().orElseThrow();
+      var endNode = endFuture.get().orElseThrow();
 
+      var graph = mapRepository.prepareGraphWithinBounds(boundsQuery);
+
+      var before = Instant.now();
+      var path =
+          factory
+              .pathfindingStrategy(query.getAlgorithm(), query.getOptimizations())
+              .findShortestPath(
+                  graph.getVertexById(startNode.getId()),
+                  graph.getVertexById(endNode.getId()),
+                  graph);
+
+      return new PathWithExecutionDuration(path, before, Instant.now());
+    } catch (ExecutionException | InterruptedException e) {
+      e.printStackTrace();
+      throw new RuntimeException();
+    }
+  }
 }

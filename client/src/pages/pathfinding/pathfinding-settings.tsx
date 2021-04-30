@@ -2,22 +2,28 @@ import React from 'react';
 import {
   Box,
   Button,
+  Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   FormControl,
+  FormControlLabel,
   Grid,
   InputLabel,
   MenuItem,
   Select,
+  TextField,
 } from '@material-ui/core';
 import {
   AlgorithmTypes,
   OptimizationTypes,
+  PathfindingSettingsContextProps,
   usePathfindingSettings,
   useSetPathfindingSettings,
 } from '../../context/pathfinding-settings/pathfinding-settings-context';
+import { useForm, Controller } from 'react-hook-form';
+import { Bounds } from '../../api/requests/pathfinding/pathfinding.types';
 
 interface Props {
   isOpen: boolean;
@@ -38,53 +44,140 @@ const SETTINGS = {
   ],
 };
 
+interface FormState {
+  optimization: OptimizationTypes;
+  algorithm: AlgorithmTypes;
+  bounded: boolean;
+
+  bounds: Bounds;
+}
+
 const PathfindingSettings = ({ isOpen, onClose }: Props) => {
   const settings = usePathfindingSettings();
-  const setSetting = useSetPathfindingSettings();
+  const { setSettings } = useSetPathfindingSettings();
+  const { handleSubmit, control } = useForm<FormState>({
+    defaultValues: {
+      optimization: settings.optimization,
+      algorithm: settings.algorithm,
+      bounded: settings.bounded,
+      bounds: settings.bounds,
+    },
+  });
+
+  const onSubmit = (values: PathfindingSettingsContextProps) => {
+    console.log(values);
+    setSettings(values);
+  };
 
   return (
     <Dialog onClose={onClose} open={isOpen}>
       <DialogTitle>Settings</DialogTitle>
       <DialogContent dividers>
         <Box minWidth={300}>
-          <Grid direction="column" container>
+          <Grid
+            direction="column"
+            container
+            component="form"
+            id="settings-form"
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <FormControl>
               <InputLabel>Optimization</InputLabel>
-              <Select
-                value={settings.optimization}
-                onChange={(e) =>
-                  setSetting.setOptimization(
-                    e.target.value as OptimizationTypes,
-                  )
-                }
-              >
-                {SETTINGS.optimization.map((item) => (
-                  <MenuItem value={item.value} key={item.value}>
-                    {item.label}
-                  </MenuItem>
-                ))}
-              </Select>
+              <Controller
+                render={({ field }) => (
+                  <Select {...field}>
+                    {SETTINGS.optimization.map((item) => (
+                      <MenuItem value={item.value} key={item.value}>
+                        {item.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                )}
+                name="optimization"
+                control={control}
+              />
             </FormControl>
             <FormControl>
               <InputLabel>Algorithm</InputLabel>
-              <Select
-                value={settings.algorithm}
-                onChange={(e) =>
-                  setSetting.setAlgorithm(e.target.value as AlgorithmTypes)
+              <Controller
+                render={({ field }) => (
+                  <Select {...field}>
+                    {SETTINGS.algorithms.map((item) => (
+                      <MenuItem value={item.value} key={item.value}>
+                        {item.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                )}
+                name="algorithm"
+                control={control}
+              />
+            </FormControl>
+            <Box mt={1}>
+              <FormControlLabel
+                control={
+                  <Controller
+                    render={({ field }) => (
+                      <Checkbox
+                        {...field}
+                        checked={field.value}
+                        onChange={(e) => field.onChange(e.target.checked)}
+                      />
+                    )}
+                    name="bounded"
+                    control={control}
+                  />
                 }
-              >
-                {SETTINGS.algorithms.map((item) => (
-                  <MenuItem value={item.value} key={item.value}>
-                    {item.label}
-                  </MenuItem>
-                ))}
-              </Select>
+                label="Bounded?"
+              />
+            </Box>
+            <FormControl>
+              <Controller
+                render={({ field }) => (
+                  <TextField label="Max Longitude" {...field} />
+                )}
+                name="bounds.maxLongitude"
+                control={control}
+              />
+            </FormControl>
+            <FormControl>
+              <Controller
+                render={({ field }) => (
+                  <TextField label="Max Latitude" {...field} />
+                )}
+                name="bounds.maxLatitude"
+                control={control}
+              />
+            </FormControl>
+            <FormControl>
+              <Controller
+                render={({ field }) => (
+                  <TextField label="Min latitude" {...field} />
+                )}
+                name="bounds.minLatitude"
+                control={control}
+              />
+            </FormControl>
+            <FormControl>
+              <Controller
+                render={({ field }) => (
+                  <TextField label="Min longitude" {...field} />
+                )}
+                name="bounds.minLongitude"
+                control={control}
+              />
             </FormControl>
           </Grid>
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button autoFocus onClick={onClose} color="primary">
+        <Button
+          autoFocus
+          onClick={onClose}
+          color="primary"
+          type="submit"
+          form="settings-form"
+        >
           Save changes
         </Button>
       </DialogActions>

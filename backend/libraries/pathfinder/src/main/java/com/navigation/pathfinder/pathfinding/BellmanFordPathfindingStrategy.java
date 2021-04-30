@@ -18,29 +18,31 @@ public class BellmanFordPathfindingStrategy implements PathfindingStrategy {
 
   @Override
   public PathSummary findShortestPath(Vertex start, Vertex target, Graph graph) {
-    var minDistances = new HashMap<Vertex, Double>();
-    minDistances.put(start, 0.0);
+    var minWeights = new HashMap<Vertex, Double>();
+    minWeights.put(start, 0.0);
     var predecessorTree = new HashMap<Vertex, Edge>();
 
     var edges = graph.edges();
-    for (int i = 0; i < graph.vertices().size() - 1; i++) {
+    var vertices = graph.vertices();
+
+    for (int i = 0; i < vertices.size() - 1; i++) {
       boolean changed = false;
 
       for (var edge : edges) {
-        if (!minDistances.containsKey(edge.getFrom())) {
+        if (!minWeights.containsKey(edge.getFrom())) {
           continue;
         }
-        double distance = minDistances.get(edge.getFrom()) + calculator.calculateWeight(edge);
-        if (distance < minDistances.getOrDefault(edge.getTo(), Double.MAX_VALUE)) {
-          minDistances.put(edge.getTo(), distance);
+        double weight = minWeights.get(edge.getFrom()) + calculator.calculateWeight(edge);
+        if (weight < minWeights.getOrDefault(edge.getTo(), Double.MAX_VALUE)) {
+          minWeights.put(edge.getTo(), weight);
           predecessorTree.put(edge.getTo(), edge);
           changed = true;
         }
       }
       if (!changed) {
-        return pathBuilder.buildPath(predecessorTree, start, target);
+        return pathBuilder.buildPath(predecessorTree, target, start);
       }
     }
-    return pathBuilder.buildPath(predecessorTree, start, target);
+    return pathBuilder.buildPath(predecessorTree, target, start);
   }
 }

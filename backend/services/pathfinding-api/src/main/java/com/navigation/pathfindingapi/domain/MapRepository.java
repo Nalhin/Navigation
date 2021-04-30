@@ -13,4 +13,8 @@ public interface MapRepository {
   Optional<MapNode> closestNode(Coordinates location);
 
   Graph prepareGraph();
+
+  Optional<MapNode> closestNodeWithinBounds(Coordinates location, BoundsQuery boundsQuery);
+
+  Graph prepareGraphWithinBounds(BoundsQuery boundsQuery);
 }
