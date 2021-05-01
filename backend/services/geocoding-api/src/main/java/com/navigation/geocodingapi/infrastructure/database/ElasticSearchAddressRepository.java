@@ -10,10 +10,10 @@ import java.util.stream.Collectors;
 @Repository
 public class ElasticSearchAddressRepository implements AddressRepository {
   private final AddressEntityRepository addressRepository;
-  private final DatabaseMapper mapper;
+  private final EntityMapper mapper;
 
   public ElasticSearchAddressRepository(
-      AddressEntityRepository addressRepository, DatabaseMapper mapper) {
+          AddressEntityRepository addressRepository, EntityMapper mapper) {
     this.addressRepository = addressRepository;
     this.mapper = mapper;
   }

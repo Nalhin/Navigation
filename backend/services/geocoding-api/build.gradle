@@ -4,10 +4,6 @@ plugins {
   id 'java'
 }
 
-repositories {
-  mavenCentral()
-}
-
 ext {
   set('testcontainersVersion', "1.15.2")
   set('springCloudVersion', "2020.0.2")
@@ -25,6 +21,7 @@ dependencies {
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
   testImplementation 'org.testcontainers:elasticsearch'
   testImplementation 'org.testcontainers:junit-jupiter'
+  testImplementation 'io.rest-assured:rest-assured:4.3.3'
 }
 
 dependencyManagement {

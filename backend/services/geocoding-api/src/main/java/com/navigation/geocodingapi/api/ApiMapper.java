@@ -7,17 +7,18 @@ import org.springframework.stereotype.Component;
 
 @Component
 class ApiMapper {
-  public AddressResponseDto fromEntity(Address entity) {
+
+  AddressResponseDto toDto(Address domain) {
     var dto = new AddressResponseDto();
-    dto.setCity(entity.getCity());
-    dto.setCountry(entity.getCountry());
-    dto.setId(entity.getId());
+    dto.setCity(domain.getCity());
+    dto.setCountry(domain.getCountry());
+    dto.setId(domain.getId());
     dto.setLocation(
         new LocationResponseDto(
-            entity.getLocation().getLatitude(), entity.getLocation().getLongitude()));
-    dto.setHouseNumber(entity.getHouseNumber());
-    dto.setStreet(entity.getStreet());
-    dto.setPostCode(entity.getPostCode());
+            domain.getLocation().getLatitude(), domain.getLocation().getLongitude()));
+    dto.setHouseNumber(domain.getHouseNumber());
+    dto.setStreet(domain.getStreet());
+    dto.setPostCode(domain.getPostCode());
     return dto;
   }
 }

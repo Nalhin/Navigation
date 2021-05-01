@@ -28,7 +28,7 @@ class GeocodeController {
       @Param("address") String address) {
     return ResponseEntity.ok(
         addressService.findAllByAddress(address).stream()
-            .map(apiMapper::fromEntity)
+            .map(apiMapper::toDto)
             .collect(Collectors.toList()));
   }
 }
