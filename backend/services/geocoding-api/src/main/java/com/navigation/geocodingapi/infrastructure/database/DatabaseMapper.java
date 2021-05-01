@@ -15,7 +15,10 @@ class DatabaseMapper {
         .setId(entity.getId())
         .setStreet(entity.getStreet())
         .setCountry(entity.getCountry())
-        .setLocation(new Location(entity.getLocation().getY(), entity.getLocation().getX()))
+        .setLocation(
+            new Location(
+                entity.getLocation().getCoordinates().get(1),
+                entity.getLocation().getCoordinates().get(0)))
         .setPostCode(entity.getPostCode())
         .createAddress();
   }

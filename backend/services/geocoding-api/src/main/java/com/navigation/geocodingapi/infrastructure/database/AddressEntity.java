@@ -4,22 +4,25 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
-import org.springframework.data.elasticsearch.core.geo.GeoJsonPoint;
+
+import java.io.Serializable;
 
 @Document(indexName = "address")
-class AddressEntity {
+public class AddressEntity implements Serializable {
 
-  @Id
-  private long id;
+  @Id private long id;
 
-  private GeoJsonPoint location;
+  private GeoJsonPointEntity location;
 
   @Field(type = FieldType.Text)
   private String city;
+
   @Field(type = FieldType.Text)
   private String country;
+
   @Field(type = FieldType.Text)
   private String houseNumber;
+
   @Field(type = FieldType.Text)
   private String street;
 
@@ -33,11 +36,11 @@ class AddressEntity {
     this.id = id;
   }
 
-  public GeoJsonPoint getLocation() {
+  public GeoJsonPointEntity getLocation() {
     return location;
   }
 
-  public void setLocation(GeoJsonPoint location) {
+  public void setLocation(GeoJsonPointEntity location) {
     this.location = location;
   }
 
