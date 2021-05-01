@@ -1,10 +1,12 @@
 import React from 'react';
 import AddressSearch from '../address-search/address-search';
 import { usePathfinding } from '../../context/pathfinding/pathfinding-context';
-import { Box, Button, Typography } from '@material-ui/core';
+import { Box, Button, IconButton, Typography } from '@material-ui/core';
 import { css } from '@emotion/css';
 import PathSummary from '../pathfinding/path-summary';
 import { useIsMutating } from 'react-query';
+import SwapVertIcon from '@material-ui/icons/SwapVert';
+import ClearAllIcon from '@material-ui/icons/ClearAll';
 
 const DrawerContent = ({}) => {
   const pathfinding = usePathfinding();
@@ -25,6 +27,20 @@ const DrawerContent = ({}) => {
         label="End"
         onValueSet={pathfinding.setEnd}
       />
+      <IconButton
+        color="primary"
+        aria-label="swap"
+        onClick={pathfinding.swapStartAndEnd}
+      >
+        <SwapVertIcon />
+      </IconButton>
+      <IconButton
+        color="primary"
+        aria-label="clear all"
+        onClick={pathfinding.clear}
+      >
+        <ClearAllIcon />
+      </IconButton>
       <Button
         className={css`
           width: 100%;

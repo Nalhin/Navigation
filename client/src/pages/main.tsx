@@ -77,7 +77,7 @@ const Main = () => {
                 color="primary"
                 aria-label="directions"
                 onClick={() => {
-                  pathfinding.setStart(current);
+                  pathfinding.setEnd(current);
                   setIsOpen(true);
                 }}
               >

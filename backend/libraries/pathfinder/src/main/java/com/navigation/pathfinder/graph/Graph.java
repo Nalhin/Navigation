@@ -18,16 +18,17 @@ public final class Graph {
   }
 
   public Collection<Edge> getVertexEdges(Vertex node) {
-    return nodesWithEdges.get(node);
+    return nodesWithEdges.getOrDefault(node, Collections.emptyList());
   }
 
   public Graph reversed() {
     var reversedNodesWithEdges = new HashMap<Vertex, List<Edge>>();
     for (var entry : nodesWithEdges.entrySet()) {
       for (var edge : entry.getValue()) {
-        var list = reversedNodesWithEdges.getOrDefault(edge.getTo(), new ArrayList<>());
-        list.add(edge.reversed());
-        reversedNodesWithEdges.put(edge.getTo(), list);
+        var reversed = edge.reversed();
+        var list = reversedNodesWithEdges.getOrDefault(reversed.getFrom(), new ArrayList<>());
+        list.add(reversed);
+        reversedNodesWithEdges.put(reversed.getFrom(), list);
       }
     }
 

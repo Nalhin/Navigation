@@ -1,6 +1,7 @@
 package com.navigation.pathfindingapi.infrastructure.database;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("streetConnections")
@@ -9,8 +10,11 @@ public class StreetConnectionEntity {
     @Id
     private String id;
 
+    @Indexed
     private long fromId;
+    @Indexed
     private long toId;
+
     private int maxSpeed;
 
     public StreetConnectionEntity(String id, long fromId, long toId, int maxSpeed) {

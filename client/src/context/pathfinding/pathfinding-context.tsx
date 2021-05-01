@@ -17,6 +17,8 @@ interface PathfindingContext {
   selectedPoints: SelectedPoints;
   setStart: (item: AddressItem | null) => void;
   setEnd: (item: AddressItem | null) => void;
+  swapStartAndEnd: () => void;
+  clear: () => void;
   findPath: () => void;
 }
 
@@ -82,6 +84,24 @@ export const PathfindingProvider: React.FC = ({ children }) => {
     reset();
   }, []);
 
+  const clear = React.useCallback(() => {
+    setSelectedPoints((prev) => ({
+      ...prev,
+      start: null,
+      end: null,
+    }));
+    reset();
+  }, []);
+
+  const swapStartAndEnd = React.useCallback(() => {
+    setSelectedPoints((prev) => ({
+      ...prev,
+      end: prev.start,
+      start: prev.end,
+    }));
+    reset();
+  }, []);
+
   const findPath = React.useCallback(() => {
     if (!selectedPoints.start || !selectedPoints.end) {
       return;
@@ -95,6 +115,8 @@ export const PathfindingProvider: React.FC = ({ children }) => {
   return (
     <PathfindingContext.Provider
       value={{
+        clear,
+        swapStartAndEnd,
         selectedPoints,
         setEnd,
         setStart,

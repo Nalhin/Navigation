@@ -55,7 +55,6 @@ interface FormState {
   optimization: OptimizationTypes;
   algorithm: AlgorithmTypes;
   bounded: boolean;
-
   bounds: Bounds;
 }
 
