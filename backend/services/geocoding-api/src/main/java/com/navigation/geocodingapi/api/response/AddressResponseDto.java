@@ -1,28 +1,12 @@
-package com.navigation.geocodingapi.infrastructure;
+package com.navigation.geocodingapi.api.response;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldType;
-import org.springframework.data.elasticsearch.core.geo.GeoJsonPoint;
-
-@Document(indexName = "address")
-public class AddressEntity {
-
-  @Id
+public class AddressResponseDto {
   private long id;
-
-  private GeoJsonPoint location;
-
-  @Field(type = FieldType.Text)
+  private LocationResponseDto location;
   private String city;
-  @Field(type = FieldType.Text)
   private String country;
-  @Field(type = FieldType.Text)
   private String houseNumber;
-  @Field(type = FieldType.Text)
   private String street;
-
   private String postCode;
 
   public long getId() {
@@ -33,11 +17,11 @@ public class AddressEntity {
     this.id = id;
   }
 
-  public GeoJsonPoint getLocation() {
+  public LocationResponseDto getLocation() {
     return location;
   }
 
-  public void setLocation(GeoJsonPoint location) {
+  public void setLocation(LocationResponseDto location) {
     this.location = location;
   }
 

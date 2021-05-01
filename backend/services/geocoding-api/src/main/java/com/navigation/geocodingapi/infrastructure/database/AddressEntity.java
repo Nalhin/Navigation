@@ -1,27 +1,29 @@
-package com.navigation.geocodingapi.api;
+package com.navigation.geocodingapi.infrastructure.database;
 
-import com.navigation.geocodingapi.infrastructure.AddressEntity;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.core.geo.GeoJsonPoint;
 
-public class AddressDto {
+@Document(indexName = "address")
+class AddressEntity {
+
+  @Id
   private long id;
-  private LocationDto location;
-  private String city;
-  private String country;
-  private String houseNumber;
-  private String street;
-  private String postCode;
 
-  public static AddressDto fromEntity(AddressEntity entity) {
-    var dto = new AddressDto();
-    dto.setCity(entity.getCity());
-    dto.setCountry(entity.getCountry());
-    dto.setId(entity.getId());
-    dto.setLocation(new LocationDto(entity.getLocation().getY(), entity.getLocation().getX()));
-    dto.setHouseNumber(entity.getHouseNumber());
-    dto.setStreet(entity.getStreet());
-    dto.setPostCode(entity.getPostCode());
-    return dto;
-  }
+  private GeoJsonPoint location;
+
+  @Field(type = FieldType.Text)
+  private String city;
+  @Field(type = FieldType.Text)
+  private String country;
+  @Field(type = FieldType.Text)
+  private String houseNumber;
+  @Field(type = FieldType.Text)
+  private String street;
+
+  private String postCode;
 
   public long getId() {
     return id;
@@ -31,11 +33,11 @@ public class AddressDto {
     this.id = id;
   }
 
-  public LocationDto getLocation() {
+  public GeoJsonPoint getLocation() {
     return location;
   }
 
-  public void setLocation(LocationDto location) {
+  public void setLocation(GeoJsonPoint location) {
     this.location = location;
   }
 

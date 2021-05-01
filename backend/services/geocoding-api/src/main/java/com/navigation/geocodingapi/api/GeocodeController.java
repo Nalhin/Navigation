@@ -1,6 +1,7 @@
 package com.navigation.geocodingapi.api;
 
-import com.navigation.geocodingapi.infrastructure.AddressRepository;
+import com.navigation.geocodingapi.api.response.AddressResponseDto;
+import com.navigation.geocodingapi.domain.AddressService;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,19 +13,22 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/api/v1/geocode")
-public class GeocodeController {
+class GeocodeController {
 
-  private final AddressRepository addressRepository;
+  private final AddressService addressService;
+  private final ApiMapper apiMapper;
 
-  public GeocodeController(AddressRepository addressRepository) {
-    this.addressRepository = addressRepository;
+  public GeocodeController(AddressService addressService, ApiMapper mapper) {
+    this.addressService = addressService;
+    this.apiMapper = mapper;
   }
 
   @GetMapping
-  public ResponseEntity<List<AddressDto>> getAddressByText(@Param("address") String address) {
+  public ResponseEntity<List<AddressResponseDto>> getAddressByText(
+      @Param("address") String address) {
     return ResponseEntity.ok(
-        addressRepository.searchByAddress(address).stream()
-            .map(AddressDto::fromEntity)
+        addressService.findAllByAddress(address).stream()
+            .map(apiMapper::fromEntity)
             .collect(Collectors.toList()));
   }
 }
