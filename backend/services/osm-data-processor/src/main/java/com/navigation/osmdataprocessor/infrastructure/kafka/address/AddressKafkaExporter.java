@@ -14,7 +14,7 @@ public class AddressKafkaExporter implements ProcessedAddressExporter {
 
   public AddressKafkaExporter(
       KafkaTemplate<String, Object> kafkaTemplate,
-      @Value("${com.navigation.reversegeocodingapi.infrastructure.topics.address}") String addressTopic) {
+      @Value("${infrastructure.topics.address}") String addressTopic) {
     this.kafkaTemplate = kafkaTemplate;
     this.ADDRESS_TOPIC = addressTopic;
   }

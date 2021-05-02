@@ -1,22 +1,40 @@
 plugins {
-    id 'org.springframework.boot' version '2.4.4'
-    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'java'
+  id 'org.springframework.boot' version '2.4.4'
+  id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+  id 'application'
+}
+
+application {
+  mainModule = 'com.navigation.osmdataprocessor'
+}
+
+java {
+  modularity.inferModulePath = true
+}
+
+compileJava {
+  doFirst {
+    options.compilerArgs = [
+        '--module-path', classpath.asPath,
+    ]
+    classpath = files()
+  }
 }
 
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
 dependencies {
-    implementation project(':libraries:parser')
+  implementation project(':libraries:parser')
 
-    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation group: 'org.springframework.kafka', name: 'spring-kafka', version: '2.7.0'
+  annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+  implementation 'org.springframework.boot:spring-boot-starter-web'
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+  implementation 'org.springframework.kafka:spring-kafka:2.7.0'
 }
 
 test {
-    useJUnitPlatform()
+  useJUnitPlatform()
 }

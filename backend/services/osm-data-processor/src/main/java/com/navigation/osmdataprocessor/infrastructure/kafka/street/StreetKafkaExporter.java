@@ -15,8 +15,8 @@ public class StreetKafkaExporter implements ProcessedStreetExporter {
 
   public StreetKafkaExporter(
       KafkaTemplate<String, Object> kafkaTemplate,
-      @Value("${com.navigation.reversegeocodingapi.infrastructure.topics.street-connections}") String streetWaysTopic,
-      @Value("${com.navigation.reversegeocodingapi.infrastructure.topics.street-nodes}") String streetNodesTopic) {
+      @Value("${infrastructure.topics.street-connections}") String streetWaysTopic,
+      @Value("${infrastructure.topics.street-nodes}") String streetNodesTopic) {
     this.kafkaTemplate = kafkaTemplate;
     STREET_CONNECTIONS_TOPIC = streetWaysTopic;
     STREET_NODES_TOPIC = streetNodesTopic;

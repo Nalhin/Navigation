@@ -12,10 +12,11 @@ subprojects {
   apply plugin: 'java'
   apply plugin: 'jacoco'
 
-
   dependencies {
-    compile 'org.codehaus.groovy:groovy:3.0.7'
-    testImplementation group: 'org.spockframework', name: 'spock-core', version: '2.0-M4-groovy-3.0'
+    implementation 'org.jetbrains:annotations:20.1.0'
+
+    testImplementation 'org.codehaus.groovy:groovy:3.0.7'
+    testImplementation 'org.spockframework:spock-core:2.0-M4-groovy-3.0'
   }
 
   jacoco {
