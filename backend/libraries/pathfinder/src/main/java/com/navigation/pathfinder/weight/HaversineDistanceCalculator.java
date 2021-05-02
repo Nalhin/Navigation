@@ -4,7 +4,7 @@ import com.navigation.pathfinder.graph.Coordinates;
 
 class HaversineDistanceCalculator {
 
-  private static final double EARTH_RADIUS = 6378.137;
+  private static final int EARTH_RADIUS = 6371;
 
   public double calculateDistance(Coordinates startCoors, Coordinates endCoords) {
     double startLat = startCoors.getLatitude();
