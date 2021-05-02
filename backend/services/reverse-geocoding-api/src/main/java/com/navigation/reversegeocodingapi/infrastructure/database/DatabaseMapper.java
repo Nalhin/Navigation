@@ -5,7 +5,7 @@ import com.navigation.reversegeocodingapi.domain.Location;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DatabaseMapper {
+class DatabaseMapper {
 
   Address toDomain(AddressEntity entity) {
     return new Address.AddressBuilder()

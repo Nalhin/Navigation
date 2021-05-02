@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: reverse-geocoding-api
+  cloud:
+    consul:
+      enabled: false
+  data:
+    mongodb:
+      auto-index-creation: on

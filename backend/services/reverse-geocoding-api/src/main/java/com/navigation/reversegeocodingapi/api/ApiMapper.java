@@ -7,7 +7,7 @@ import com.navigation.reversegeocodingapi.domain.Location;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ApiMapper {
+class ApiMapper {
   public AddressDto toDto(Address entity) {
     var dto = new AddressDto();
     dto.setCity(entity.getCity());

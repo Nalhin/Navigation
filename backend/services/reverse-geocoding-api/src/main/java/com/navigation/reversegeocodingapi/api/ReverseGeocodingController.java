@@ -9,11 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 @Controller
 @RequestMapping("/api/v1/reverse-geocode")
-public class ReverseGeocodingController {
+class ReverseGeocodingController {
 
   private final ReverseGeocodingService service;
   private final ApiMapper mapper;
@@ -25,7 +26,7 @@ public class ReverseGeocodingController {
 
   @GetMapping
   public ResponseEntity<AddressDto> getClosestAddress(
-      @Param("latitude") Double latitude, @Param("longitude") Double longitude) {
+          @RequestParam("latitude") Double latitude, @RequestParam("longitude") Double longitude) {
 
     return service
         .findClosestAddress(new Location(latitude, longitude))

@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("addresses")
-public class AddressEntity {
+class AddressEntity {
 
     @Id
     private long id;
