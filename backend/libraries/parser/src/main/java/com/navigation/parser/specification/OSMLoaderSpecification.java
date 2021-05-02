@@ -1,7 +1,7 @@
-package com.navigation.parser.loader.specification;
+package com.navigation.parser.specification;
 
 import com.navigation.parser.elements.ElementVisitor;
-import com.navigation.parser.loader.elements.ElementTypes;
+import com.navigation.parser.elements.ElementTypes;
 
 import java.util.List;
 

@@ -12,7 +12,12 @@ public class ExportedOSM {
   private final Bounds bounds;
   private final Metadata metadata;
 
-  public ExportedOSM(Map<Long, Node> nodes, Map<Long, Way> ways, Map<Long, Relation> relations, Bounds bounds, Metadata metadata) {
+  public ExportedOSM(
+      Map<Long, Node> nodes,
+      Map<Long, Way> ways,
+      Map<Long, Relation> relations,
+      Bounds bounds,
+      Metadata metadata) {
     this.nodes = nodes;
     this.ways = ways;
     this.relations = relations;

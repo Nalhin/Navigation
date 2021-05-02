@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class Relation extends TaggedElement implements Element{
+public final class Relation extends TaggedElement implements Element{
 
   private final List<Member> members;
 

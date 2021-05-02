@@ -5,8 +5,8 @@ import com.navigation.parser.elements.Metadata;
 import com.navigation.parser.elements.Node;
 import com.navigation.parser.elements.Relation;
 import com.navigation.parser.elements.Way;
-import com.navigation.parser.loader.elements.ElementTypes;
-import com.navigation.parser.loader.specification.OSMLoaderSpecification;
+import com.navigation.parser.elements.ElementTypes;
+import com.navigation.parser.specification.OSMLoaderSpecification;
 
 import java.util.HashSet;
 import java.util.List;

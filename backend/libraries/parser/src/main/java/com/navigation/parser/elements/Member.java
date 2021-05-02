@@ -2,7 +2,7 @@ package com.navigation.parser.elements;
 
 import java.util.Objects;
 
-public class Member {
+public final class Member {
 
   private final String type;
   private final long ref;

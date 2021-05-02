@@ -1,6 +1,6 @@
-package com.navigation.parser.loader.elements;
+package com.navigation.parser.elements;
 
-import com.navigation.parser.loader.exceptions.InvalidOsmTagException;
+import com.navigation.parser.exceptions.InvalidOsmTagException;
 
 import java.text.MessageFormat;
 import java.util.Collections;
@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum ElementTypes {
-
   WAY("way"),
   NODE("node"),
   BOUNDS("bounds"),
@@ -33,7 +32,8 @@ public enum ElementTypes {
 
   public static ElementTypes fromTag(String tag) {
     if (!ALLOWED_VALUES.containsKey(tag)) {
-      throw new InvalidOsmTagException(MessageFormat.format("Tag with name {0} is not a valid OSM tag", tag));
+      throw new InvalidOsmTagException(
+          MessageFormat.format("Tag with name {0} is not a valid OSM tag", tag));
     }
     return ALLOWED_VALUES.get(tag);
   }

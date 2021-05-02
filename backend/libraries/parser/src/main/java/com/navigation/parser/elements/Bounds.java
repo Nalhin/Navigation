@@ -2,7 +2,7 @@ package com.navigation.parser.elements;
 
 import java.util.Objects;
 
-public class Bounds implements Element {
+public final class Bounds implements Element {
 
   private final double minLatitude;
   private final double maxLatitude;

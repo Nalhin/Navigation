@@ -2,7 +2,7 @@ package com.navigation.parser.elements;
 
 import java.util.Objects;
 
-public class Metadata implements Element {
+public final class Metadata implements Element {
 
   private final String OSMVersion;
   private final String generator;

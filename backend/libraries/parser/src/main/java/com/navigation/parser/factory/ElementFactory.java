@@ -1,6 +1,7 @@
-package com.navigation.parser.loader.elements;
+package com.navigation.parser.factory;
 
 import com.navigation.parser.elements.Element;
+import com.navigation.parser.elements.ElementTypes;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 

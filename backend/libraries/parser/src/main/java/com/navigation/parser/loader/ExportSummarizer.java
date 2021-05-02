@@ -1,10 +1,10 @@
 package com.navigation.parser.loader;
 
-import com.navigation.parser.loader.elements.ElementTypes;
+import com.navigation.parser.elements.ElementTypes;
 import java.util.EnumMap;
 import java.util.Map;
 
-public class ExportSummarizer {
+class ExportSummarizer {
 
   private final Map<ElementTypes, Long> parsedCounter = new EnumMap<>(ElementTypes.class);
   private final Map<ElementTypes, Long> acceptedCounter = new EnumMap<>(ElementTypes.class);

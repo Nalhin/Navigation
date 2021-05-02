@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class Way extends TaggedElement implements Element {
+public final class Way extends TaggedElement implements Element {
 
   private final List<Long> nodeReferences;
 

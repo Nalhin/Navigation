@@ -1,6 +1,6 @@
-package com.navigation.parser.loader.elements;
+package com.navigation.parser.elements;
 
-import com.navigation.parser.loader.exceptions.InvalidOsmTagException;
+import com.navigation.parser.exceptions.InvalidOsmTagException;
 
 import java.text.MessageFormat;
 import java.util.Collections;

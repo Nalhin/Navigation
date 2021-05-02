@@ -1,6 +1,6 @@
 package com.navigation.parser.loader;
 
-import com.navigation.parser.loader.elements.ElementTypes;
+import com.navigation.parser.elements.ElementTypes;
 import java.util.Map;
 
 public class ExportSummary {
@@ -9,7 +9,7 @@ public class ExportSummary {
   private final Map<ElementTypes, Long> acceptedCounter;
   private final Map<ElementTypes, Long> exportedCounter;
 
-  public ExportSummary(
+  ExportSummary(
       Map<ElementTypes, Long> parsedCounter,
       Map<ElementTypes, Long> acceptedCounter,
       Map<ElementTypes, Long> exportedCounter) {

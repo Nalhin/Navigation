@@ -1,11 +1,11 @@
 package com.navigation.parser.loader;
 
 import com.navigation.parser.exporter.OSMExporter;
-import com.navigation.parser.loader.elements.ElementFactory;
-import com.navigation.parser.loader.elements.ElementTypes;
-import com.navigation.parser.loader.elements.ElementFactoryImpl;
-import com.navigation.parser.loader.specification.OSMLoadAllSpecification;
-import com.navigation.parser.loader.specification.OSMLoaderSpecification;
+import com.navigation.parser.factory.ElementFactory;
+import com.navigation.parser.elements.ElementTypes;
+import com.navigation.parser.factory.ElementFactoryImpl;
+import com.navigation.parser.specification.OSMLoadAllSpecification;
+import com.navigation.parser.specification.OSMLoaderSpecification;
 import com.navigation.parser.provider.OSMProvider;
 
 import javax.xml.stream.XMLStreamException;

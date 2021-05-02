@@ -1,4 +1,4 @@
-package com.navigation.parser.loader.elements;
+package com.navigation.parser.factory;
 
 import com.navigation.parser.elements.*;
 
@@ -6,8 +6,6 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class ElementFactoryImpl implements ElementFactory {
 
@@ -26,7 +24,7 @@ public class ElementFactoryImpl implements ElementFactory {
     var id = Long.parseLong(reader.getAttributeValue(null, "id"));
     var nested = loadNestedElements(reader, ElementTypes.WAY);
 
-    return new Way(id, nested.tags, nested.refs);
+    return new Way(id, nested.getTags(), nested.getRefs());
   }
 
   private Node loadNode(XMLStreamReader reader) throws XMLStreamException {
@@ -35,7 +33,7 @@ public class ElementFactoryImpl implements ElementFactory {
     var lon = Double.parseDouble(reader.getAttributeValue(null, "lon"));
     var nested = loadNestedElements(reader, ElementTypes.NODE);
 
-    return new Node(id, nested.tags, lat, lon);
+    return new Node(id, nested.getTags(), lat, lon);
   }
 
   private Bounds loadBounds(XMLStreamReader reader) {
@@ -54,7 +52,7 @@ public class ElementFactoryImpl implements ElementFactory {
   private Relation loadRelation(XMLStreamReader reader) throws XMLStreamException {
     var id = Long.parseLong(reader.getAttributeValue(null, "id"));
     var nested = loadNestedElements(reader, ElementTypes.RELATION);
-    return new Relation(id, nested.tags, nested.members);
+    return new Relation(id, nested.getTags(), nested.getMembers());
   }
 
   private NestedElementsReturn loadNestedElements(XMLStreamReader reader, ElementTypes endElement) throws XMLStreamException {
@@ -76,17 +74,5 @@ public class ElementFactoryImpl implements ElementFactory {
     }
 
     return new NestedElementsReturn(tags, refs, members);
-  }
-
-  private static class NestedElementsReturn {
-    private final Map<String, String> tags;
-    private final List<Long> refs;
-    private final List<Member> members;
-
-    public NestedElementsReturn(Map<String, String> tags, List<Long> refs, List<Member> members) {
-      this.tags = tags;
-      this.refs = refs;
-      this.members = members;
-    }
   }
 }

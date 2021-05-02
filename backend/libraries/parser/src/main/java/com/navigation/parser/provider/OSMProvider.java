@@ -5,6 +5,5 @@ import javax.xml.stream.XMLStreamReader;
 import java.io.IOException;
 
 public interface OSMProvider {
-
   XMLStreamReader loadOSMXml() throws IOException, XMLStreamException;
 }
