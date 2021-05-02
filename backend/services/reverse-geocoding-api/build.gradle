@@ -8,7 +8,6 @@ ext {
   set('springCloudVersion', "2020.0.2")
 }
 
-
 dependencies {
   implementation 'org.springdoc:springdoc-openapi-ui:1.5.8'
 

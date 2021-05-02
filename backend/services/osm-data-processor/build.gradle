@@ -1,28 +1,6 @@
 plugins {
   id 'org.springframework.boot' version '2.4.4'
   id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-  id 'application'
-}
-
-application {
-  mainModule = 'com.navigation.osmdataprocessor'
-}
-
-java {
-  modularity.inferModulePath = true
-}
-
-compileJava {
-  doFirst {
-    options.compilerArgs = [
-        '--module-path', classpath.asPath,
-    ]
-    classpath = files()
-  }
-}
-
-repositories {
-  mavenCentral()
 }
 
 dependencies {
