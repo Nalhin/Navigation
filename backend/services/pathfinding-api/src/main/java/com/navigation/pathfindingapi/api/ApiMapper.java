@@ -2,14 +2,19 @@ package com.navigation.pathfindingapi.api;
 
 import com.navigation.pathfinder.graph.Coordinates;
 import com.navigation.pathfinder.graph.Vertex;
-import com.navigation.pathfindingapi.api.dto.*;
+import com.navigation.pathfindingapi.api.dto.params.BoundsRequestDtoParams;
+import com.navigation.pathfindingapi.api.dto.params.PathRequestDtoParams;
+import com.navigation.pathfindingapi.api.dto.response.NodeResponseDto;
+import com.navigation.pathfindingapi.api.dto.response.PathResponseDto;
+import com.navigation.pathfindingapi.api.dto.shared.OptimizationDto;
+import com.navigation.pathfindingapi.api.dto.shared.PathfindingAlgorithmsDto;
 import com.navigation.pathfindingapi.domain.*;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
 @Component
-public class ApiMapper {
+class ApiMapper {
 
   public PathResponseDto toResponse(PathWithExecutionSummary pathWithSummary) {
     var response = new PathResponseDto();

@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 interface MongoConnectionRepository extends MongoRepository<StreetConnectionEntity, String> {
-   List<StreetConnectionEntity> findByFromIdInAndToIdIn(Collection<Long> id,Collection<Long> ids);
+  List<StreetConnectionEntity> findByFromIdInAndToIdIn(Collection<Long> id, Collection<Long> ids);
 }

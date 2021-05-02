@@ -1,11 +1,21 @@
-package com.navigation.pathfindingapi.api.dto;
+package com.navigation.pathfindingapi.api.dto.params;
+
+import com.navigation.pathfindingapi.api.dto.shared.OptimizationDto;
+import com.navigation.pathfindingapi.api.dto.shared.PathfindingAlgorithmsDto;
+import javax.validation.constraints.NotNull;
 
 public class PathRequestDtoParams {
+  @NotNull
   private Double startLatitude;
+  @NotNull
   private Double startLongitude;
+  @NotNull
   private Double endLatitude;
+  @NotNull
   private Double endLongitude;
+  @NotNull
   private PathfindingAlgorithmsDto algorithm;
+  @NotNull
   private OptimizationDto optimization;
 
   public Double getStartLatitude() {

@@ -1,4 +1,4 @@
-package com.navigation.pathfindingapi.api.dto;
+package com.navigation.pathfindingapi.api.dto.response;
 
 public class NodeResponseDto {
   private double latitude;

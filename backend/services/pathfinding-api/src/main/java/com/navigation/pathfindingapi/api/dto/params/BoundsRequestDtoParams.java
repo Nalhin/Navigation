@@ -1,10 +1,16 @@
-package com.navigation.pathfindingapi.api.dto;
+package com.navigation.pathfindingapi.api.dto.params;
+
+import javax.validation.constraints.NotNull;
 
 public class BoundsRequestDtoParams {
 
+    @NotNull
     private Double minLatitude;
+    @NotNull
     private Double minLongitude;
+    @NotNull
     private Double maxLatitude;
+    @NotNull
     private Double maxLongitude;
 
     public Double getMinLatitude() {

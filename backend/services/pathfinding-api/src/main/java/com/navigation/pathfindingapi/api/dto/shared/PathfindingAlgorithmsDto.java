@@ -1,4 +1,4 @@
-package com.navigation.pathfindingapi.api.dto;
+package com.navigation.pathfindingapi.api.dto.shared;
 
 public enum PathfindingAlgorithmsDto {
     DIJKSTRA,

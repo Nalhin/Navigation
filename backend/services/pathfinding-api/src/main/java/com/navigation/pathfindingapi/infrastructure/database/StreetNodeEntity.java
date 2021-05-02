@@ -7,31 +7,30 @@ import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("streetNodes")
-public class StreetNodeEntity {
-    @Id
-    private long id;
+class StreetNodeEntity {
+  @Id private long id;
 
-    @GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)
-    private GeoJsonPoint location;
+  @GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)
+  private GeoJsonPoint location;
 
-    public StreetNodeEntity(long id, GeoJsonPoint location) {
-        this.id = id;
-        this.location = location;
-    }
+  public StreetNodeEntity(long id, GeoJsonPoint location) {
+    this.id = id;
+    this.location = location;
+  }
 
-    public long getId() {
-        return id;
-    }
+  public long getId() {
+    return id;
+  }
 
-    public GeoJsonPoint getLocation() {
-        return location;
-    }
+  public GeoJsonPoint getLocation() {
+    return location;
+  }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+  public void setId(long id) {
+    this.id = id;
+  }
 
-    public void setLocation(GeoJsonPoint location) {
-        this.location = location;
-    }
+  public void setLocation(GeoJsonPoint location) {
+    this.location = location;
+  }
 }

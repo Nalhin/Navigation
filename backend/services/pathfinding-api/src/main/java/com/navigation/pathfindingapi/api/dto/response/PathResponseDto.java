@@ -1,5 +1,7 @@
-package com.navigation.pathfindingapi.api.dto;
+package com.navigation.pathfindingapi.api.dto.response;
 
+import com.navigation.pathfindingapi.api.dto.shared.OptimizationDto;
+import com.navigation.pathfindingapi.api.dto.shared.PathfindingAlgorithmsDto;
 import java.util.List;
 
 public class PathResponseDto {

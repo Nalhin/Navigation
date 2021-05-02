@@ -75,7 +75,6 @@ public class MongoMapRepository implements MapRepository {
                 new Coordinates(first.getLocation().getY(), first.getLocation().getX())));
   }
 
-
   @Cacheable("graphBounded")
   @Override
   public Graph prepareGraphWithinBounds(BoundsQuery boundsQuery) {
@@ -84,8 +83,12 @@ public class MongoMapRepository implements MapRepository {
     var locations =
         nodeRepository.findByLocationWithin(
             new Box(
-                new GeoJsonPoint(boundsQuery.getLeftBottom().getLongitude(), boundsQuery.getLeftBottom().getLatitude()),
-                new GeoJsonPoint(boundsQuery.getTopRight().getLongitude(), boundsQuery.getTopRight().getLatitude())));
+                new GeoJsonPoint(
+                    boundsQuery.getLeftBottom().getLongitude(),
+                    boundsQuery.getLeftBottom().getLatitude()),
+                new GeoJsonPoint(
+                    boundsQuery.getTopRight().getLongitude(),
+                    boundsQuery.getTopRight().getLatitude())));
 
     locations.forEach(
         (node) ->

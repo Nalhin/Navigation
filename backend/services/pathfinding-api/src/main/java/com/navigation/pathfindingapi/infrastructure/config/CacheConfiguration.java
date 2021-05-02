@@ -1,4 +1,4 @@
-package com.navigation.pathfindingapi.infrastructure.configuration;
+package com.navigation.pathfindingapi.infrastructure.config;
 
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableCaching
-public class CacheConfiguration {
+class CacheConfiguration {
     @Bean
     public CacheManager cacheManager() {
         return new ConcurrentMapCacheManager("graph", "graphBounded");
