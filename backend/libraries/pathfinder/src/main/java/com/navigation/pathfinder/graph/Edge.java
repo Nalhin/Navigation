@@ -24,7 +24,7 @@ public final class Edge {
     return maxSpeed;
   }
 
-  public Edge reversed(){
+  public Edge reversed() {
     return new Edge(to, from, maxSpeed);
   }
 }

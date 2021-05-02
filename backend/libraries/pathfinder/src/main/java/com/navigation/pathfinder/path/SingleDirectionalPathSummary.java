@@ -4,18 +4,17 @@ import com.navigation.pathfinder.convexhull.ConvexHullCalculator;
 import com.navigation.pathfinder.convexhull.AndrewMonotoneChainConvexHullCalculator;
 import com.navigation.pathfinder.graph.Edge;
 import com.navigation.pathfinder.graph.Vertex;
+import com.navigation.pathfinder.pathfinding.PathSummary;
 import com.navigation.pathfinder.weight.DistanceEdgeWeightCalculator;
 import com.navigation.pathfinder.weight.DurationEdgeWeightCalculator;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-public final class SingleDirectionalPathSummary implements PathSummary{
+public final class SingleDirectionalPathSummary implements PathSummary {
 
-  private final List<Edge> path;
-  private final Map<Vertex, Edge> predecessorTree;
   private static final DistanceEdgeWeightCalculator distanceCalculator =
       new DistanceEdgeWeightCalculator();
   private static final DurationEdgeWeightCalculator durationCalculator =
@@ -23,9 +22,12 @@ public final class SingleDirectionalPathSummary implements PathSummary{
   private static final ConvexHullCalculator convexHullCalculator =
       new AndrewMonotoneChainConvexHullCalculator();
 
-  public SingleDirectionalPathSummary(List<Edge> path, Map<Vertex, Edge> predecessorTree) {
+  private final List<Edge> path;
+  private final Set<Vertex> searchedVertices;
+
+  public SingleDirectionalPathSummary(List<Edge> path, Set<Vertex> searchedVertices) {
     this.path = path;
-    this.predecessorTree = predecessorTree;
+    this.searchedVertices = searchedVertices;
   }
 
   @Override
@@ -42,7 +44,7 @@ public final class SingleDirectionalPathSummary implements PathSummary{
 
   @Override
   public int totalVisitedVertices() {
-    return predecessorTree.size();
+    return searchedVertices.size();
   }
 
   @Override
@@ -56,7 +58,7 @@ public final class SingleDirectionalPathSummary implements PathSummary{
   }
 
   @Override
-  public Collection<List<Vertex>> convexHulls() {
-    return List.of(convexHullCalculator.calculateConvexHull(predecessorTree.keySet()));
+  public Collection<List<Vertex>> searchBoundaries() {
+    return List.of(convexHullCalculator.calculateConvexHull(searchedVertices));
   }
 }

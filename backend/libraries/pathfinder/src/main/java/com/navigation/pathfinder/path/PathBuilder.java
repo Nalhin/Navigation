@@ -3,6 +3,7 @@ package com.navigation.pathfinder.path;
 import com.navigation.pathfinder.graph.Edge;
 import com.navigation.pathfinder.graph.Vertex;
 
+import com.navigation.pathfinder.pathfinding.PathSummary;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
@@ -18,10 +19,10 @@ public class PathBuilder {
       currNode = edge.getFrom();
     }
     if (currNode != start) {
-      return new SingleDirectionalPathSummary(Collections.emptyList(), predecessorTree);
+      return new SingleDirectionalPathSummary(Collections.emptyList(), predecessorTree.keySet());
     }
     Collections.reverse(result);
 
-    return new SingleDirectionalPathSummary(result, predecessorTree);
+    return new SingleDirectionalPathSummary(result, predecessorTree.keySet());
   }
 }

@@ -3,7 +3,6 @@ package com.navigation.pathfinder.pathfinding;
 import com.navigation.pathfinder.graph.Edge;
 import com.navigation.pathfinder.graph.Graph;
 import com.navigation.pathfinder.graph.Vertex;
-import com.navigation.pathfinder.path.PathSummary;
 import com.navigation.pathfinder.path.PathBuilder;
 
 import java.util.ArrayDeque;

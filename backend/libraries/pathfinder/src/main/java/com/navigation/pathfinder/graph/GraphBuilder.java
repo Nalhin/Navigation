@@ -1,16 +1,11 @@
 package com.navigation.pathfinder.graph;
 
-import com.navigation.pathfinder.weight.DistanceEdgeWeightCalculator;
-import com.navigation.pathfinder.weight.EdgeWeightCalculator;
-
 import java.util.*;
 
 public final class GraphBuilder {
 
   private final Map<Long, Vertex> vertices = new HashMap<>();
   private final Map<Vertex, List<Edge>> nodes = new HashMap<>();
-
-  public GraphBuilder() {}
 
   public GraphBuilder addVertex(long id, Coordinates location) {
     return addVertex(new Vertex(id, location));

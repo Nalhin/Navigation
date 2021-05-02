@@ -28,7 +28,7 @@ class ApiMapper {
     response.setTotalDuration(path.totalDuration());
     response.setExecutionDuration(pathWithSummary.getExecutionDurationInSeconds());
     response.setSearchBoundaries(
-        path.convexHulls().stream()
+        path.searchBoundaries().stream()
             .map(hull -> hull.stream().map(this::toResponse).collect(Collectors.toList()))
             .collect(Collectors.toList()));
     response.setAlgorithm(PathfindingAlgorithmsDto.valueOf(pathWithSummary.getAlgorithm().toString()));

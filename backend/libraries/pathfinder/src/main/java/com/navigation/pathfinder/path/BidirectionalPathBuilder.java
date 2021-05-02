@@ -3,6 +3,7 @@ package com.navigation.pathfinder.path;
 import com.navigation.pathfinder.graph.Edge;
 import com.navigation.pathfinder.graph.Vertex;
 
+import com.navigation.pathfinder.pathfinding.PathSummary;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
@@ -38,6 +39,6 @@ public class BidirectionalPathBuilder {
       throw new RuntimeException();
     }
 
-    return new BidirectionalPathSummary(path, predecessorTreeStart, predecessorTreeEnd);
+    return new BidirectionalPathSummary(path, predecessorTreeStart.keySet(), predecessorTreeEnd.keySet());
   }
 }

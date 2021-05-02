@@ -4,6 +4,7 @@ import com.navigation.pathfinder.convexhull.AndrewMonotoneChainConvexHullCalcula
 import com.navigation.pathfinder.convexhull.ConvexHullCalculator;
 import com.navigation.pathfinder.graph.Edge;
 import com.navigation.pathfinder.graph.Vertex;
+import com.navigation.pathfinder.pathfinding.PathSummary;
 import com.navigation.pathfinder.weight.DistanceEdgeWeightCalculator;
 import com.navigation.pathfinder.weight.DurationEdgeWeightCalculator;
 
@@ -12,9 +13,6 @@ import java.util.stream.Collectors;
 
 public class BidirectionalPathSummary implements PathSummary {
 
-  private final List<Edge> path;
-  private final Map<Vertex, Edge> predecessorTreeStart;
-  private final Map<Vertex, Edge> predecessorTreeEnd;
   private static final DistanceEdgeWeightCalculator distanceCalculator =
       new DistanceEdgeWeightCalculator();
   private static final DurationEdgeWeightCalculator durationCalculator =
@@ -22,13 +20,15 @@ public class BidirectionalPathSummary implements PathSummary {
   private static final ConvexHullCalculator convexHullCalculator =
       new AndrewMonotoneChainConvexHullCalculator();
 
+  private final List<Edge> path;
+  private final Set<Vertex> searchedVerticesFromStart;
+  private final Set<Vertex> searchedVerticesFromEnd;
+
   public BidirectionalPathSummary(
-      List<Edge> path,
-      Map<Vertex, Edge> predecessorTreeStart,
-      Map<Vertex, Edge> predecessorTreeEnd) {
+      List<Edge> path, Set<Vertex> searchedVerticesFromStart, Set<Vertex> searchedVerticesFromEnd) {
     this.path = path;
-    this.predecessorTreeStart = predecessorTreeStart;
-    this.predecessorTreeEnd = predecessorTreeEnd;
+    this.searchedVerticesFromStart = searchedVerticesFromStart;
+    this.searchedVerticesFromEnd = searchedVerticesFromEnd;
   }
 
   @Override
@@ -45,7 +45,7 @@ public class BidirectionalPathSummary implements PathSummary {
 
   @Override
   public int totalVisitedVertices() {
-    return predecessorTreeStart.size() + predecessorTreeEnd.size();
+    return searchedVerticesFromStart.size() + searchedVerticesFromEnd.size();
   }
 
   @Override
@@ -59,10 +59,10 @@ public class BidirectionalPathSummary implements PathSummary {
   }
 
   @Override
-  public Collection<List<Vertex>> convexHulls() {
+  public Collection<List<Vertex>> searchBoundaries() {
 
     return List.of(
-        convexHullCalculator.calculateConvexHull(predecessorTreeStart.keySet()),
-        convexHullCalculator.calculateConvexHull(predecessorTreeEnd.keySet()));
+        convexHullCalculator.calculateConvexHull(searchedVerticesFromStart),
+        convexHullCalculator.calculateConvexHull(searchedVerticesFromEnd));
   }
 }

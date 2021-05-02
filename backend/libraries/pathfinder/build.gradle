@@ -1,1 +1,12 @@
-dependencies {}
+plugins {
+  id 'application'
+}
+
+application {
+  mainModule = 'com.navigation.pathfinder'
+}
+
+java {
+  modularity.inferModulePath = true
+}
+

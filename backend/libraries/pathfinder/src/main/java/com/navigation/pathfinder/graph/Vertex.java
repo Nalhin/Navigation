@@ -1,6 +1,5 @@
 package com.navigation.pathfinder.graph;
 
-
 import java.util.Objects;
 
 public final class Vertex {

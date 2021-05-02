@@ -1,6 +1,6 @@
 package com.navigation.pathfindingapi.domain;
 
-import com.navigation.pathfinder.path.PathSummary;
+import com.navigation.pathfinder.pathfinding.PathSummary;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;

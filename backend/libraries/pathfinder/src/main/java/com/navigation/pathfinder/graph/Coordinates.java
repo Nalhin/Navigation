@@ -30,7 +30,8 @@ public final class Coordinates {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Coordinates that = (Coordinates) o;
-    return Double.compare(that.latitude, latitude) == 0 && Double.compare(that.longitude, longitude) == 0;
+    return Double.compare(that.latitude, latitude) == 0
+        && Double.compare(that.longitude, longitude) == 0;
   }
 
   @Override

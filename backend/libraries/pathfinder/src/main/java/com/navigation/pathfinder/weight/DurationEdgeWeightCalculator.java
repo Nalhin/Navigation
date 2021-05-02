@@ -8,6 +8,9 @@ public class DurationEdgeWeightCalculator implements EdgeWeightCalculator {
 
   @Override
   public double calculateWeight(Edge edge) {
-    return distanceCalculator.calculateDistance(edge.getFrom().getCoordinates(), edge.getTo().getCoordinates()) / edge.getMaxSpeed() * 60;
+    return distanceCalculator.calculateDistance(
+            edge.getFrom().getCoordinates(), edge.getTo().getCoordinates())
+        / edge.getMaxSpeed()
+        * 60;
   }
 }

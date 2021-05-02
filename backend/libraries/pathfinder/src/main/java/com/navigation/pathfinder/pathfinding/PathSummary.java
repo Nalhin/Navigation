@@ -1,4 +1,4 @@
-package com.navigation.pathfinder.path;
+package com.navigation.pathfinder.pathfinding;
 
 import com.navigation.pathfinder.graph.Vertex;
 
@@ -17,5 +17,5 @@ public interface PathSummary {
 
   double totalDuration();
 
-  Collection<List<Vertex>> convexHulls();
+  Collection<List<Vertex>> searchBoundaries();
 }

@@ -4,7 +4,6 @@ import com.navigation.pathfinder.graph.Edge;
 import com.navigation.pathfinder.graph.Graph;
 import com.navigation.pathfinder.graph.Vertex;
 import com.navigation.pathfinder.path.BidirectionalPathBuilder;
-import com.navigation.pathfinder.path.PathSummary;
 
 import java.util.*;
 
