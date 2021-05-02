@@ -30,7 +30,7 @@ public class RootExporter implements ApplicationListener<ApplicationReadyEvent> 
 
   public RootExporter(
       ApplicationContext context,
-      @Value("${infrastructure.osm.filePath}") String filePath,
+      @Value("${com.navigation.reversegeocodingapi.infrastructure.osm.filePath}") String filePath,
       AddressExporter addressExporter,
       StreetExporter streetExporter) {
     this.context = context;

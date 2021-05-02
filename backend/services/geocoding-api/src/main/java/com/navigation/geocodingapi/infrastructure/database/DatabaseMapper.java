@@ -5,7 +5,7 @@ import com.navigation.geocodingapi.domain.Location;
 import org.springframework.stereotype.Component;
 
 @Component
-class EntityMapper {
+class DatabaseMapper {
 
   Address toDomain(AddressEntity entity) {
     return new Address.AddressBuilder()

@@ -1,9 +1,8 @@
 package com.navigation.reversegeocodingapi.api;
 
-import com.navigation.reversegeocodingapi.infrastructure.database.MongoAddressRepository;
-import org.springframework.data.geo.Distance;
-import org.springframework.data.geo.Metrics;
-import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
+import com.navigation.reversegeocodingapi.api.response.AddressDto;
+import com.navigation.reversegeocodingapi.domain.Location;
+import com.navigation.reversegeocodingapi.domain.ReverseGeocodingService;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,21 +15,21 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/api/v1/reverse-geocode")
 public class ReverseGeocodingController {
 
-  private final MongoAddressRepository repository;
+  private final ReverseGeocodingService service;
+  private final ApiMapper mapper;
 
-  public ReverseGeocodingController(MongoAddressRepository repository) {
-    this.repository = repository;
+  public ReverseGeocodingController(ReverseGeocodingService service, ApiMapper mapper) {
+    this.service = service;
+    this.mapper = mapper;
   }
 
   @GetMapping
   public ResponseEntity<AddressDto> getClosestAddress(
       @Param("latitude") Double latitude, @Param("longitude") Double longitude) {
-    var closestAddress =
-        repository.findTop1ByLocationNear(
-            new GeoJsonPoint(longitude, latitude), new Distance(0.2, Metrics.KILOMETERS));
 
-    return closestAddress
-        .map(AddressDto::fromEntity)
+    return service
+        .findClosestAddress(new Location(latitude, longitude))
+        .map(mapper::toDto)
         .map(ResponseEntity::ok)
         .orElseThrow(
             () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find address"));

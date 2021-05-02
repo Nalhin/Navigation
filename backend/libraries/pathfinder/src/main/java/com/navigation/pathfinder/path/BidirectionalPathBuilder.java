@@ -38,6 +38,6 @@ public class BidirectionalPathBuilder {
       throw new RuntimeException();
     }
 
-    return new BidirectionalPathSummary(path, predecessorTreeStart, predecessorTreeEnd, mid);
+    return new BidirectionalPathSummary(path, predecessorTreeStart, predecessorTreeEnd);
   }
 }

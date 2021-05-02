@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface MongoAddressRepository extends MongoRepository<AddressEntity, Long> {
+interface MongoAddressRepository extends MongoRepository<AddressEntity, Long> {
 
   Optional<AddressEntity> findTop1ByLocationNear(GeoJsonPoint point, Distance distance);
 }

@@ -2,9 +2,9 @@ package com.navigation.pathfinder.weight;
 
 import com.navigation.pathfinder.graph.Coordinates;
 
-public class HaversineDistanceCalculator {
+class HaversineDistanceCalculator {
 
-  private static final int EARTH_RADIUS = 6371;
+  private static final double EARTH_RADIUS = 6378.137;
 
   public double calculateDistance(Coordinates startCoors, Coordinates endCoords) {
     double startLat = startCoors.getLatitude();

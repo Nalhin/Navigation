@@ -21,6 +21,7 @@ http://download.geofabrik.de/europe/poland.html
 ```
 modules
   services 
+    reverse-geocoding-api
     geocoding-api
     pathfinding-api
     osm-data-exporter

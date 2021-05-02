@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
-public class ElasticSearchAddressRepository implements AddressRepository {
-  private final AddressEntityRepository addressRepository;
-  private final EntityMapper mapper;
+public class DatabaseAddressRepository implements AddressRepository {
+  private final ElasticSearchAddressEntityRepository addressRepository;
+  private final DatabaseMapper mapper;
 
-  public ElasticSearchAddressRepository(
-          AddressEntityRepository addressRepository, EntityMapper mapper) {
+  public DatabaseAddressRepository(
+          ElasticSearchAddressEntityRepository addressRepository, DatabaseMapper mapper) {
     this.addressRepository = addressRepository;
     this.mapper = mapper;
   }

@@ -3,10 +3,10 @@ package com.navigation.geocodingapi.infrastructure.database
 import spock.lang.Specification
 import spock.lang.Subject
 
-class EntityMapperTest extends Specification {
+class DatabaseMapperTest extends Specification {
 
   @Subject
-  def mapper = new EntityMapper()
+  def mapper = new DatabaseMapper()
 
   def "toDomain should map AddressEntity to Address domain object"() {
     given:

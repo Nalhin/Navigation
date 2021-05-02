@@ -1,7 +1,4 @@
-package com.navigation.reversegeocodingapi.api;
-
-import com.navigation.reversegeocodingapi.infrastructure.database.AddressEntity;
-import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
+package com.navigation.reversegeocodingapi.api.response;
 
 public class AddressDto {
   private long id;
@@ -11,18 +8,6 @@ public class AddressDto {
   private String houseNumber;
   private String street;
   private String postCode;
-
-  public static AddressDto fromEntity(AddressEntity entity) {
-    var dto = new AddressDto();
-    dto.setCity(entity.getCity());
-    dto.setCountry(entity.getCountry());
-    dto.setId(entity.getId());
-    dto.setLocation(new LocationDto(entity.getLocation().getY(), entity.getLocation().getX()));
-    dto.setHouseNumber(entity.getHouseNumber());
-    dto.setStreet(entity.getStreet());
-    dto.setPostCode(entity.getPostCode());
-    return dto;
-  }
 
   public long getId() {
     return id;

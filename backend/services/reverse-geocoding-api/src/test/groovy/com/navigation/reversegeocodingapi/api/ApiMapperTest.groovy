@@ -1,7 +1,7 @@
-package com.navigation.geocodingapi.api
+package com.navigation.reversegeocodingapi.api
 
-import com.navigation.geocodingapi.domain.Address
-import com.navigation.geocodingapi.domain.Location
+import com.navigation.reversegeocodingapi.domain.Address
+import com.navigation.reversegeocodingapi.domain.Location
 import spock.lang.Specification
 import spock.lang.Subject
 

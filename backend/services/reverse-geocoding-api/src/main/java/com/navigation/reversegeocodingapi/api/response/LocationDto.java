@@ -1,4 +1,4 @@
-package com.navigation.reversegeocodingapi.api;
+package com.navigation.reversegeocodingapi.api.response;
 
 public class LocationDto {
   private double latitude;

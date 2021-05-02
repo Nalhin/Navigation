@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 public class BidirectionalPathSummary implements PathSummary {
 
   private final List<Edge> path;
-  private final Vertex mid;
   private final Map<Vertex, Edge> predecessorTreeStart;
   private final Map<Vertex, Edge> predecessorTreeEnd;
   private static final DistanceEdgeWeightCalculator distanceCalculator =
@@ -26,12 +25,10 @@ public class BidirectionalPathSummary implements PathSummary {
   public BidirectionalPathSummary(
       List<Edge> path,
       Map<Vertex, Edge> predecessorTreeStart,
-      Map<Vertex, Edge> predecessorTreeEnd,
-      Vertex mid) {
+      Map<Vertex, Edge> predecessorTreeEnd) {
     this.path = path;
     this.predecessorTreeStart = predecessorTreeStart;
     this.predecessorTreeEnd = predecessorTreeEnd;
-    this.mid = mid;
   }
 
   @Override
