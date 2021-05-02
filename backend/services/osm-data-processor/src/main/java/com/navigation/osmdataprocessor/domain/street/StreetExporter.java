@@ -18,13 +18,14 @@ public class StreetExporter implements OSMExporter {
   }
 
   @Override
-  public void export(Node node) {
+  public boolean accept(Node node) {
     var streetNode = new StreetNode(node.getLatitude(), node.getLongitude(), node.getId());
     processedExporter.exportProcessedStreetNode(String.valueOf(node.getId()), streetNode);
+    return true;
   }
 
   @Override
-  public void export(Way way) {
+  public boolean accept(Way way) {
     List<Long> nodeReferences = way.getNodeReferences();
     int maxSpeed = extractMaxSpeed(way);
     for (int i = 1; i < nodeReferences.size(); i++) {
@@ -41,6 +42,7 @@ public class StreetExporter implements OSMExporter {
             generateId(from, to), new StreetConnection(from, to, maxSpeed));
       }
     }
+    return true;
   }
 
   private int extractMaxSpeed(Way way) {
@@ -59,17 +61,17 @@ public class StreetExporter implements OSMExporter {
   }
 
   @Override
-  public void export(Bounds bounds) {
+  public boolean accept(Bounds bounds) {
     throw new ExportNotSupportedException();
   }
 
   @Override
-  public void export(Metadata metadata) {
+  public boolean accept(Metadata metadata) {
     throw new ExportNotSupportedException();
   }
 
   @Override
-  public void export(Relation relation) {
+  public boolean accept(Relation relation) {
     throw new ExportNotSupportedException();
   }
 }

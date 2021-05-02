@@ -59,7 +59,7 @@ class OSMLoaderTest extends Specification {
 </osm>"""
 
   def "Should load nodes with matching ids"() {
-    setup:
+    given:
     def exporter = new OSMExporterInMemory()
     def loader = new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter)
     when:
@@ -76,7 +76,7 @@ class OSMLoaderTest extends Specification {
   }
 
   def "Should load ways with matching ids"() {
-    setup:
+    given:
     def exporter = new OSMExporterInMemory()
     def loader = new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter)
     when:
@@ -89,7 +89,7 @@ class OSMLoaderTest extends Specification {
   }
 
   def "Should load node tag data"() {
-    setup:
+    given:
     def exporter = new OSMExporterInMemory()
     def loader = new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter)
     when:
@@ -106,7 +106,7 @@ class OSMLoaderTest extends Specification {
   }
 
   def "Should load way tag data"() {
-    setup:
+    given:
     def exporter = new OSMExporterInMemory()
     def loader = new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter)
     when:
@@ -126,7 +126,7 @@ class OSMLoaderTest extends Specification {
   }
 
   def "Should load node ref elements"() {
-    setup:
+    given:
     def exporter = new OSMExporterInMemory()
     when:
     new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter).export()
@@ -136,7 +136,7 @@ class OSMLoaderTest extends Specification {
   }
 
   def "Should load map bounds"() {
-    setup:
+    given:
     def exporter = new OSMExporterInMemory()
     when:
     new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter).export()
@@ -145,7 +145,7 @@ class OSMLoaderTest extends Specification {
   }
 
   def "Should load map metadata"() {
-    setup:
+    given:
     def exporter = new OSMExporterInMemory()
     when:
     new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter).export()
@@ -154,7 +154,7 @@ class OSMLoaderTest extends Specification {
   }
 
   def "Should load relation data"() {
-    setup:
+    given:
     def exporter = new OSMExporterInMemory()
     when:
     new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter).export()
@@ -164,7 +164,7 @@ class OSMLoaderTest extends Specification {
   }
 
   def "Should load relation tag data"() {
-    setup:
+    given:
     def exporter = new OSMExporterInMemory()
     def loader = new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter)
     when:
@@ -181,7 +181,7 @@ class OSMLoaderTest extends Specification {
   }
 
   def "Should load relation member data"() {
-    setup:
+    given:
     def exporter = new OSMExporterInMemory()
     when:
     new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter).export()
@@ -193,5 +193,16 @@ class OSMLoaderTest extends Specification {
                 new Member("way", 38407529L, "inner"),
                 new Member("node", 453966490L, "inner")]
 
+  }
+
+  def "Should summarize extracted document"(){
+    given:
+    def exporter = new OSMExporterInMemory()
+    when:
+    def summary = new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter).export()
+    then:
+    summary.totalParsed() == 10
+    summary.totalAccepted() == 10
+    summary.totalExported() == 10
   }
 }

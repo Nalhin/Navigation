@@ -2,7 +2,7 @@ package com.navigation.parser.elements;
 
 import java.util.Objects;
 
-public class Bounds {
+public class Bounds implements Element {
 
   private final double minLatitude;
   private final double maxLatitude;
@@ -17,11 +17,19 @@ public class Bounds {
   }
 
   @Override
+  public boolean accept(ElementVisitor visitor) {
+    return visitor.accept(this);
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Bounds bounds = (Bounds) o;
-    return Objects.equals(minLatitude, bounds.minLatitude) && Objects.equals(maxLatitude, bounds.maxLatitude) && Objects.equals(minLongitude, bounds.minLongitude) && Objects.equals(maxLongitude, bounds.maxLongitude);
+    return Objects.equals(minLatitude, bounds.minLatitude)
+        && Objects.equals(maxLatitude, bounds.maxLatitude)
+        && Objects.equals(minLongitude, bounds.minLongitude)
+        && Objects.equals(maxLongitude, bounds.maxLongitude);
   }
 
   @Override
@@ -47,11 +55,19 @@ public class Bounds {
 
   @Override
   public String toString() {
-    return "Bounds{" +
-        "minLatitude='" + minLatitude + '\'' +
-        ", maxLatitude='" + maxLatitude + '\'' +
-        ", minLongitude='" + minLongitude + '\'' +
-        ", maxLongitude='" + maxLongitude + '\'' +
-        '}';
+    return "Bounds{"
+        + "minLatitude='"
+        + minLatitude
+        + '\''
+        + ", maxLatitude='"
+        + maxLatitude
+        + '\''
+        + ", minLongitude='"
+        + minLongitude
+        + '\''
+        + ", maxLongitude='"
+        + maxLongitude
+        + '\''
+        + '}';
   }
 }

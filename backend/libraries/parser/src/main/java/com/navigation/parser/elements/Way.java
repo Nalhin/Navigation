@@ -4,13 +4,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class Way extends TaggedElement {
+public class Way extends TaggedElement implements Element {
 
   private final List<Long> nodeReferences;
 
   public Way(long id, Map<String, String> tags, List<Long> nodeReferences) {
     super(id, tags);
     this.nodeReferences = nodeReferences;
+  }
+
+  @Override
+  public boolean accept(ElementVisitor visitor) {
+    return visitor.accept(this);
   }
 
   public List<Long> getNodeReferences() {
@@ -33,8 +38,6 @@ public class Way extends TaggedElement {
 
   @Override
   public String toString() {
-    return "Way{" +
-        "nodeReferences=" + nodeReferences +
-        "} " + super.toString();
+    return "Way{" + "nodeReferences=" + nodeReferences + "} " + super.toString();
   }
 }

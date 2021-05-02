@@ -2,7 +2,7 @@ package com.navigation.parser.elements;
 
 import java.util.Objects;
 
-public class Metadata {
+public class Metadata implements Element {
 
   private final String OSMVersion;
   private final String generator;
@@ -13,11 +13,17 @@ public class Metadata {
   }
 
   @Override
+  public boolean accept(ElementVisitor visitor) {
+    return visitor.accept(this);
+  }
+
+  @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Metadata metadata = (Metadata) o;
-    return Objects.equals(OSMVersion, metadata.OSMVersion) && Objects.equals(generator, metadata.generator);
+    return Objects.equals(OSMVersion, metadata.OSMVersion)
+        && Objects.equals(generator, metadata.generator);
   }
 
   @Override
@@ -35,9 +41,13 @@ public class Metadata {
 
   @Override
   public String toString() {
-    return "Metadata{" +
-        "OSMVersion='" + OSMVersion + '\'' +
-        ", generator='" + generator + '\'' +
-        '}';
+    return "Metadata{"
+        + "OSMVersion='"
+        + OSMVersion
+        + '\''
+        + ", generator='"
+        + generator
+        + '\''
+        + '}';
   }
 }

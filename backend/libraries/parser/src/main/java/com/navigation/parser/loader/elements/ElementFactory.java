@@ -1,0 +1,9 @@
+package com.navigation.parser.loader.elements;
+
+import com.navigation.parser.elements.Element;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+
+public interface ElementFactory {
+  Element loadElement(ElementTypes elementTypes, XMLStreamReader reader) throws XMLStreamException;
+}

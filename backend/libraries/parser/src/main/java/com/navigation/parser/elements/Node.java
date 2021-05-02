@@ -2,7 +2,7 @@ package com.navigation.parser.elements;
 
 import java.util.Map;
 
-public class Node extends TaggedElement {
+public class Node extends TaggedElement implements Element {
   private final double latitude;
   private final double longitude;
 
@@ -12,6 +12,11 @@ public class Node extends TaggedElement {
     this.longitude = longitude;
   }
 
+  @Override
+  public boolean accept(ElementVisitor visitor) {
+    return visitor.accept(this);
+  }
+
   public double getLatitude() {
     return latitude;
   }
@@ -19,5 +24,4 @@ public class Node extends TaggedElement {
   public double getLongitude() {
     return longitude;
   }
-
 }

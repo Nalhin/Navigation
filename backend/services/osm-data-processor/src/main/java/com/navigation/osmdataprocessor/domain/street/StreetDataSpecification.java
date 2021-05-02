@@ -1,10 +1,11 @@
 package com.navigation.osmdataprocessor.domain.street;
 
 import com.navigation.parser.elements.Bounds;
+import com.navigation.parser.elements.Metadata;
 import com.navigation.parser.elements.Node;
 import com.navigation.parser.elements.Relation;
 import com.navigation.parser.elements.Way;
-import com.navigation.parser.loader.elements.Elements;
+import com.navigation.parser.loader.elements.ElementTypes;
 import com.navigation.parser.loader.specification.OSMLoaderSpecification;
 
 import java.util.HashSet;
@@ -35,7 +36,7 @@ class StreetDataSpecification implements OSMLoaderSpecification {
   private final Set<Long> allowList = new HashSet<>();
 
   @Override
-  public boolean isSatisfiedBy(Way way) {
+  public boolean accept(Way way) {
     if (!way.containsTagWithAnyValueIn(HIGHWAY_TAG, HIGHWAY_TAG_VALUES)) {
       return false;
     }
@@ -44,22 +45,27 @@ class StreetDataSpecification implements OSMLoaderSpecification {
   }
 
   @Override
-  public boolean isSatisfiedBy(Node node) {
+  public boolean accept(Node node) {
     return allowList.contains(node.getId());
   }
 
   @Override
-  public boolean isSatisfiedBy(Bounds bounds) {
+  public boolean accept(Bounds bounds) {
     return true;
   }
 
   @Override
-  public boolean isSatisfiedBy(Relation relation) {
+  public boolean accept(Metadata bounds) {
     return false;
   }
 
   @Override
-  public List<Elements> getReadOrder() {
-    return List.of(Elements.WAY, Elements.NODE);
+  public boolean accept(Relation relation) {
+    return false;
+  }
+
+  @Override
+  public List<ElementTypes> getReadOrder() {
+    return List.of(ElementTypes.WAY, ElementTypes.NODE);
   }
 }

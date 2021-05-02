@@ -1,8 +1,9 @@
 package com.navigation.parser.loader;
 
 import com.navigation.parser.exporter.OSMExporter;
-import com.navigation.parser.loader.elements.Elements;
-import com.navigation.parser.loader.elements.ElementsFactory;
+import com.navigation.parser.loader.elements.ElementFactory;
+import com.navigation.parser.loader.elements.ElementTypes;
+import com.navigation.parser.loader.elements.ElementFactoryImpl;
 import com.navigation.parser.loader.specification.OSMLoadAllSpecification;
 import com.navigation.parser.loader.specification.OSMLoaderSpecification;
 import com.navigation.parser.provider.OSMProvider;
@@ -17,20 +18,21 @@ public class OSMLoader {
   private final OSMProvider provider;
   private final OSMExporter exporter;
   private final OSMLoaderSpecification specification;
-  private final ElementsFactory elementsFactory;
+  private final ElementFactory elementsFactory = new ElementFactoryImpl();
+  private final ExportSummarizer summarizer = new ExportSummarizer();
 
   public OSMLoader(OSMProvider provider, OSMExporter exporter) {
     this(provider, exporter, new OSMLoadAllSpecification());
   }
 
-  public OSMLoader(OSMProvider provider, OSMExporter exporter, OSMLoaderSpecification specification) {
+  public OSMLoader(
+      OSMProvider provider, OSMExporter exporter, OSMLoaderSpecification specification) {
     this.provider = provider;
     this.exporter = exporter;
     this.specification = specification;
-    this.elementsFactory = new ElementsFactory();
   }
 
-  public void export() throws IOException, XMLStreamException {
+  public ExportSummary export() throws IOException, XMLStreamException {
     var reader = provider.loadOSMXml();
     var readOrder = specification.getReadOrder();
 
@@ -38,24 +40,27 @@ public class OSMLoader {
       throw new IllegalArgumentException("Read order must have all unique nodes");
     }
 
-    var prevElement = Elements.METADATA;
+    var prevElement = ElementTypes.METADATA;
 
     for (var element : readOrder) {
-      if (OSMLoaderSpecification.getDefaultPosition(prevElement) > OSMLoaderSpecification.getDefaultPosition(element)) {
+      if (OSMLoaderSpecification.getDefaultPosition(prevElement)
+          > OSMLoaderSpecification.getDefaultPosition(element)) {
         reader.close();
         reader = provider.loadOSMXml();
       }
 
       advanceStreamToFirstElementOfType(reader, element);
-      parseAllElementsOfType(reader, element);
+      parseAllElementsOfType(element, reader);
 
       prevElement = element;
     }
 
     reader.close();
+    return summarizer.toSummary();
   }
 
-  private void advanceStreamToFirstElementOfType(XMLStreamReader reader, Elements element) throws XMLStreamException {
+  private void advanceStreamToFirstElementOfType(XMLStreamReader reader, ElementTypes element)
+      throws XMLStreamException {
     while (reader.hasNext()) {
       if (reader.isStartElement() && element.isElement(reader.getLocalName())) {
         return;
@@ -65,47 +70,31 @@ public class OSMLoader {
     }
   }
 
-  private void parseAllElementsOfType(XMLStreamReader reader, Elements element) throws XMLStreamException {
+  private void parseAllElementsOfType(ElementTypes element, XMLStreamReader reader)
+      throws XMLStreamException {
     while (reader.hasNext()) {
-      if (reader.isStartElement() && Elements.fromTag(reader.getLocalName()) != element) {
+      if (reader.isStartElement() && ElementTypes.fromTag(reader.getLocalName()) != element) {
         return;
       }
 
       if (reader.isStartElement()) {
-        parseElement(reader, element);
+        parseElement(element, reader);
       }
       reader.next();
     }
   }
 
+  private void parseElement(ElementTypes element, XMLStreamReader reader)
+      throws XMLStreamException {
+    var loadedElement = elementsFactory.loadElement(element, reader);
+    summarizer.incrementParsed(element);
+    if (!loadedElement.accept(specification)) {
+      return;
+    }
+    summarizer.incrementAccepted(element);
 
-  private void parseElement(XMLStreamReader reader, Elements element) throws XMLStreamException {
-    switch (element) {
-      case WAY -> {
-        var way = elementsFactory.loadWay(reader);
-        if (specification.isSatisfiedBy(way)) {
-          exporter.export(way);
-        }
-      }
-      case NODE -> {
-        var node = elementsFactory.loadNode(reader);
-        if (specification.isSatisfiedBy(node)) {
-          exporter.export(node);
-        }
-      }
-      case BOUNDS -> {
-        var bounds = elementsFactory.loadBounds(reader);
-        if (specification.isSatisfiedBy(bounds)) {
-          exporter.export(bounds);
-        }
-      }
-      case METADATA -> exporter.export(elementsFactory.loadMetadata(reader));
-      case RELATION -> {
-        var relation = elementsFactory.loadRelation(reader);
-        if (specification.isSatisfiedBy(relation)) {
-          exporter.export(relation);
-        }
-      }
+    if (loadedElement.accept(exporter)) {
+      summarizer.incrementExported(element);
     }
   }
 }

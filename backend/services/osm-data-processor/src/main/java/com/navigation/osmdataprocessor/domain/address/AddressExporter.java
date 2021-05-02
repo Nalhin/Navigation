@@ -15,9 +15,9 @@ public class AddressExporter implements OSMExporter {
   }
 
   @Override
-  public void export(Node node) {
+  public boolean accept(Node node) {
     var address =
-        new AddressBuilder()
+        new Address.AddressBuilder()
             .setCity(node.getTag("addr:city"))
             .setCountry("Poland")
             .setId(node.getId())
@@ -28,25 +28,26 @@ public class AddressExporter implements OSMExporter {
             .setLongitude(node.getLongitude())
             .createAddressDto();
     processedAddressExporter.exportProcessedAddress(String.valueOf(address.getId()), address);
+    return true;
   }
 
   @Override
-  public void export(Way way) {
+  public boolean accept(Way way) {
     throw new ExportNotSupportedException();
   }
 
   @Override
-  public void export(Bounds bounds) {
+  public boolean accept(Bounds bounds) {
     throw new ExportNotSupportedException();
   }
 
   @Override
-  public void export(Metadata metadata) {
+  public boolean accept(Metadata metadata) {
     throw new ExportNotSupportedException();
   }
 
   @Override
-  public void export(Relation relation) {
+  public boolean accept(Relation relation) {
     throw new ExportNotSupportedException();
   }
 }

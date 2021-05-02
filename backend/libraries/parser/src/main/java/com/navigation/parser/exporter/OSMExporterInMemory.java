@@ -14,28 +14,33 @@ public class OSMExporterInMemory implements OSMExporter {
   private Metadata metadata;
 
   @Override
-  public void export(Node node) {
+  public boolean accept(Node node) {
     nodes.put(node.getId(), node);
+    return true;
   }
 
   @Override
-  public void export(Way way) {
+  public boolean accept(Way way) {
     ways.put(way.getId(), way);
+    return true;
   }
 
   @Override
-  public void export(Bounds bounds) {
+  public boolean accept(Bounds bounds) {
     this.bounds = bounds;
+    return true;
   }
 
   @Override
-  public void export(Metadata metadata) {
+  public boolean accept(Metadata metadata) {
     this.metadata = metadata;
+    return true;
   }
 
   @Override
-  public void export(Relation relation) {
+  public boolean accept(Relation relation) {
     relations.put(relation.getId(), relation);
+    return true;
   }
 
   public ExportedOSM getExportedData() {

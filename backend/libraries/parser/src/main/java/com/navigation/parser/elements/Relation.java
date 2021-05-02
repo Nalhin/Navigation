@@ -4,13 +4,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class Relation extends TaggedElement {
+public class Relation extends TaggedElement implements Element{
 
   private final List<Member> members;
 
   public Relation(long id, Map<String, String> tags, List<Member> members) {
     super(id, tags);
     this.members = members;
+  }
+
+  @Override
+  public boolean accept(ElementVisitor visitor) {
+    return visitor.accept(this);
   }
 
   public List<Member> getMembers() {
