@@ -2,6 +2,9 @@ package com.navigation.geocodingapi.api;
 
 import com.navigation.geocodingapi.api.response.AddressResponseDto;
 import com.navigation.geocodingapi.domain.AddressService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Tag(name = "geocode")
 @Controller
 @RequestMapping("/api/v1/geocode")
 class GeocodeController {
@@ -23,8 +27,12 @@ class GeocodeController {
     this.apiMapper = mapper;
   }
 
+  @Operation(
+      tags = "geocode",
+      description = "Find addresses that best match provided address")
+  @ApiResponse(responseCode = "200", description = "Success")
   @GetMapping
-  public ResponseEntity<List<AddressResponseDto>> getAddressByText(
+  public ResponseEntity<List<AddressResponseDto>> findAddressesByText(
       @Param("address") String address) {
     return ResponseEntity.ok(
         addressService.findAllByAddress(address).stream()
