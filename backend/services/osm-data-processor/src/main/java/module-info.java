@@ -1,6 +1,5 @@
 module com.navigation.osmdataproessor {
   requires com.navigation.parser;
-
   requires spring.beans;
   requires spring.kafka;
   requires spring.context;

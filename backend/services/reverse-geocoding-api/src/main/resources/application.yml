@@ -16,3 +16,10 @@ spring:
       database: reverseGeocoding
       port: 27018
       host: localhost
+
+springdoc:
+  paths-to-match: /api/v1/**
+  api-docs:
+    path: /api-docs-json
+  swagger-ui:
+    path: /api-docs

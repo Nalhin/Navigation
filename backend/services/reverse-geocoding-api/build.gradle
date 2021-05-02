@@ -1,11 +1,6 @@
 plugins {
   id 'org.springframework.boot' version '2.4.5'
   id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-  id 'java'
-}
-
-repositories {
-  mavenCentral()
 }
 
 ext {
@@ -15,7 +10,8 @@ ext {
 
 
 dependencies {
-  implementation 'io.springfox:springfox-boot-starter:3.0.0'
+  implementation 'org.springdoc:springdoc-openapi-ui:1.5.8'
+
   implementation 'org.springframework.boot:spring-boot-starter-actuator'
   implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery'
 
@@ -36,8 +32,4 @@ dependencyManagement {
     mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
     mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
   }
-}
-
-test {
-  useJUnitPlatform()
 }
