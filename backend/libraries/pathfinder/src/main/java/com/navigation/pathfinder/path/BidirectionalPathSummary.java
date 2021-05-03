@@ -11,7 +11,7 @@ import com.navigation.pathfinder.weight.DurationEdgeWeightCalculator;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class BidirectionalPathSummary implements PathSummary {
+final class BidirectionalPathSummary implements PathSummary {
 
   private static final DistanceEdgeWeightCalculator distanceCalculator =
       new DistanceEdgeWeightCalculator();
@@ -24,7 +24,7 @@ public class BidirectionalPathSummary implements PathSummary {
   private final Set<Vertex> searchedVerticesFromStart;
   private final Set<Vertex> searchedVerticesFromEnd;
 
-  public BidirectionalPathSummary(
+  BidirectionalPathSummary(
       List<Edge> path, Set<Vertex> searchedVerticesFromStart, Set<Vertex> searchedVerticesFromEnd) {
     this.path = path;
     this.searchedVerticesFromStart = searchedVerticesFromStart;
@@ -33,6 +33,10 @@ public class BidirectionalPathSummary implements PathSummary {
 
   @Override
   public List<Vertex> getSimplePath() {
+    if (!isFound()) {
+      return Collections.emptyList();
+    }
+
     var withoutLast = path.stream().map(Edge::getFrom).collect(Collectors.toList());
     withoutLast.add(path.get(path.size() - 1).getTo());
     return withoutLast;
@@ -40,7 +44,7 @@ public class BidirectionalPathSummary implements PathSummary {
 
   @Override
   public int numberOfVertices() {
-    return path.size() + 1;
+    return isFound() ? path.size() + 1 : 0;
   }
 
   @Override
@@ -64,5 +68,10 @@ public class BidirectionalPathSummary implements PathSummary {
     return List.of(
         convexHullCalculator.calculateConvexHull(searchedVerticesFromStart),
         convexHullCalculator.calculateConvexHull(searchedVerticesFromEnd));
+  }
+
+  @Override
+  public boolean isFound() {
+    return !path.isEmpty();
   }
 }

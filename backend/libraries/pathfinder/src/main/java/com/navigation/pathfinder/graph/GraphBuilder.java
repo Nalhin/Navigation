@@ -5,23 +5,23 @@ import java.util.*;
 public final class GraphBuilder {
 
   private final Map<Long, Vertex> vertices = new HashMap<>();
-  private final Map<Vertex, List<Edge>> nodes = new HashMap<>();
+  private final Map<Vertex, List<Edge>> adjacencyList = new HashMap<>();
 
   public GraphBuilder addVertex(long id, Coordinates location) {
     return addVertex(new Vertex(id, location));
   }
 
   public GraphBuilder addVertex(Vertex vertex) {
-    nodes.put(vertex, new ArrayList<>());
+    adjacencyList.put(vertex, new ArrayList<>());
     vertices.put(vertex.getId(), vertex);
     return this;
   }
 
   public GraphBuilder connect(Vertex from, Vertex to, int maxSpeed) {
-    if (!nodes.containsKey(from)) {
-      nodes.put(from, new ArrayList<>());
+    if (!adjacencyList.containsKey(from)) {
+      adjacencyList.put(from, new ArrayList<>());
     }
-    var edges = nodes.get(from);
+    var edges = adjacencyList.get(from);
     edges.add(new Edge(from, to, maxSpeed));
 
     return this;
@@ -36,6 +36,6 @@ public final class GraphBuilder {
   }
 
   public Graph asGraph() {
-    return new Graph(nodes, vertices);
+    return new Graph(adjacencyList, vertices);
   }
 }

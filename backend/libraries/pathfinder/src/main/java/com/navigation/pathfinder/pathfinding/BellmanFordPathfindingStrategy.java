@@ -3,7 +3,7 @@ package com.navigation.pathfinder.pathfinding;
 import com.navigation.pathfinder.graph.Edge;
 import com.navigation.pathfinder.graph.Graph;
 import com.navigation.pathfinder.graph.Vertex;
-import com.navigation.pathfinder.path.PathBuilder;
+import com.navigation.pathfinder.path.PathSummaryCreator;
 import com.navigation.pathfinder.weight.EdgeWeightCalculator;
 
 import java.util.HashMap;
@@ -11,14 +11,14 @@ import java.util.HashMap;
 public class BellmanFordPathfindingStrategy implements PathfindingStrategy {
 
   private final EdgeWeightCalculator calculator;
-  private final static PathBuilder pathBuilder = new PathBuilder();
+  private static final PathSummaryCreator pathSummaryCreator = new PathSummaryCreator();
 
   public BellmanFordPathfindingStrategy(EdgeWeightCalculator calculator) {
     this.calculator = calculator;
   }
 
   @Override
-  public PathSummary findShortestPath(Vertex start, Vertex target, Graph graph) {
+  public PathSummary findShortestPath(Vertex start, Vertex end, Graph graph) {
     var minWeights = new HashMap<Vertex, Double>();
     minWeights.put(start, 0.0);
     var predecessorTree = new HashMap<Vertex, Edge>();
@@ -41,9 +41,9 @@ public class BellmanFordPathfindingStrategy implements PathfindingStrategy {
         }
       }
       if (!changed) {
-        return pathBuilder.buildPath(predecessorTree, target, start);
+        return pathSummaryCreator.createUnidirectionalPath(start, end, predecessorTree);
       }
     }
-    return pathBuilder.buildPath(predecessorTree, target, start);
+    return pathSummaryCreator.createUnidirectionalPath(start, end, predecessorTree);
   }
 }

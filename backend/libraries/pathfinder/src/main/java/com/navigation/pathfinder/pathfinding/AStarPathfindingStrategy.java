@@ -3,7 +3,7 @@ package com.navigation.pathfinder.pathfinding;
 import com.navigation.pathfinder.graph.Edge;
 import com.navigation.pathfinder.graph.Graph;
 import com.navigation.pathfinder.graph.Vertex;
-import com.navigation.pathfinder.path.PathBuilder;
+import com.navigation.pathfinder.path.PathSummaryCreator;
 import com.navigation.pathfinder.weight.EdgeWeightCalculator;
 
 import java.util.*;
@@ -11,25 +11,25 @@ import java.util.*;
 public class AStarPathfindingStrategy implements PathfindingStrategy {
 
   private final EdgeWeightCalculator calculator;
-  private final PathBuilder pathBuilder = new PathBuilder();
+  private static final PathSummaryCreator pathSummaryCreator = new PathSummaryCreator();
 
   public AStarPathfindingStrategy(EdgeWeightCalculator calculator) {
     this.calculator = calculator;
   }
 
   @Override
-  public PathSummary findShortestPath(Vertex start, Vertex target, Graph graph) {
+  public PathSummary findShortestPath(Vertex start, Vertex end, Graph graph) {
     var predecessorTree = new HashMap<Vertex, Edge>();
     var gScores = new HashMap<Vertex, Double>();
     gScores.put(start, 0.0);
 
     var open = new PriorityQueue<GraphNodeWithDistance>();
-    open.add(new GraphNodeWithDistance(start, heuristic(start, target)));
+    open.add(new GraphNodeWithDistance(start, heuristic(start, end)));
 
     while (!open.isEmpty()) {
       var curr = open.poll().node;
-      if (curr.equals(target)) {
-        return pathBuilder.buildPath(predecessorTree, target, start);
+      if (curr.equals(end)) {
+        return pathSummaryCreator.createUnidirectionalPath(start, end, predecessorTree);
       }
 
       for (var edge : graph.getVertexEdges(curr)) {
@@ -39,12 +39,12 @@ public class AStarPathfindingStrategy implements PathfindingStrategy {
         if (newScore < gScores.getOrDefault(neighbour, Double.MAX_VALUE)) {
           gScores.put(neighbour, newScore);
           predecessorTree.put(neighbour, edge);
-          open.add(new GraphNodeWithDistance(neighbour, newScore + heuristic(neighbour, target)));
+          open.add(new GraphNodeWithDistance(neighbour, newScore + heuristic(neighbour, end)));
         }
       }
     }
 
-    return pathBuilder.buildPath(predecessorTree, target, start);
+    return pathSummaryCreator.createUnidirectionalPath(start, end, predecessorTree);
   }
 
   private double heuristic(Vertex from, Vertex to) {

@@ -3,7 +3,7 @@ package com.navigation.pathfinder.pathfinding;
 import com.navigation.pathfinder.graph.Edge;
 import com.navigation.pathfinder.graph.Graph;
 import com.navigation.pathfinder.graph.Vertex;
-import com.navigation.pathfinder.path.PathBuilder;
+import com.navigation.pathfinder.path.PathSummaryCreator;
 import com.navigation.pathfinder.weight.EdgeWeightCalculator;
 
 import java.util.*;
@@ -11,14 +11,14 @@ import java.util.*;
 public class DijkstraPathfindingStrategy implements PathfindingStrategy {
 
   private final EdgeWeightCalculator calculator;
-  private final static PathBuilder pathBuilder = new PathBuilder();
+  private static final PathSummaryCreator pathSummaryCreator = new PathSummaryCreator();
 
   public DijkstraPathfindingStrategy(EdgeWeightCalculator calculator) {
     this.calculator = calculator;
   }
 
   @Override
-  public PathSummary findShortestPath(Vertex start, Vertex target, Graph graph) {
+  public PathSummary findShortestPath(Vertex start, Vertex end, Graph graph) {
     var minDistances = new HashMap<Vertex, Double>();
     var predecessorTree = new HashMap<Vertex, Edge>();
     minDistances.put(start, Double.MAX_VALUE);
@@ -29,8 +29,8 @@ public class DijkstraPathfindingStrategy implements PathfindingStrategy {
     while (!pq.isEmpty()) {
       var curr = pq.poll();
 
-      if(curr.distanceSoFar > minDistances.getOrDefault(target, Double.MAX_VALUE)){
-        return pathBuilder.buildPath(predecessorTree, target, start);
+      if (curr.distanceSoFar > minDistances.getOrDefault(end, Double.MAX_VALUE)) {
+        return pathSummaryCreator.createUnidirectionalPath(start, end, predecessorTree);
       }
 
       if (curr.distanceSoFar > minDistances.getOrDefault(curr.node, Double.MAX_VALUE)) {
@@ -48,10 +48,8 @@ public class DijkstraPathfindingStrategy implements PathfindingStrategy {
       }
     }
 
-    return pathBuilder.buildPath(predecessorTree, target, start);
+    return pathSummaryCreator.createUnidirectionalPath(start, end, predecessorTree);
   }
-
-
 
   private static final class GraphNodeWithDistance implements Comparable<GraphNodeWithDistance> {
     private final Vertex node;

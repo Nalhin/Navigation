@@ -1,5 +1,6 @@
 package com.navigation.pathfindingapi.domain;
 
+import com.navigation.pathfinder.graph.Vertex;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -33,11 +34,12 @@ class PathfindingServiceImpl implements PathfindingService {
           factory
               .pathfindingStrategy(query.getAlgorithm(), query.getOptimizations())
               .findShortestPath(
-                  graph.getVertexById(startNode.getId()),
-                  graph.getVertexById(endNode.getId()),
+                  new Vertex(startNode.getId(), startNode.getLocation()),
+                  new Vertex(endNode.getId(), endNode.getLocation()),
                   graph);
 
-      return new PathWithExecutionSummary(path, before, Instant.now(), query.getAlgorithm(), query.getOptimizations());
+      return new PathWithExecutionSummary(
+          path, before, Instant.now(), query.getAlgorithm(), query.getOptimizations());
     } catch (ExecutionException | InterruptedException e) {
       e.printStackTrace();
       throw new RuntimeException();
@@ -64,11 +66,12 @@ class PathfindingServiceImpl implements PathfindingService {
           factory
               .pathfindingStrategy(query.getAlgorithm(), query.getOptimizations())
               .findShortestPath(
-                  graph.getVertexById(startNode.getId()),
-                  graph.getVertexById(endNode.getId()),
+                  new Vertex(startNode.getId(), startNode.getLocation()),
+                  new Vertex(endNode.getId(), endNode.getLocation()),
                   graph);
 
-      return new PathWithExecutionSummary(path, before, Instant.now(), query.getAlgorithm(), query.getOptimizations());
+      return new PathWithExecutionSummary(
+          path, before, Instant.now(), query.getAlgorithm(), query.getOptimizations());
     } catch (ExecutionException | InterruptedException e) {
       e.printStackTrace();
       throw new RuntimeException();

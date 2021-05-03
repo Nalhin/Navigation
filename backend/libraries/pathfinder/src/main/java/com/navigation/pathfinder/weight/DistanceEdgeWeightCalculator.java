@@ -2,9 +2,9 @@ package com.navigation.pathfinder.weight;
 
 import com.navigation.pathfinder.graph.Edge;
 
-public class DistanceEdgeWeightCalculator implements EdgeWeightCalculator {
+public final class DistanceEdgeWeightCalculator implements EdgeWeightCalculator {
 
-  private final HaversineDistanceCalculator distanceCalculator = new HaversineDistanceCalculator();
+  private final static HaversineDistanceCalculator distanceCalculator = new HaversineDistanceCalculator();
 
   @Override
   public double calculateWeight(Edge edge) {

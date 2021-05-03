@@ -3,13 +3,13 @@ package com.navigation.pathfinder.pathfinding;
 import com.navigation.pathfinder.graph.Edge;
 import com.navigation.pathfinder.graph.Graph;
 import com.navigation.pathfinder.graph.Vertex;
-import com.navigation.pathfinder.path.BidirectionalPathBuilder;
 
+import com.navigation.pathfinder.path.PathSummaryCreator;
 import java.util.*;
 
 public class BidirectionalBFSPathfindingStrategy implements PathfindingStrategy {
 
-  private static final BidirectionalPathBuilder pathBuilder = new BidirectionalPathBuilder();
+  private static final PathSummaryCreator pathSummaryCreator = new PathSummaryCreator();
 
   @Override
   public PathSummary findShortestPath(Vertex start, Vertex end, Graph graph) {
@@ -29,7 +29,8 @@ public class BidirectionalBFSPathfindingStrategy implements PathfindingStrategy 
       if (!queueStart.isEmpty()) {
         var curr = queueStart.poll();
         if (visitedEnd.contains(curr)) {
-          return pathBuilder.buildPath(predecessorTreeStart, predecessorTreeEnd, curr, end, start);
+          return pathSummaryCreator.createBidirectionalPath(
+              start, curr, end, predecessorTreeStart, predecessorTreeEnd);
         }
         visitOne(curr, graph, queueStart, predecessorTreeStart, visitedStart);
       }
@@ -37,7 +38,8 @@ public class BidirectionalBFSPathfindingStrategy implements PathfindingStrategy 
         var curr = queueEnd.poll();
 
         if (visitedStart.contains(curr)) {
-          return pathBuilder.buildPath(predecessorTreeStart, predecessorTreeEnd, curr, end, start);
+          return pathSummaryCreator.createBidirectionalPath(
+              start, curr, end, predecessorTreeStart, predecessorTreeEnd);
         }
         visitOne(curr, reversedGraph, queueEnd, predecessorTreeEnd, visitedEnd);
       }

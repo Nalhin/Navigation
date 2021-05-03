@@ -3,17 +3,18 @@ package com.navigation.pathfinder.graph
 import spock.lang.Specification
 
 class GraphBuilderTest extends Specification {
-  def "addNode() should add node to graph"() {
+
+  def "addVertex() should add an vertex to graph"() {
     given:
     def graphBuilder = new GraphBuilder()
-    def insertedNode = new Vertex(1, new Coordinates(22.22, 33.33))
+    def insertedVertex = new Vertex(1, new Coordinates(22.22, 33.33))
     when:
-    graphBuilder.addVertex(insertedNode)
+    graphBuilder.addVertex(insertedVertex)
     then:
-    graphBuilder.asGraph().getVertexEdges(insertedNode) == []
+    graphBuilder.asGraph().vertices() as List == [insertedVertex]
   }
 
-  def "connect() should connect two nodes in graph"() {
+  def "connect() should connect two vertices in graph"() {
     given:
     def graphBuilder = new GraphBuilder()
     def from = new Vertex(1, new Coordinates(22.22, 33.33))
@@ -25,6 +26,6 @@ class GraphBuilderTest extends Specification {
     then:
     def edges = graphBuilder.asGraph().getVertexEdges(from)
     edges.size() == 1
-    edges[0].to == to
+    edges.collect { it -> it.to } == [to]
   }
 }

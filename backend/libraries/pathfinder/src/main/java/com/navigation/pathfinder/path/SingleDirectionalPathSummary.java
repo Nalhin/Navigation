@@ -9,11 +9,12 @@ import com.navigation.pathfinder.weight.DistanceEdgeWeightCalculator;
 import com.navigation.pathfinder.weight.DurationEdgeWeightCalculator;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public final class SingleDirectionalPathSummary implements PathSummary {
+final class SingleDirectionalPathSummary implements PathSummary {
 
   private static final DistanceEdgeWeightCalculator distanceCalculator =
       new DistanceEdgeWeightCalculator();
@@ -25,13 +26,17 @@ public final class SingleDirectionalPathSummary implements PathSummary {
   private final List<Edge> path;
   private final Set<Vertex> searchedVertices;
 
-  public SingleDirectionalPathSummary(List<Edge> path, Set<Vertex> searchedVertices) {
+  SingleDirectionalPathSummary(List<Edge> path, Set<Vertex> searchedVertices) {
     this.path = path;
     this.searchedVertices = searchedVertices;
   }
 
   @Override
   public List<Vertex> getSimplePath() {
+    if (!isFound()) {
+      return Collections.emptyList();
+    }
+
     var withoutLast = path.stream().map(Edge::getFrom).collect(Collectors.toList());
     withoutLast.add(path.get(path.size() - 1).getTo());
     return withoutLast;
@@ -60,5 +65,10 @@ public final class SingleDirectionalPathSummary implements PathSummary {
   @Override
   public Collection<List<Vertex>> searchBoundaries() {
     return List.of(convexHullCalculator.calculateConvexHull(searchedVertices));
+  }
+
+  @Override
+  public boolean isFound() {
+    return !path.isEmpty();
   }
 }

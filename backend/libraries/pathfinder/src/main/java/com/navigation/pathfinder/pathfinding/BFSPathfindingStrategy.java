@@ -3,17 +3,18 @@ package com.navigation.pathfinder.pathfinding;
 import com.navigation.pathfinder.graph.Edge;
 import com.navigation.pathfinder.graph.Graph;
 import com.navigation.pathfinder.graph.Vertex;
-import com.navigation.pathfinder.path.PathBuilder;
 
+import com.navigation.pathfinder.path.PathSummaryCreator;
 import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.HashSet;
 
 public class BFSPathfindingStrategy implements PathfindingStrategy {
-  private static final PathBuilder pathBuilder = new PathBuilder();
+
+  private static final PathSummaryCreator pathSummaryCreator = new PathSummaryCreator();
 
   @Override
-  public PathSummary findShortestPath(Vertex start, Vertex target, Graph graph) {
+  public PathSummary findShortestPath(Vertex start, Vertex end, Graph graph) {
     var predecessorTree = new HashMap<Vertex, Edge>();
     var visited = new HashSet<Vertex>();
     var queue = new ArrayDeque<Vertex>();
@@ -23,8 +24,8 @@ public class BFSPathfindingStrategy implements PathfindingStrategy {
     while (!queue.isEmpty()) {
       var curr = queue.poll();
 
-      if (curr.equals(target)) {
-        return pathBuilder.buildPath(predecessorTree, target, start);
+      if (curr.equals(end)) {
+        return pathSummaryCreator.createUnidirectionalPath(start, end, predecessorTree);
       }
 
       for (var edge : graph.getVertexEdges(curr)) {
@@ -36,6 +37,6 @@ public class BFSPathfindingStrategy implements PathfindingStrategy {
       }
     }
 
-    return pathBuilder.buildPath(predecessorTree, target, start);
+    return pathSummaryCreator.createUnidirectionalPath(start, end, predecessorTree);
   }
 }

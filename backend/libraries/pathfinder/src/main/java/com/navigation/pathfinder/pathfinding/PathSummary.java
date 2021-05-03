@@ -18,4 +18,6 @@ public interface PathSummary {
   double totalDuration();
 
   Collection<List<Vertex>> searchBoundaries();
+
+  boolean isFound();
 }

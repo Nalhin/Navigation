@@ -2,37 +2,41 @@ package com.navigation.pathfinder.graph;
 
 import java.util.*;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 public final class Graph {
 
-  private final Map<Vertex, List<Edge>> nodesWithEdges;
+  private final Map<Vertex, List<Edge>> adjacencyList;
   private final Map<Long, Vertex> vertices;
 
-  Graph(Map<Vertex, List<Edge>> nodesWithEdges, Map<Long, Vertex> vertices) {
-    this.nodesWithEdges = nodesWithEdges;
-    this.vertices = vertices;
-  }
-
-  public Vertex getVertexById(long id) {
-    return vertices.get(id);
+  Graph(Map<Vertex, List<Edge>> adjacencyList, Map<Long, Vertex> vertices) {
+    this.adjacencyList = deepImmutableCopy(adjacencyList);
+    this.vertices = new HashMap<>(vertices);
   }
 
   public Collection<Edge> getVertexEdges(Vertex node) {
-    return nodesWithEdges.getOrDefault(node, Collections.emptyList());
+    return adjacencyList.getOrDefault(node, Collections.emptyList());
+  }
+
+  private Map<Vertex, List<Edge>> deepImmutableCopy(Map<Vertex, List<Edge>> adjacencyList) {
+    return adjacencyList.entrySet().stream()
+        .collect(Collectors.toMap(Entry::getKey, entry -> List.copyOf(entry.getValue())));
   }
 
   public Graph reversed() {
-    var reversedNodesWithEdges = new HashMap<Vertex, List<Edge>>();
-    for (var entry : nodesWithEdges.entrySet()) {
+    var reversedAdjacencyList = new HashMap<Vertex, List<Edge>>();
+
+    for (var entry : adjacencyList.entrySet()) {
       for (var edge : entry.getValue()) {
         var reversed = edge.reversed();
-        var list = reversedNodesWithEdges.getOrDefault(reversed.getFrom(), new ArrayList<>());
+        var list = reversedAdjacencyList.getOrDefault(reversed.getFrom(), new ArrayList<>());
         list.add(reversed);
-        reversedNodesWithEdges.put(reversed.getFrom(), list);
+        reversedAdjacencyList.put(reversed.getFrom(), list);
       }
     }
 
-    return new Graph(reversedNodesWithEdges, vertices);
+    return new Graph(deepImmutableCopy(reversedAdjacencyList), vertices);
   }
 
   public Collection<Vertex> vertices() {
@@ -40,6 +44,11 @@ public final class Graph {
   }
 
   public Collection<Edge> edges() {
-    return nodesWithEdges.values().stream().collect(ArrayList::new, List::addAll, List::addAll);
+    return adjacencyList.values().stream().collect(ArrayList::new, List::addAll, List::addAll);
+  }
+
+  @Override
+  public String toString() {
+    return "Graph{" + "adjacencyList=" + adjacencyList + ", vertices=" + vertices + '}';
   }
 }
