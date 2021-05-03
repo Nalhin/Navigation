@@ -1,16 +1,13 @@
 package com.navigation.reversegeocodingapi.test
 
 import com.mongodb.BasicDBObject
-import io.restassured.RestAssured
 import org.bson.Document
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.util.TestPropertyValues
-import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.context.ApplicationContextInitializer
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.data.mongodb.core.MongoTemplate
-import org.springframework.http.MediaType
 import org.springframework.test.context.ContextConfiguration
 import org.testcontainers.containers.MongoDBContainer
 import org.testcontainers.spock.Testcontainers
@@ -27,6 +24,10 @@ abstract class MongoDBSpecification extends Specification {
   @Autowired
   private MongoTemplate template
 
+  @Shared
+  static MongoDBContainer mongoDBContainer = new MongoDBContainer(
+      DockerImageName.parse("mongo:4.4.5")).withExposedPorts(27017)
+
   def saveInCollection(Map<String, Object> entity, String collection) {
     template.save(new BasicDBObject(entity), collection)
   }
@@ -34,11 +35,6 @@ abstract class MongoDBSpecification extends Specification {
   def clearCollection(String collectionName) {
     template.getCollection(collectionName).deleteMany(new Document())
   }
-
-  @Shared
-  static MongoDBContainer mongoDBContainer = new MongoDBContainer(
-      DockerImageName.parse("mongo:4.4.2")).withExposedPorts(27017)
-
 
   static class Initializer implements
       ApplicationContextInitializer<ConfigurableApplicationContext> {

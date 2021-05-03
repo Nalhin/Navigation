@@ -18,9 +18,14 @@ dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
   implementation 'org.springframework.boot:spring-boot-starter-web'
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
   testImplementation 'org.testcontainers:elasticsearch'
-  testImplementation 'org.testcontainers:junit-jupiter'
+  testImplementation 'org.testcontainers:spock'
+
+  testImplementation 'org.spockframework:spock-spring:2.0-M4-groovy-3.0'
   testImplementation 'io.rest-assured:rest-assured:4.3.3'
+  testImplementation 'io.rest-assured:json-path:4.3.3'
+  testImplementation 'io.rest-assured:xml-path:4.3.3'
 }
 
 dependencyManagement {

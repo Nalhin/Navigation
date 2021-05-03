@@ -35,7 +35,7 @@ class ReverseGeocodingIntegrationTest extends WebMongoDBSpecification {
         .get("/reverse-geocode")
     then:
     response.statusCode == HttpStatus.OK.value()
-    slurper.parseText(response.body.asString()).with {
+    parseJSON(response.body.asString()).with {
       id == 31005854
       city == "Warszawa"
       country == "Poland"

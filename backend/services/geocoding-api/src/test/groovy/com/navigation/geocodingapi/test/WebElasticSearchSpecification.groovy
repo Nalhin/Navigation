@@ -1,4 +1,4 @@
-package com.navigation.reversegeocodingapi.test
+package com.navigation.geocodingapi.test
 
 import groovy.json.JsonSlurper
 import io.restassured.RestAssured
@@ -9,7 +9,7 @@ import spock.lang.Shared
 
 @IntegrationTest
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-abstract class WebMongoDBSpecification extends MongoDBSpecification {
+abstract class WebElasticSearchSpecification extends ElasticSearchSpecification {
 
   @Shared
   private slurper = new JsonSlurper()
