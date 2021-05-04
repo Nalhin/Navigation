@@ -7,36 +7,36 @@ import java.util.stream.Collectors;
 
 public final class Graph {
 
-  private final Map<Vertex, List<Edge>> adjacencyList;
+  private final Map<Vertex, Set<Edge>> adjacencyList;
   private final Map<Long, Vertex> vertices;
 
-  Graph(Map<Vertex, List<Edge>> adjacencyList, Map<Long, Vertex> vertices) {
+  Graph(Map<Vertex, Set<Edge>> adjacencyList, Map<Long, Vertex> vertices) {
     this.adjacencyList = deepImmutableCopy(adjacencyList);
     this.vertices = new HashMap<>(vertices);
   }
 
   public Collection<Edge> getVertexEdges(Vertex node) {
-    return adjacencyList.getOrDefault(node, Collections.emptyList());
+    return adjacencyList.getOrDefault(node, Collections.emptySet());
   }
 
-  private Map<Vertex, List<Edge>> deepImmutableCopy(Map<Vertex, List<Edge>> adjacencyList) {
+  private Map<Vertex, Set<Edge>> deepImmutableCopy(Map<Vertex, Set<Edge>> adjacencyList) {
     return adjacencyList.entrySet().stream()
-        .collect(Collectors.toMap(Entry::getKey, entry -> List.copyOf(entry.getValue())));
+        .collect(Collectors.toMap(Entry::getKey, entry -> Set.copyOf(entry.getValue())));
   }
 
   public Graph reversed() {
-    var reversedAdjacencyList = new HashMap<Vertex, List<Edge>>();
+    var reversedAdjacencyList = new HashMap<Vertex, Set<Edge>>();
 
     for (var entry : adjacencyList.entrySet()) {
       for (var edge : entry.getValue()) {
         var reversed = edge.reversed();
-        var list = reversedAdjacencyList.getOrDefault(reversed.getFrom(), new ArrayList<>());
+        var list = reversedAdjacencyList.getOrDefault(reversed.getFrom(), new HashSet<>());
         list.add(reversed);
         reversedAdjacencyList.put(reversed.getFrom(), list);
       }
     }
 
-    return new Graph(deepImmutableCopy(reversedAdjacencyList), vertices);
+    return new Graph(reversedAdjacencyList, vertices);
   }
 
   public Collection<Vertex> vertices() {

@@ -56,5 +56,4 @@ class GrahamScanConvexHullCalculatorTest extends Specification {
     then:
     result.collect { it.id } == [5L, 6L, 4L, 7L, 1L]
   }
-
 }

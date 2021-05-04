@@ -1,15 +1,20 @@
 package com.navigation.pathfinder.weight
 
 import com.navigation.pathfinder.graph.Coordinates
+import spock.lang.Shared
+import spock.lang.Subject
 
 import static spock.util.matcher.HamcrestMatchers.closeTo
 import spock.lang.Specification
 
 class HaversineDistanceCalculatorTest extends Specification {
+
+  @Subject
+  @Shared
+  def distanceCalculator = new HaversineDistanceCalculator()
+
   def "calculateDistance() should calculate approximate distance in km between #startCoords and #endCoords close to#expectedDistance"(
       Coordinates startCoords, Coordinates endCoords, double expectedDistance) {
-    given:
-    def distanceCalculator = new HaversineDistanceCalculator()
     when:
     def actualDistance = distanceCalculator.calculateDistance(startCoords, endCoords)
     then:
