@@ -15,18 +15,19 @@ class DistanceEdgeWeightCalculatorTest extends Specification {
   @Shared
   def edgeWeightCalculator = new DistanceEdgeWeightCalculator()
 
-  def "calculateWeight() should return edge distance"(Edge edge) {
+  def "calculateWeight() should return edge distance"(Coordinates fromCoordinates,
+      Coordinates toCoordinates, double expectedDistance) {
     when:
-    def actualDistance = edgeWeightCalculator.calculateWeight(edge)
+    def actualDistance = edgeWeightCalculator.
+        calculateWeight(new Edge(new Vertex(1, fromCoordinates), new Vertex(2, toCoordinates), 50))
     then:
     actualDistance closeTo(expectedDistance, 0.0001)
     where:
-    edge                                                            || expectedDistance
-    new Edge(new Vertex(1, new Coordinates(14.552797, 121.058805)),
-        new Vertex(2, new Coordinates(14.593999, 120.994260)), 50)  || 8.3209
-    new Edge(new Vertex(1, new Coordinates(77.870317, 96.591876)),
-        new Vertex(2, new Coordinates(21.719527, -4.815018)), 50)   || 7910.8280
-    new Edge(new Vertex(1, new Coordinates(-17.727830, 23.704799)),
-        new Vertex(2, new Coordinates(58.585396, -130.279576)), 50) || 15001.64302
+    fromCoordinates                        | toCoordinates                           ||
+        expectedDistance
+    new Coordinates(14.552797, 121.058805) | new Coordinates(14.593999, 120.994260)  || 8.3209
+    new Coordinates(77.870317, 96.591876)  | new Coordinates(21.719527, -4.815018)   || 7910.8280
+    new Coordinates(-17.727830, 23.704799) | new Coordinates(58.585396, -130.279576) || 15001.64302
+
   }
 }

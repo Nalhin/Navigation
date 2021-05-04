@@ -12,9 +12,11 @@ class EdgeTest extends Specification {
     when:
     def actualResult = edge.reversed()
     then:
-    actualResult.to == edge.from
-    actualResult.from == edge.to
-    actualResult.maxSpeed == edge.maxSpeed
+    verifyAll(actualResult) {
+      to == edge.from
+      from == edge.to
+      maxSpeed == edge.maxSpeed
+    }
   }
 
   def "equals() should compare by from and to vertices"() {

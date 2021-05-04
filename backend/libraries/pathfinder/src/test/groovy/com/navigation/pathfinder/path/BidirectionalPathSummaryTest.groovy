@@ -115,9 +115,11 @@ class BidirectionalPathSummaryTest extends Specification {
     when:
     def result = pathSummary.searchBoundaries()
     then:
-    result.size() == 2
-    that result[0], containsInAnyOrder(firstVertex, secondVertex, thirdVertex)
-    that result[1], containsInAnyOrder(firstVertex, secondVertex, thirdVertex)
+    verifyAll(result) {
+      size() == 2
+      that getAt(0), containsInAnyOrder(firstVertex, secondVertex, thirdVertex)
+      that getAt(1), containsInAnyOrder(firstVertex, secondVertex, thirdVertex)
+    }
   }
 
 

@@ -15,18 +15,22 @@ class DurationEdgeWeightCalculatorTest extends Specification {
   @Shared
   def edgeWeightCalculator = new DurationEdgeWeightCalculator()
 
-  def "calculateWeight() should return edge duration in minutes"(Edge edge) {
+  def "calculateWeight() should return edge duration in minutes"(Coordinates fromCoordinates,
+      Coordinates toCoordinates, double expectedDuration, int maxSpeed) {
     when:
-    def actualDistance = edgeWeightCalculator.calculateWeight(edge)
+    def actualDistance = edgeWeightCalculator.
+        calculateWeight(
+            new Edge(new Vertex(1, fromCoordinates), new Vertex(2, toCoordinates), maxSpeed))
     then:
-    actualDistance closeTo(expectedDistance, 0.001)
+    actualDistance closeTo(expectedDuration, 0.001)
     where:
-    edge                                                             || expectedDistance
-    new Edge(new Vertex(1, new Coordinates(14.552797, 121.058805)),
-        new Vertex(2, new Coordinates(14.593999, 120.994260)), 50)   || 9.98508
-    new Edge(new Vertex(1, new Coordinates(77.870317, 96.591876)),
-        new Vertex(2, new Coordinates(21.719527, -4.815018)), 80)    || 5933.121
-    new Edge(new Vertex(1, new Coordinates(-17.727830, 23.704799)),
-        new Vertex(2, new Coordinates(58.585396, -130.279576)), 100) || 9000.985812
+    fromCoordinates                        | toCoordinates                           | maxSpeed ||
+        expectedDuration
+    new Coordinates(14.552797, 121.058805) | new Coordinates(14.593999, 120.994260)  | 50       ||
+        9.98508
+    new Coordinates(77.870317, 96.591876)  | new Coordinates(21.719527, -4.815018)   | 80       ||
+        5933.121
+    new Coordinates(-17.727830, 23.704799) | new Coordinates(58.585396, -130.279576) | 100      ||
+        9000.985812
   }
 }

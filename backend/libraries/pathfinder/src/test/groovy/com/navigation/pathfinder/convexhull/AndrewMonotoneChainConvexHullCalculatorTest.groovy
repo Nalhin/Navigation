@@ -17,9 +17,9 @@ class AndrewMonotoneChainConvexHullCalculatorTest extends Specification {
         new Vertex(2, new Coordinates(2, 1)),
     ]
     when:
-    def result = convexHulkCalculator.calculateConvexHull(vertices)
+    def actualResult = convexHulkCalculator.calculateConvexHull(vertices)
     then:
-    result == vertices
+    actualResult == vertices
   }
 
   def "calculateConvexHull() should remove excess vertices and determine a valid convex hull when given 7 points"() {
@@ -34,9 +34,9 @@ class AndrewMonotoneChainConvexHullCalculatorTest extends Specification {
         new Vertex(7, new Coordinates(3, 3)),
     ]
     when:
-    def result = convexHulkCalculator.calculateConvexHull(vertices)
+    def actualResult = convexHulkCalculator.calculateConvexHull(vertices)
     then:
-    result.collect { it.id } == [7L, 5L, 6L, 1L, 2L]
+    actualResult.collect { it.id } == [7L, 5L, 6L, 1L, 2L]
   }
 
   def "calculateConvexHull() should remove excess vertices and determine a valid convex hull when given an additional point"() {
@@ -52,8 +52,8 @@ class AndrewMonotoneChainConvexHullCalculatorTest extends Specification {
         new Vertex(8, new Coordinates(3, 3)),
     ]
     when:
-    def result = convexHulkCalculator.calculateConvexHull(vertices)
+    def actualResult = convexHulkCalculator.calculateConvexHull(vertices)
     then:
-    result.collect { it.id } == [4L, 7L, 5L, 1L, 6L]
+    actualResult.collect { it.id } == [4L, 7L, 5L, 1L, 6L]
   }
 }

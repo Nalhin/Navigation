@@ -54,10 +54,12 @@ class GraphTest extends Specification {
     when:
     def result = graph.reversed()
     then:
-    that result.getVertexEdges(firstNeighbour),
-        containsInAnyOrder(new Edge(firstNeighbour, vertex, 50))
-    that result.getVertexEdges(secondNeighbour),
-        containsInAnyOrder(new Edge(secondNeighbour, vertex, 50))
+    verifyAll {
+      that result.getVertexEdges(firstNeighbour),
+          containsInAnyOrder(new Edge(firstNeighbour, vertex, 50))
+      that result.getVertexEdges(secondNeighbour),
+          containsInAnyOrder(new Edge(secondNeighbour, vertex, 50))
+    }
   }
 
   def "vertices() should return graph vertices"() {

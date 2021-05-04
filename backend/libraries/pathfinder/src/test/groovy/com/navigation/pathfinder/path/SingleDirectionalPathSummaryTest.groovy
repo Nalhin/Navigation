@@ -114,8 +114,10 @@ class SingleDirectionalPathSummaryTest extends Specification {
     when:
     def result = pathSummary.searchBoundaries()
     then:
-    result.size() == 1
-    that result[0], containsInAnyOrder(firstVertex, secondVertex, thirdVertex)
+    verifyAll(result) {
+      size() == 1
+      that getAt(0), containsInAnyOrder(firstVertex, secondVertex, thirdVertex)
+    }
   }
 
 

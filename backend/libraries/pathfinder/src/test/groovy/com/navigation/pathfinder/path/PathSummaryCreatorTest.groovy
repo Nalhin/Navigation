@@ -36,8 +36,10 @@ class PathSummaryCreatorTest extends Specification {
     when:
     def result = pathSummaryCreator.createUnidirectionalPath(start, end, predecessorTree)
     then:
-    result.simplePath() == []
-    !result.isFound()
+    verifyAll(result) {
+      simplePath() == []
+      !isFound()
+    }
   }
 
   def "createBidirectionalPath() should return path between start and end vertex present in predecessor tree"() {
@@ -66,8 +68,10 @@ class PathSummaryCreatorTest extends Specification {
     def result = pathSummaryCreator.
         createBidirectionalPath(start, mid, end, predecessorTreeStart, predecessorTreeEnd)
     then:
-    result.simplePath() == []
-    !result.isFound()
+    verifyAll(result) {
+      simplePath() == []
+      !isFound()
+    }
   }
 
 
@@ -83,7 +87,9 @@ class PathSummaryCreatorTest extends Specification {
     def result = pathSummaryCreator.
         createBidirectionalPath(start, mid, end, predecessorTreeStart, predecessorTreeEnd)
     then:
-    result.simplePath() == []
-    !result.isFound()
+    verifyAll(result) {
+      simplePath() == []
+      !isFound()
+    }
   }
 }

@@ -39,8 +39,10 @@ class GraphBuilderTest extends Specification {
     graphBuilder.connect(from, to, 50)
     then:
     def edges = graphBuilder.asGraph().getVertexEdges(from)
-    edges.size() == 1
-    edges.collect { it -> it.to } == [to]
+    verifyAll(edges) {
+      size() == 1
+      it.collect { e -> e.to } == [to]
+    }
   }
 
   def "connect() should throw an exception when from vertex is not present in graph"() {
@@ -79,8 +81,10 @@ class GraphBuilderTest extends Specification {
     graphBuilder.connectByIds(from.id, to.id, 50)
     then:
     def edges = graphBuilder.asGraph().getVertexEdges(from)
-    edges.size() == 1
-    edges.collect { it -> it.to } == [to]
+    verifyAll(edges) {
+      size() == 1
+      it.collect { e -> e.to } == [to]
+    }
   }
 
   def "connectByIds() should throw an exception when from vertex is not present"() {
