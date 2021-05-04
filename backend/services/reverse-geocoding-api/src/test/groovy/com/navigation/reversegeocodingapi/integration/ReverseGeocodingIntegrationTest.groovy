@@ -34,8 +34,8 @@ class ReverseGeocodingIntegrationTest extends WebMongoDBSpecification {
         .queryParams(params)
         .get("/reverse-geocode")
     then:
-    response.statusCode == HttpStatus.OK.value()
-    parseJSON(response.body.asString()).with {
+    verifyAll(parseJSON(response.body.asString())) {
+      response.statusCode == HttpStatus.OK.value()
       id == 31005854
       city == "Warszawa"
       country == "Poland"

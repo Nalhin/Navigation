@@ -24,7 +24,7 @@ class ApiMapperTest extends Specification {
     when:
     def result = mapper.toDto(address)
     then:
-    result.with {
+    verifyAll(result) {
       id == 1
       city == "city"
       country == "country"

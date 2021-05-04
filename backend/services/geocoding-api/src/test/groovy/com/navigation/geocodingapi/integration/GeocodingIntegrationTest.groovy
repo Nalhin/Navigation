@@ -36,8 +36,10 @@ class GeocodingIntegrationTest extends WebElasticSearchSpecification {
         .get("/geocode")
     def body = parseJSON(response.body.asString()) as List
     then:
-    response.statusCode == HttpStatus.OK.value()
-    body == []
+    verifyAll {
+      response.statusCode == HttpStatus.OK.value()
+      body == []
+    }
   }
 
 
@@ -51,17 +53,19 @@ class GeocodingIntegrationTest extends WebElasticSearchSpecification {
         .get("/geocode")
     def body = parseJSON(response.body.asString()) as List
     then:
-    response.statusCode == HttpStatus.OK.value()
-    body.size() == 1
-    body[0].with {
-      id == 31005854
-      city == "Warszawa"
-      country == "Poland"
-      houseNumber == "110"
-      location.latitude == 52.1769081d
-      location.longitude == 20.9459496d
-      postCode == "30-340"
-      street == "Aleja Krakowska"
+    verifyAll {
+      response.statusCode == HttpStatus.OK.value()
+      body.size() == 1
+      verifyAll(body[0]) {
+        id == 31005854
+        city == "Warszawa"
+        country == "Poland"
+        houseNumber == "110"
+        location.latitude == 52.1769081d
+        location.longitude == 20.9459496d
+        postCode == "30-340"
+        street == "Aleja Krakowska"
+      }
     }
   }
 
@@ -80,17 +84,19 @@ class GeocodingIntegrationTest extends WebElasticSearchSpecification {
         .get("/geocode")
     def body = parseJSON(response.body.asString()) as List
     then:
-    response.statusCode == HttpStatus.OK.value()
-    body.size() == 1
-    body[0].with {
-      id == 31005854
-      city == "Warszawa"
-      country == "Poland"
-      houseNumber == "110"
-      location.latitude == 52.1769081d
-      location.longitude == 20.9459496d
-      postCode == "30-340"
-      street == "Aleja Krakowska"
+    verifyAll {
+      response.statusCode == HttpStatus.OK.value()
+      body.size() == 1
+      verifyAll(body[0]) {
+        id == 31005854
+        city == "Warszawa"
+        country == "Poland"
+        houseNumber == "110"
+        location.latitude == 52.1769081d
+        location.longitude == 20.9459496d
+        postCode == "30-340"
+        street == "Aleja Krakowska"
+      }
     }
   }
 }

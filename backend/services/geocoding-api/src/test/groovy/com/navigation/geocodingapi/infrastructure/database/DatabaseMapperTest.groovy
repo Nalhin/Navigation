@@ -22,7 +22,7 @@ class DatabaseMapperTest extends Specification {
     when:
     def actualResult = mapper.toDomain(entity)
     then:
-    actualResult.with {
+    verifyAll(actualResult) {
       id == 1
       city == "city"
       country == "country"
