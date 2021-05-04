@@ -1,6 +1,7 @@
 package com.navigation.osmdataprocessor.domain.address;
 
 import com.navigation.osmdataprocessor.domain.GeoJsonPoint;
+import java.util.Objects;
 
 public class Address {
 
@@ -87,6 +88,26 @@ public class Address {
         + '}';
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Address address = (Address) o;
+    return id == address.id
+        && Double.compare(address.longitude, longitude) == 0
+        && Double.compare(address.latitude, latitude) == 0
+        && Objects.equals(city, address.city)
+        && Objects.equals(country, address.country)
+        && Objects.equals(houseNumber, address.houseNumber)
+        && Objects.equals(street, address.street)
+        && Objects.equals(postCode, address.postCode);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, longitude, latitude, city, country, houseNumber, street, postCode);
+  }
+
   static class AddressBuilder {
     private long id;
     private double longitude;
@@ -137,7 +158,7 @@ public class Address {
       return this;
     }
 
-    public Address createAddressDto() {
+    public Address createAddress() {
       return new Address(id, longitude, latitude, city, country, houseNumber, street, postCode);
     }
   }

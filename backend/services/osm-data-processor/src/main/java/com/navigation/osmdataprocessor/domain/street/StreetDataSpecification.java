@@ -51,7 +51,7 @@ class StreetDataSpecification implements OSMLoaderSpecification {
 
   @Override
   public boolean accept(Bounds bounds) {
-    return true;
+    return false;
   }
 
   @Override

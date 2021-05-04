@@ -3,12 +3,10 @@ package com.navigation.osmdataprocessor.domain.street;
 import com.navigation.osmdataprocessor.domain.ExportNotSupportedException;
 import com.navigation.parser.elements.*;
 import com.navigation.parser.exporter.OSMExporter;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.regex.Pattern;
 
-@Component
 public class StreetExporter implements OSMExporter {
   public static final Pattern PATTERN = Pattern.compile("^\\d+$");
   private final ProcessedStreetExporter processedExporter;
@@ -19,7 +17,7 @@ public class StreetExporter implements OSMExporter {
 
   @Override
   public boolean accept(Node node) {
-    var streetNode = new StreetNode(node.getLatitude(), node.getLongitude(), node.getId());
+    var streetNode = new StreetNode(node.getId(), node.getLatitude(), node.getLongitude() );
     processedExporter.exportProcessedStreetNode(String.valueOf(node.getId()), streetNode);
     return true;
   }

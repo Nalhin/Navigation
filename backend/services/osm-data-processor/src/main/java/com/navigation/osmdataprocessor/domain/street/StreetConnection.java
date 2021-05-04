@@ -1,5 +1,7 @@
 package com.navigation.osmdataprocessor.domain.street;
 
+import java.util.Objects;
+
 public class StreetConnection {
   private final long fromId;
   private final long toId;
@@ -21,5 +23,18 @@ public class StreetConnection {
 
   public int getMaxSpeed() {
     return maxSpeed;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    StreetConnection that = (StreetConnection) o;
+    return fromId == that.fromId && toId == that.toId && maxSpeed == that.maxSpeed;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(fromId, toId, maxSpeed);
   }
 }
