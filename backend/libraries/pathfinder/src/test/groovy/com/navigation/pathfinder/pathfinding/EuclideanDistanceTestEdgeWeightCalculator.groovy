@@ -10,7 +10,7 @@ class EuclideanDistanceTestEdgeWeightCalculator implements
   double calculateWeight(Edge edge) {
     def fromCoords = edge.from.coordinates
     def toCoords = edge.to.coordinates
-    return Math.sqrt(Math.pow(fromCoords.latitude - fromCoords.longitude, 2) +
-        Math.pow(toCoords.longitude - toCoords.latitude, 2))
+    return Math.sqrt(Math.pow(fromCoords.latitude - toCoords.latitude, 2) +
+        Math.pow(fromCoords.longitude - toCoords.longitude, 2))
   }
 }
