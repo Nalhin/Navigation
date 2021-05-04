@@ -3,9 +3,12 @@ package com.navigation.parser.loader
 import com.navigation.parser.elements.Bounds
 import com.navigation.parser.elements.Member
 import com.navigation.parser.elements.Metadata
-
+import com.navigation.parser.elements.Node
+import com.navigation.parser.elements.Relation
+import com.navigation.parser.elements.Way
 import com.navigation.parser.exporter.OSMExporterInMemory
 import com.navigation.parser.provider.OSMProviderInMemory
+import com.navigation.parser.specification.OSMLoaderSpecification
 import spock.lang.Specification
 
 class OSMLoaderTest extends Specification {
@@ -61,9 +64,8 @@ class OSMLoaderTest extends Specification {
   def "Should load nodes with matching ids"() {
     given:
     def exporter = new OSMExporterInMemory()
-    def loader = new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter)
     when:
-    loader.export()
+    new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter).export()
     then:
     def nodes = exporter.exportedData.nodes
     nodes[358802885L].id == 358802885
@@ -78,9 +80,8 @@ class OSMLoaderTest extends Specification {
   def "Should load ways with matching ids"() {
     given:
     def exporter = new OSMExporterInMemory()
-    def loader = new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter)
     when:
-    loader.export()
+    new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter).export()
     then:
     def ways = exporter.exportedData.ways
 
@@ -91,9 +92,8 @@ class OSMLoaderTest extends Specification {
   def "Should load node tag data"() {
     given:
     def exporter = new OSMExporterInMemory()
-    def loader = new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter)
     when:
-    loader.export()
+    new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter).export()
     then:
     def tags = exporter.exportedData.nodes[358802885L].tags
     tags == ["gnis:created"   : "06/14/2000",
@@ -108,9 +108,8 @@ class OSMLoaderTest extends Specification {
   def "Should load way tag data"() {
     given:
     def exporter = new OSMExporterInMemory()
-    def loader = new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter)
     when:
-    loader.export()
+    new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter).export()
     then:
     def tags = exporter.exportedData.ways[38407529L].tags
 
@@ -141,7 +140,8 @@ class OSMLoaderTest extends Specification {
     when:
     new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter).export()
     then:
-    exporter.exportedData.bounds == new Bounds(34.0662408634219, 34.0731374116421, -118.736715316772, -118.73122215271)
+    exporter.exportedData.bounds ==
+        new Bounds(34.0662408634219, 34.0731374116421, -118.736715316772, -118.73122215271)
   }
 
   def "Should load map metadata"() {
@@ -166,9 +166,8 @@ class OSMLoaderTest extends Specification {
   def "Should load relation tag data"() {
     given:
     def exporter = new OSMExporterInMemory()
-    def loader = new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter)
     when:
-    loader.export()
+    new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter).export()
     then:
     def tags = exporter.exportedData.relations[56688L].tags
 
@@ -195,14 +194,67 @@ class OSMLoaderTest extends Specification {
 
   }
 
-  def "Should summarize extracted document"(){
+  def "Should summarize extracted document"() {
     given:
     def exporter = new OSMExporterInMemory()
     when:
     def summary = new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter).export()
     then:
-    summary.totalParsed() == 10
-    summary.totalAccepted() == 10
-    summary.totalExported() == 10
+    verifyAll(summary) {
+      totalParsed() == 10
+      totalAccepted() == 10
+      totalExported() == 10
+    }
+  }
+
+  def "Should apply specification filters to elements"() {
+    given:
+    def exporter = new OSMExporterInMemory()
+    when:
+    def summary = new OSMLoader(new OSMProviderInMemory(OSM_XML), exporter,
+        new TestSpecification()).export()
+    then:
+    def exportedNodes = exporter.exportedData.nodes
+    def exportedWays = exporter.exportedData.ways
+    def exportedRelations = exporter.exportedData.relations
+    verifyAll(summary) {
+      totalParsed() == 10
+      totalAccepted() == 3
+      totalExported() == 3
+      exportedNodes.size() == 1
+      exportedNodes.containsKey(358802885L)
+      exportedWays.size() == 1
+      exportedWays.containsKey(38407529L)
+      exportedRelations.size() == 1
+      exportedRelations.containsKey(56688L)
+    }
+  }
+
+  class TestSpecification implements OSMLoaderSpecification {
+
+    @Override
+    boolean accept(Bounds bounds) {
+      return false
+    }
+
+    @Override
+    boolean accept(Metadata metadata) {
+      return false
+    }
+
+    @Override
+    boolean accept(Node node) {
+      return node.id == 358802885L
+    }
+
+    @Override
+    boolean accept(Relation relation) {
+      return relation.id == 56688L
+    }
+
+    @Override
+    boolean accept(Way way) {
+      return way.id == 38407529L
+    }
   }
 }

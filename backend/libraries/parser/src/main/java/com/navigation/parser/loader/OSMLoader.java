@@ -1,19 +1,25 @@
 package com.navigation.parser.loader;
 
+import static com.navigation.parser.specification.OSMLoaderSpecification.getDefaultPosition;
+
 import com.navigation.parser.exporter.OSMExporter;
 import com.navigation.parser.factory.ElementFactory;
 import com.navigation.parser.elements.ElementTypes;
 import com.navigation.parser.factory.ElementFactoryImpl;
+import com.navigation.parser.provider.OSMStreamReader;
 import com.navigation.parser.specification.OSMLoadAllSpecification;
 import com.navigation.parser.specification.OSMLoaderSpecification;
 import com.navigation.parser.provider.OSMProvider;
 
+import java.util.ArrayList;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import java.io.*;
 import java.util.HashSet;
 
 public class OSMLoader {
+
+  private final ElementTypes FIRST_ELEMENT = ElementTypes.METADATA;
 
   private final OSMProvider provider;
   private final OSMExporter exporter;
@@ -33,30 +39,35 @@ public class OSMLoader {
   }
 
   public ExportSummary export() throws IOException, XMLStreamException {
-    var reader = provider.loadOSMXml();
-    var readOrder = specification.getReadOrder();
+    var readers = new ArrayList<OSMStreamReader>();
+    try {
+      var reader = provider.loadOSMXml();
+      readers.add(reader);
+      var readOrder = specification.getReadOrder();
 
-    if (new HashSet<>(readOrder).size() != readOrder.size()) {
-      throw new IllegalArgumentException("Read order must have all unique nodes");
-    }
-
-    var prevElement = ElementTypes.METADATA;
-
-    for (var element : readOrder) {
-      if (OSMLoaderSpecification.getDefaultPosition(prevElement)
-          > OSMLoaderSpecification.getDefaultPosition(element)) {
-        reader.close();
-        reader = provider.loadOSMXml();
+      if (new HashSet<>(readOrder).size() != readOrder.size()) {
+        throw new IllegalArgumentException("Read order must have all unique nodes");
       }
 
-      advanceStreamToFirstElementOfType(reader, element);
-      parseAllElementsOfType(element, reader);
+      var prevElement = FIRST_ELEMENT;
 
-      prevElement = element;
+      for (var element : readOrder) {
+        if (getDefaultPosition(prevElement) > getDefaultPosition(element)) {
+          reader.close();
+          reader = provider.loadOSMXml();
+          readers.add(reader);
+        }
+
+        advanceStreamToFirstElementOfType(reader, element);
+        parseAllElementsOfType(element, reader);
+
+        prevElement = element;
+      }
+      reader.close();
+      return summarizer.toSummary();
+    } finally {
+      readers.forEach(OSMStreamReader::close);
     }
-
-    reader.close();
-    return summarizer.toSummary();
   }
 
   private void advanceStreamToFirstElementOfType(XMLStreamReader reader, ElementTypes element)

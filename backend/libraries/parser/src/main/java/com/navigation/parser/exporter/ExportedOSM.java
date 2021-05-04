@@ -2,6 +2,7 @@ package com.navigation.parser.exporter;
 
 import com.navigation.parser.elements.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class ExportedOSM {
@@ -18,9 +19,9 @@ public class ExportedOSM {
       Map<Long, Relation> relations,
       Bounds bounds,
       Metadata metadata) {
-    this.nodes = nodes;
-    this.ways = ways;
-    this.relations = relations;
+    this.nodes = new HashMap<>(nodes);
+    this.ways = new HashMap<>(ways);
+    this.relations = new HashMap<>(relations);
     this.bounds = bounds;
     this.metadata = metadata;
   }

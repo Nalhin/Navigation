@@ -1,12 +1,9 @@
 package com.navigation.parser.provider;
 
-import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
-
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
 import java.io.FileInputStream;
 import java.io.IOException;
+import javax.xml.stream.XMLStreamException;
+import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 
 public class OSMProviderBzipFile implements OSMProvider {
 
@@ -17,8 +14,7 @@ public class OSMProviderBzipFile implements OSMProvider {
   }
 
   @Override
-  public XMLStreamReader loadOSMXml() throws IOException, XMLStreamException {
-    var xmlInputFactory = XMLInputFactory.newInstance();
-    return xmlInputFactory.createXMLStreamReader(new BZip2CompressorInputStream(new FileInputStream(filePath)));
+  public OSMStreamReader loadOSMXml() throws XMLStreamException, IOException {
+    return new OSMStreamReader(new BZip2CompressorInputStream(new FileInputStream(filePath)));
   }
 }

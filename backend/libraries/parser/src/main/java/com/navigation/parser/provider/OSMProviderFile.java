@@ -1,10 +1,8 @@
 package com.navigation.parser.provider;
 
-import javax.xml.stream.XMLInputFactory;
+import java.io.FileNotFoundException;
 import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
 import java.io.FileInputStream;
-import java.io.IOException;
 
 public class OSMProviderFile implements OSMProvider {
   private final String filePath;
@@ -14,8 +12,7 @@ public class OSMProviderFile implements OSMProvider {
   }
 
   @Override
-  public XMLStreamReader loadOSMXml() throws IOException, XMLStreamException {
-    var xmlInputFactory = XMLInputFactory.newInstance();
-    return xmlInputFactory.createXMLStreamReader(new FileInputStream(filePath));
+  public OSMStreamReader loadOSMXml() throws XMLStreamException, FileNotFoundException {
+    return new OSMStreamReader(new FileInputStream(filePath));
   }
 }

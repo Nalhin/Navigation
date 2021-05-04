@@ -56,7 +56,7 @@ class GeocodingIntegrationTest extends WebElasticSearchSpecification {
     verifyAll {
       response.statusCode == HttpStatus.OK.value()
       body.size() == 1
-      verifyAll(body[0]) {
+      body[0].with {
         id == 31005854
         city == "Warszawa"
         country == "Poland"
@@ -87,7 +87,7 @@ class GeocodingIntegrationTest extends WebElasticSearchSpecification {
     verifyAll {
       response.statusCode == HttpStatus.OK.value()
       body.size() == 1
-      verifyAll(body[0]) {
+      body[0].with {
         id == 31005854
         city == "Warszawa"
         country == "Poland"

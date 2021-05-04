@@ -1,8 +1,6 @@
 package com.navigation.parser.provider;
 
-import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
 import java.io.ByteArrayInputStream;
 
 public class OSMProviderInMemory implements OSMProvider {
@@ -14,8 +12,7 @@ public class OSMProviderInMemory implements OSMProvider {
   }
 
   @Override
-  public XMLStreamReader loadOSMXml() throws XMLStreamException {
-    var xmlInputFactory = XMLInputFactory.newInstance();
-    return xmlInputFactory.createXMLStreamReader(new ByteArrayInputStream(osmData.getBytes()));
+  public OSMStreamReader loadOSMXml() throws XMLStreamException {
+    return new OSMStreamReader(new ByteArrayInputStream(osmData.getBytes()));
   }
 }

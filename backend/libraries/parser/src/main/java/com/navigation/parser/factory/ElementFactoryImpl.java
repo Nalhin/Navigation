@@ -55,7 +55,7 @@ public class ElementFactoryImpl implements ElementFactory {
     return new Relation(id, nested.getTags(), nested.getMembers());
   }
 
-  private NestedElementsReturn loadNestedElements(XMLStreamReader reader, ElementTypes endElement) throws XMLStreamException {
+  private NestedElementsHolder loadNestedElements(XMLStreamReader reader, ElementTypes endElement) throws XMLStreamException {
     var tags = new HashMap<String, String>();
     var refs = new ArrayList<Long>();
     var members = new ArrayList<Member>();
@@ -73,6 +73,6 @@ public class ElementFactoryImpl implements ElementFactory {
       reader.nextTag();
     }
 
-    return new NestedElementsReturn(tags, refs, members);
+    return new NestedElementsHolder(tags, refs, members);
   }
 }

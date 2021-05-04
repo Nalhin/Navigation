@@ -3,11 +3,11 @@ package com.navigation.parser.elements;
 public interface ElementVisitor {
   boolean accept(Bounds bounds);
 
-  boolean accept(Metadata bounds);
+  boolean accept(Metadata metadata);
 
-  boolean accept(Node bounds);
+  boolean accept(Node node);
 
-  boolean accept(Relation bounds);
+  boolean accept(Relation relation);
 
-  boolean accept(Way bounds);
+  boolean accept(Way way);
 }

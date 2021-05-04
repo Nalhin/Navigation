@@ -64,18 +64,5 @@ public class AStarPathfindingStrategy implements PathfindingStrategy {
     public int compareTo(GraphNodeWithDistance graphNodeWithDistance) {
       return Double.compare(fScore, graphNodeWithDistance.fScore);
     }
-
-    @Override
-    public boolean equals(Object o) {
-      if (this == o) return true;
-      if (o == null || getClass() != o.getClass()) return false;
-      GraphNodeWithDistance that = (GraphNodeWithDistance) o;
-      return Objects.equals(node, that.node);
-    }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(node);
-    }
   }
 }
