@@ -32,7 +32,7 @@ final class SingleDirectionalPathSummary implements PathSummary {
   }
 
   @Override
-  public List<Vertex> getSimplePath() {
+  public List<Vertex> simplePath() {
     if (!isFound()) {
       return Collections.emptyList();
     }
@@ -44,7 +44,7 @@ final class SingleDirectionalPathSummary implements PathSummary {
 
   @Override
   public int numberOfVertices() {
-    return path.size() + 1;
+    return isFound() ? path.size() + 1 : 0;
   }
 
   @Override

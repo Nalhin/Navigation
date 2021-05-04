@@ -6,11 +6,10 @@ application {
   mainModule = 'com.navigation.pathfinder'
 }
 
-dependencies {
-  testImplementation group: 'org.hamcrest', name: 'hamcrest-library', version: '2.2'
-}
-
 java {
   modularity.inferModulePath = true
 }
 
+dependencies {
+  testImplementation 'org.hamcrest:hamcrest-library:2.2'
+}

@@ -32,7 +32,7 @@ final class BidirectionalPathSummary implements PathSummary {
   }
 
   @Override
-  public List<Vertex> getSimplePath() {
+  public List<Vertex> simplePath() {
     if (!isFound()) {
       return Collections.emptyList();
     }

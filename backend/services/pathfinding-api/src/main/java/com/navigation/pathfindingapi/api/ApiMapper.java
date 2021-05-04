@@ -20,7 +20,7 @@ class ApiMapper {
     var response = new PathResponseDto();
     var path = pathWithSummary.getPath();
     response.setSimplePath(
-        path.getSimplePath().stream().map(this::toResponse).collect(Collectors.toList()));
+        path.simplePath().stream().map(this::toResponse).collect(Collectors.toList()));
 
     response.setTotalDistance(path.totalDistance());
     response.setTotalNodes(path.numberOfVertices());

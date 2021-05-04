@@ -7,37 +7,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class PathSummaryCreator {
-  public PathSummary createBidirectionalPath(
-      Vertex start,
-      Vertex mid,
-      Vertex end,
-      Map<Vertex, Edge> predecessorTreeStart,
-      Map<Vertex, Edge> predecessorTreeEnd) {
-
-    var fromMidToStart = reconstructPathFromPredecessorTree(mid, start, predecessorTreeStart);
-    Collections.reverse(fromMidToStart);
-
-    var fromEndToMid = reconstructPathFromPredecessorTree(end, mid, predecessorTreeEnd);
-    fromMidToStart.addAll(fromEndToMid);
-
-    return new BidirectionalPathSummary(
-        fromMidToStart, predecessorTreeStart.keySet(), predecessorTreeEnd.keySet());
-  }
 
   private List<Edge> reconstructPathFromPredecessorTree(
       Vertex from, Vertex to, Map<Vertex, Edge> predecessorTree) {
     var result = new ArrayList<Edge>();
 
     var currNode = from;
-    while (currNode != null && currNode != to) {
+    while (predecessorTree.containsKey(currNode) && currNode != to) {
       var edge = predecessorTree.get(currNode);
       result.add(edge);
       currNode = edge.getFrom();
     }
 
-    if (currNode == null) {
+    if (currNode != to) {
       return new ArrayList<>();
     }
 
@@ -50,5 +35,28 @@ public class PathSummaryCreator {
     Collections.reverse(fromEndToStart);
 
     return new SingleDirectionalPathSummary(fromEndToStart, predecessorTree.keySet());
+  }
+
+  public PathSummary createBidirectionalPath(
+      Vertex start,
+      Vertex mid,
+      Vertex end,
+      Map<Vertex, Edge> predecessorTreeStart,
+      Map<Vertex, Edge> predecessorTreeEnd) {
+
+    var fromMidToStart = reconstructPathFromPredecessorTree(mid, start, predecessorTreeStart);
+    Collections.reverse(fromMidToStart);
+
+    var fromEndToMid = reconstructPathFromPredecessorTree(mid, end, predecessorTreeEnd);
+
+    if (fromMidToStart.isEmpty() || fromEndToMid.isEmpty()) {
+      return new BidirectionalPathSummary(
+          Collections.emptyList(), predecessorTreeStart.keySet(), predecessorTreeEnd.keySet());
+    }
+
+    fromMidToStart.addAll(fromEndToMid.stream().map(Edge::reversed).collect(Collectors.toList()));
+
+    return new BidirectionalPathSummary(
+        fromMidToStart, predecessorTreeStart.keySet(), predecessorTreeEnd.keySet());
   }
 }

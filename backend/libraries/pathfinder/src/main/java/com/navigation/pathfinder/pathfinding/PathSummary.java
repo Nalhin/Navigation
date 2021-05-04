@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface PathSummary {
 
-  List<Vertex> getSimplePath();
+  List<Vertex> simplePath();
 
   int numberOfVertices();
 
