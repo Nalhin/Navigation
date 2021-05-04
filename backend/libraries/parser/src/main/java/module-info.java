@@ -8,4 +8,5 @@ module com.navigation.parser {
   exports com.navigation.parser.exceptions;
   exports com.navigation.parser.loader;
   exports com.navigation.parser.exporter;
+  exports com.navigation.parser.types;
 }

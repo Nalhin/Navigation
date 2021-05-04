@@ -1,13 +1,14 @@
 package com.navigation.osmdataprocessor.domain.street;
 
+import com.navigation.osmdataprocessor.domain.DataProcessor;
 import com.navigation.parser.exporter.OSMExporter;
+import com.navigation.parser.loader.ExportSummary;
 import com.navigation.parser.loader.OSMLoader;
 import com.navigation.parser.provider.OSMProvider;
 
-import javax.xml.stream.XMLStreamException;
-import java.io.IOException;
+import io.vavr.control.Try;
 
-public class StreetDataProcessor {
+public class StreetDataProcessor implements DataProcessor {
 
   private final OSMProvider provider;
   private final OSMExporter exporter;
@@ -17,11 +18,8 @@ public class StreetDataProcessor {
     this.exporter = osmExporter;
   }
 
-  public void processAndExport() {
-    try {
-      new OSMLoader(provider, exporter, new StreetDataSpecification()).export();
-    } catch (XMLStreamException | IOException e) {
-      e.printStackTrace();
-    }
+  @Override
+  public Try<ExportSummary> processAndExport() {
+    return Try.of(new OSMLoader(provider, exporter, new StreetDataSpecification())::export);
   }
 }

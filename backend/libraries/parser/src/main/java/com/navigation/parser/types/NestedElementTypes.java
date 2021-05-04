@@ -1,4 +1,4 @@
-package com.navigation.parser.elements;
+package com.navigation.parser.types;
 
 import com.navigation.parser.exceptions.InvalidOsmTagException;
 

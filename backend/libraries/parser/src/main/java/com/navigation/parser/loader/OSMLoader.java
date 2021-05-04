@@ -4,7 +4,7 @@ import static com.navigation.parser.specification.OSMLoaderSpecification.getDefa
 
 import com.navigation.parser.exporter.OSMExporter;
 import com.navigation.parser.factory.ElementFactory;
-import com.navigation.parser.elements.ElementTypes;
+import com.navigation.parser.types.ElementTypes;
 import com.navigation.parser.factory.ElementFactoryImpl;
 import com.navigation.parser.provider.OSMStreamReader;
 import com.navigation.parser.specification.OSMLoadAllSpecification;

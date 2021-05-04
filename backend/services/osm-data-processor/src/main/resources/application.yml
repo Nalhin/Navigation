@@ -4,7 +4,7 @@ spring:
 
 infrastructure:
   osm:
-    filePath: "/home/nalhin/Desktop/Navigation/data/poland-latest.osm.bz2"
+    filePath: "/home/nalhin/Desktop/Navigation/data/map-data.osm"
   topics:
     address: "exporter.address"
     street-connections: "exporter.street-connections"

@@ -1,6 +1,6 @@
 package com.navigation.parser.loader;
 
-import com.navigation.parser.elements.ElementTypes;
+import com.navigation.parser.types.ElementTypes;
 import java.util.EnumMap;
 import java.util.Map;
 

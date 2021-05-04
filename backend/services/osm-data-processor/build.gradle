@@ -11,4 +11,5 @@ dependencies {
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
   implementation 'org.springframework.kafka:spring-kafka:2.7.0'
+  implementation 'io.vavr:vavr:0.9.0'
 }

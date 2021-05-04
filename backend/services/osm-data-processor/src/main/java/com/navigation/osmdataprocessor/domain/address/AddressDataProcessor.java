@@ -1,13 +1,16 @@
 package com.navigation.osmdataprocessor.domain.address;
 
+import com.navigation.osmdataprocessor.domain.DataProcessor;
 import com.navigation.parser.exporter.OSMExporter;
+import com.navigation.parser.loader.ExportSummary;
 import com.navigation.parser.loader.OSMLoader;
 import com.navigation.parser.provider.OSMProvider;
 
+import io.vavr.control.Try;
 import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
 
-public class AddressDataProcessor {
+public class AddressDataProcessor implements DataProcessor {
 
   private final OSMProvider provider;
   private final OSMExporter exporter;
@@ -17,11 +20,8 @@ public class AddressDataProcessor {
     this.exporter = osmExporter;
   }
 
-  public void processAndExport() {
-    try {
-      new OSMLoader(provider, exporter, new AddressDataSpecification()).export();
-    } catch (XMLStreamException | IOException e) {
-      e.printStackTrace();
-    }
+  @Override
+  public Try<ExportSummary> processAndExport() {
+    return Try.of(new OSMLoader(provider, exporter, new AddressDataSpecification())::export);
   }
 }

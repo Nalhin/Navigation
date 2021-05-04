@@ -2,6 +2,8 @@ package com.navigation.parser.factory;
 
 import com.navigation.parser.elements.*;
 
+import com.navigation.parser.types.ElementTypes;
+import com.navigation.parser.types.NestedElementTypes;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package com.navigation.parser.loader;
 
-import com.navigation.parser.elements.ElementTypes;
+import com.navigation.parser.types.ElementTypes;
 import java.util.Map;
 
 public class ExportSummary {
@@ -28,5 +28,14 @@ public class ExportSummary {
 
   public long totalExported() {
     return exportedCounter.values().stream().mapToLong(l -> l).sum();
+  }
+
+  @Override
+  public String toString() {
+    return "ExportSummary{" +
+            "parsedCounter=" + parsedCounter +
+            ", acceptedCounter=" + acceptedCounter +
+            ", exportedCounter=" + exportedCounter +
+            '}';
   }
 }
