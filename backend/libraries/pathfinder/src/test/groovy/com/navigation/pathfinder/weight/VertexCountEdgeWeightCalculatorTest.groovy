@@ -7,11 +7,11 @@ import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Subject
 
-class NodeCountEdgeWeightCalculatorTest extends Specification {
+class VertexCountEdgeWeightCalculatorTest extends Specification {
 
   @Subject
   @Shared
-  def edgeWeightCalculator = new NodeCountEdgeWeightCalculator()
+  def edgeWeightCalculator = new VertexCountEdgeWeightCalculator()
 
   def "calculateWeight() should return edge node count"() {
     given:

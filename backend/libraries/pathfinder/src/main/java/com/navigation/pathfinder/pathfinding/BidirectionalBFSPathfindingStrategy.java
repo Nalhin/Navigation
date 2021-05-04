@@ -44,7 +44,8 @@ public class BidirectionalBFSPathfindingStrategy implements PathfindingStrategy 
         visitOne(curr, reversedGraph, queueEnd, predecessorTreeEnd, visitedEnd);
       }
     }
-    return null;
+    return pathSummaryCreator.createBidirectionalPath(
+        start, start, end, predecessorTreeStart, predecessorTreeEnd);
   }
 
   private void visitOne(
