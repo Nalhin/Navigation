@@ -19,7 +19,7 @@ class EdgeTest extends Specification {
     }
   }
 
-  def "equals() should compare by from and to vertices"() {
+  def "equals() should compare by from and to vertices and speed"() {
     given:
     def firstVertex =
         new Vertex(1, new Coordinates(1, 1))
@@ -30,7 +30,7 @@ class EdgeTest extends Specification {
     firstEdge == secondEdge
   }
 
-  def "hashCode() should compare by from and to vertices"() {
+  def "hashCode() should compare by from and to vertices and speed"() {
     given:
     def firstVertex =
         new Vertex(1, new Coordinates(1, 1))

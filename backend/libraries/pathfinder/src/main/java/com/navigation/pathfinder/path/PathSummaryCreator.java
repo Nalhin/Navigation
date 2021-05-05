@@ -16,13 +16,14 @@ public class PathSummaryCreator {
     var result = new ArrayList<Edge>();
 
     var currNode = from;
-    while (predecessorTree.containsKey(currNode) && currNode != to) {
+
+    while (predecessorTree.containsKey(currNode) && !currNode.equals(to)) {
       var edge = predecessorTree.get(currNode);
       result.add(edge);
       currNode = edge.getFrom();
     }
 
-    if (currNode != to) {
+    if (!currNode.equals(to)) {
       return new ArrayList<>();
     }
 
@@ -32,6 +33,7 @@ public class PathSummaryCreator {
   public PathSummary createUnidirectionalPath(
       Vertex start, Vertex end, Map<Vertex, Edge> predecessorTree) {
     var fromEndToStart = reconstructPathFromPredecessorTree(end, start, predecessorTree);
+
     Collections.reverse(fromEndToStart);
 
     return new SingleDirectionalPathSummary(fromEndToStart, predecessorTree.keySet());

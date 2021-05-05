@@ -39,7 +39,7 @@ public class MongoMapRepository implements MapRepository {
                 new Coordinates(first.getLocation().getY(), first.getLocation().getX())));
   }
 
-  @Cacheable("graph")
+  @Cacheable(value = "graph", sync = true)
   @Override
   public Graph prepareGraph() {
     var builder = new GraphBuilder();
@@ -64,15 +64,8 @@ public class MongoMapRepository implements MapRepository {
   @Override
   public Optional<MapNode> closestNodeWithinBounds(Coordinates location, BoundsQuery boundsQuery) {
     Optional<StreetNodeEntity> node =
-        nodeRepository.findTop1ByLocationNearAndLocationWithin(
-            new GeoJsonPoint(location.getLongitude(), location.getLatitude()),
-            new Box(
-                new GeoJsonPoint(
-                    boundsQuery.getLeftBottom().getLongitude(),
-                    boundsQuery.getLeftBottom().getLatitude()),
-                new GeoJsonPoint(
-                    boundsQuery.getTopRight().getLongitude(),
-                    boundsQuery.getTopRight().getLatitude())));
+        nodeRepository.findTop1ByLocationNear(
+            new GeoJsonPoint(location.getLongitude(), location.getLatitude()));
 
     return node.map(
         first ->
@@ -81,7 +74,7 @@ public class MongoMapRepository implements MapRepository {
                 new Coordinates(first.getLocation().getY(), first.getLocation().getX())));
   }
 
-  @Cacheable("graphBounded")
+  @Cacheable(value = "graphBounded", sync = true)
   @Override
   public Graph prepareGraphWithinBounds(BoundsQuery boundsQuery) {
 

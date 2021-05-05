@@ -6,14 +6,14 @@ import java.util.*;
 public final class GraphBuilder {
 
   private final Map<Long, Vertex> vertices = new HashMap<>();
-  private final Map<Vertex, Set<Edge>> adjacencyList = new HashMap<>();
+  private final Map<Vertex, List<Edge>> adjacencyList = new HashMap<>();
 
   public GraphBuilder addVertex(long id, Coordinates location) {
     return addVertex(new Vertex(id, location));
   }
 
   public GraphBuilder addVertex(Vertex vertex) {
-    adjacencyList.put(vertex, new HashSet<>());
+    adjacencyList.put(vertex, new ArrayList<>());
     vertices.put(vertex.getId(), vertex);
     return this;
   }
@@ -32,7 +32,7 @@ public final class GraphBuilder {
 
   private void connectVertices(Vertex from, Vertex to, int maxSpeed) {
     if (!adjacencyList.containsKey(from)) {
-      adjacencyList.put(from, new HashSet<>());
+      adjacencyList.put(from, new ArrayList<>());
     }
     var edges = adjacencyList.get(from);
     edges.add(new Edge(from, to, maxSpeed));

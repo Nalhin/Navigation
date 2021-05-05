@@ -35,11 +35,11 @@ public final class Edge {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Edge edge = (Edge) o;
-    return Objects.equals(from, edge.from) && Objects.equals(to, edge.to);
+    return Objects.equals(from, edge.from) && Objects.equals(to, edge.to) && Objects.equals(maxSpeed, edge.maxSpeed);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(from, to);
+    return Objects.hash(from, to, maxSpeed);
   }
 }

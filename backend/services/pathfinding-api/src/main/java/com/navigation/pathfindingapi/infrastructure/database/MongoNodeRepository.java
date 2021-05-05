@@ -13,7 +13,5 @@ interface MongoNodeRepository extends MongoRepository<StreetNodeEntity, Long> {
 
   Optional<StreetNodeEntity> findTop1ByLocationNear(GeoJsonPoint point);
 
-  Optional<StreetNodeEntity> findTop1ByLocationNearAndLocationWithin(GeoJsonPoint point, Box box);
-
   List<StreetNodeEntity> findByLocationWithin(Box points);
 }
