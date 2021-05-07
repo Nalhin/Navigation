@@ -1,8 +1,9 @@
 package com.navigation.pathfindingapi.api.dto.response;
 
-import com.navigation.pathfindingapi.api.dto.shared.OptimizationDto;
+import com.navigation.pathfindingapi.api.dto.shared.PathfindingOptimizationsDto;
 import com.navigation.pathfindingapi.api.dto.shared.PathfindingAlgorithmsDto;
 import java.util.List;
+import java.util.Objects;
 
 public class PathResponseDto {
 
@@ -13,8 +14,9 @@ public class PathResponseDto {
   private double totalNodes;
   private int totalVisitedNodes;
   private double executionDuration;
-  private OptimizationDto optimization;
+  private PathfindingOptimizationsDto optimization;
   private PathfindingAlgorithmsDto algorithm;
+  private boolean isFound;
 
   public PathResponseDto() {}
 
@@ -74,11 +76,11 @@ public class PathResponseDto {
     this.searchBoundaries = searchBoundaries;
   }
 
-  public OptimizationDto getOptimization() {
+  public PathfindingOptimizationsDto getOptimization() {
     return optimization;
   }
 
-  public void setOptimization(OptimizationDto optimization) {
+  public void setOptimization(PathfindingOptimizationsDto optimization) {
     this.optimization = optimization;
   }
 
@@ -88,5 +90,26 @@ public class PathResponseDto {
 
   public void setAlgorithm(PathfindingAlgorithmsDto algorithm) {
     this.algorithm = algorithm;
+  }
+
+  public boolean isFound() {
+    return isFound;
+  }
+
+  public void setFound(boolean found) {
+    isFound = found;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    PathResponseDto that = (PathResponseDto) o;
+    return Double.compare(that.totalDistance, totalDistance) == 0 && Double.compare(that.totalDuration, totalDuration) == 0 && Double.compare(that.totalNodes, totalNodes) == 0 && totalVisitedNodes == that.totalVisitedNodes && Double.compare(that.executionDuration, executionDuration) == 0 && isFound == that.isFound && Objects.equals(simplePath, that.simplePath) && Objects.equals(searchBoundaries, that.searchBoundaries) && optimization == that.optimization && algorithm == that.algorithm;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(simplePath, searchBoundaries, totalDistance, totalDuration, totalNodes, totalVisitedNodes, executionDuration, optimization, algorithm, isFound);
   }
 }

@@ -8,16 +8,6 @@ import static spock.util.matcher.HamcrestSupport.that
 
 class GraphBuilderTest extends Specification {
 
-  def "addVertex() should initialize an vertex and add to graph"() {
-    given:
-    def graphBuilder = new GraphBuilder()
-    when:
-    graphBuilder.addVertex(1, new Coordinates(22.22, 33.33))
-    then:
-    that graphBuilder.asGraph().vertices(),
-        containsInAnyOrder(new Vertex(1, new Coordinates(22.22, 33.33)))
-  }
-
   def "addVertex(Vertex) should add an vertex to graph"() {
     given:
     def graphBuilder = new GraphBuilder()

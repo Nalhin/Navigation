@@ -8,10 +8,6 @@ public final class GraphBuilder {
   private final Map<Long, Vertex> vertices = new HashMap<>();
   private final Map<Vertex, List<Edge>> adjacencyList = new HashMap<>();
 
-  public GraphBuilder addVertex(long id, Coordinates location) {
-    return addVertex(new Vertex(id, location));
-  }
-
   public GraphBuilder addVertex(Vertex vertex) {
     adjacencyList.put(vertex, new ArrayList<>());
     vertices.put(vertex.getId(), vertex);

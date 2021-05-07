@@ -26,7 +26,7 @@ public class PathWithExecutionSummary {
     this.optimization = optimization;
   }
 
-  public PathSummary getPath() {
+  public PathSummary getPathSummary() {
     return pathSummary;
   }
 

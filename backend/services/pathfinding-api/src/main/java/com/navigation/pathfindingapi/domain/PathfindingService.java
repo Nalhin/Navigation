@@ -2,7 +2,7 @@ package com.navigation.pathfindingapi.domain;
 
 public interface PathfindingService {
 
-  PathWithExecutionSummary calculatePathBetween(CalculatePathBetweenQuery query);
+  PathWithExecutionSummary calculatePathBetween(PathBetweenCoordinatesQuery query);
 
-  PathWithExecutionSummary calculateBoundedPathBetween(CalculatePathBetweenQuery query, BoundsQuery bounds);
+  PathWithExecutionSummary calculateBoundedPathBetween(PathBetweenCoordinatesQuery query, Bounds bounds);
 }

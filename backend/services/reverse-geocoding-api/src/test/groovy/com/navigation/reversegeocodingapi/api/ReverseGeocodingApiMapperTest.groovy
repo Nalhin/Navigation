@@ -5,10 +5,10 @@ import com.navigation.reversegeocodingapi.domain.Location
 import spock.lang.Specification
 import spock.lang.Subject
 
-class ApiMapperTest extends Specification {
+class ReverseGeocodingApiMapperTest extends Specification {
 
   @Subject
-  def mapper = new ApiMapper()
+  def mapper = new ReverseGeocodingApiMapper()
 
   def "toDto should map Address domain object to AddressDto"() {
     given:

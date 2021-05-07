@@ -1,5 +1,7 @@
 package com.navigation.pathfindingapi.api.dto.response;
 
+import java.util.Objects;
+
 public class NodeResponseDto {
   private double latitude;
   private double longitude;
@@ -35,5 +37,18 @@ public class NodeResponseDto {
 
   public void setId(long id) {
     this.id = id;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    NodeResponseDto that = (NodeResponseDto) o;
+    return Double.compare(that.latitude, latitude) == 0 && Double.compare(that.longitude, longitude) == 0 && id == that.id;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(latitude, longitude, id);
   }
 }

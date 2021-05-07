@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 class PathfindingController {
 
   private final PathfindingService service;
-  private final ApiMapper mapper;
+  private final PathfindingApiMapper mapper;
 
-  public PathfindingController(PathfindingService service, ApiMapper mapper) {
+  public PathfindingController(PathfindingService service, PathfindingApiMapper mapper) {
     this.service = service;
     this.mapper = mapper;
   }
@@ -50,7 +50,7 @@ class PathfindingController {
       @Validated BoundsRequestDtoParams boundsRequestDtoParams) {
     var path =
         service.calculateBoundedPathBetween(
-            mapper.toQuery(requestDtoParams), mapper.toQuery(boundsRequestDtoParams));
+            mapper.toQuery(requestDtoParams), mapper.toBounds(boundsRequestDtoParams));
     return ResponseEntity.ok(mapper.toResponse(path));
   }
 }

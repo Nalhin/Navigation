@@ -1,22 +1,17 @@
 package com.navigation.pathfindingapi.api.dto.params;
 
-import com.navigation.pathfindingapi.api.dto.shared.OptimizationDto;
+import com.navigation.pathfindingapi.api.dto.shared.PathfindingOptimizationsDto;
 import com.navigation.pathfindingapi.api.dto.shared.PathfindingAlgorithmsDto;
+import java.util.Objects;
 import javax.validation.constraints.NotNull;
 
 public class PathRequestDtoParams {
-  @NotNull
-  private Double startLatitude;
-  @NotNull
-  private Double startLongitude;
-  @NotNull
-  private Double endLatitude;
-  @NotNull
-  private Double endLongitude;
-  @NotNull
-  private PathfindingAlgorithmsDto algorithm;
-  @NotNull
-  private OptimizationDto optimization;
+  @NotNull private Double startLatitude;
+  @NotNull private Double startLongitude;
+  @NotNull private Double endLatitude;
+  @NotNull private Double endLongitude;
+  @NotNull private PathfindingAlgorithmsDto algorithm;
+  @NotNull private PathfindingOptimizationsDto optimization;
 
   public Double getStartLatitude() {
     return startLatitude;
@@ -58,11 +53,30 @@ public class PathRequestDtoParams {
     this.algorithm = algorithm;
   }
 
-  public OptimizationDto getOptimization() {
+  public PathfindingOptimizationsDto getOptimization() {
     return optimization;
   }
 
-  public void setOptimization(OptimizationDto optimization) {
+  public void setOptimization(PathfindingOptimizationsDto optimization) {
     this.optimization = optimization;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    PathRequestDtoParams that = (PathRequestDtoParams) o;
+    return Objects.equals(startLatitude, that.startLatitude)
+        && Objects.equals(startLongitude, that.startLongitude)
+        && Objects.equals(endLatitude, that.endLatitude)
+        && Objects.equals(endLongitude, that.endLongitude)
+        && algorithm == that.algorithm
+        && optimization == that.optimization;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        startLatitude, startLongitude, endLatitude, endLongitude, algorithm, optimization);
   }
 }

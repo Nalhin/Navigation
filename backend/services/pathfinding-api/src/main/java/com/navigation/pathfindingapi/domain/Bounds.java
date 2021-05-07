@@ -4,12 +4,12 @@ import com.navigation.pathfinder.graph.Coordinates;
 
 import java.util.Objects;
 
-public class BoundsQuery {
+public class Bounds {
 
   private final Coordinates leftBottom;
   private final Coordinates topRight;
 
-  public BoundsQuery(Coordinates leftBottom, Coordinates topRight) {
+  public Bounds(Coordinates leftBottom, Coordinates topRight) {
     this.leftBottom = leftBottom;
     this.topRight = topRight;
   }
@@ -26,7 +26,7 @@ public class BoundsQuery {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    BoundsQuery that = (BoundsQuery) o;
+    Bounds that = (Bounds) o;
     return Objects.equals(leftBottom, that.leftBottom) && Objects.equals(topRight, that.topRight);
   }
 

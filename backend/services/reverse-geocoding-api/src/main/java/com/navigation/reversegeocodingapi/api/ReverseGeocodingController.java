@@ -21,9 +21,9 @@ import org.springframework.web.server.ResponseStatusException;
 class ReverseGeocodingController {
 
   private final ReverseGeocodingService service;
-  private final ApiMapper mapper;
+  private final ReverseGeocodingApiMapper mapper;
 
-  public ReverseGeocodingController(ReverseGeocodingService service, ApiMapper mapper) {
+  public ReverseGeocodingController(ReverseGeocodingService service, ReverseGeocodingApiMapper mapper) {
     this.service = service;
     this.mapper = mapper;
   }
