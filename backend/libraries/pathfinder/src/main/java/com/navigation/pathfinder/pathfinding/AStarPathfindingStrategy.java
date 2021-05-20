@@ -48,7 +48,7 @@ public class AStarPathfindingStrategy implements PathfindingStrategy {
   }
 
   private double heuristic(Vertex from, Vertex to) {
-    return calculator.calculateWeight(new Edge(from, to, 50));
+    return calculator.calculateWeight(new Edge(from, to, 140));
   }
 
   private static final class GraphNodeWithDistance implements Comparable<GraphNodeWithDistance> {

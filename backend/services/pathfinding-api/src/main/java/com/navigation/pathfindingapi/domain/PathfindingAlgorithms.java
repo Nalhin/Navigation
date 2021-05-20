@@ -3,7 +3,7 @@ package com.navigation.pathfindingapi.domain;
 import java.util.Set;
 
 public enum PathfindingAlgorithms {
-  A_STAR((Set.of(PathfindingOptimizations.TIME, PathfindingOptimizations.DISTANCE))),
+  A_STAR((Set.of(PathfindingOptimizations.values()))),
   BELLMAN_FORD(Set.of(PathfindingOptimizations.values())),
   BFS(Set.of(PathfindingOptimizations.NUMBER_OF_NODES)),
   BIDIRECTIONAL_BFS(Set.of(PathfindingOptimizations.NUMBER_OF_NODES)),
