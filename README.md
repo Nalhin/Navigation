@@ -19,6 +19,7 @@ Navigation based on open source geospatial data and pathfinding algorithms.
 
 ## Features
 
+* OSM street network graph
 * Implementation and visualization of the following single-source shortest path algorithms:
   * [BFS](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BFSPathfindingStrategy.java) 
   * [Bidirectional BFS](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BidirectionalBFSPathfindingStrategy.java)

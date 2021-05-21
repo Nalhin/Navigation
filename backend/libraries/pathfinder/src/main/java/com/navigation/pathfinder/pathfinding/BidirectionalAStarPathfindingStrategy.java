@@ -102,6 +102,6 @@ public class BidirectionalAStarPathfindingStrategy implements PathfindingStrateg
   }
 
   private double heuristic(Vertex from, Vertex to) {
-    return calculator.calculateWeight(new Edge(from, to, 140));
+    return calculator.estimateWeight(from, to);
   }
 }
