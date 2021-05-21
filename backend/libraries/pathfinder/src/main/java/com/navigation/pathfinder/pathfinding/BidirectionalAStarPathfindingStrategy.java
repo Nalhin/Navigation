@@ -10,66 +10,72 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-public class BidirectionalDijkstraPathfindingStrategy implements PathfindingStrategy {
+public class BidirectionalAStarPathfindingStrategy implements PathfindingStrategy {
 
   private static final PathSummaryCreator pathSummaryCreator = new PathSummaryCreator();
   private static final BidirectionalCenterVertexFinder centerVertexFinder =
       new BidirectionalCenterVertexFinder();
   private final EdgeWeightCalculator calculator;
 
-  public BidirectionalDijkstraPathfindingStrategy(EdgeWeightCalculator calculator) {
+  public BidirectionalAStarPathfindingStrategy(EdgeWeightCalculator calculator) {
     this.calculator = calculator;
   }
 
   @Override
   public PathSummary findPath(Vertex start, Vertex end, Graph graph) {
-    var minDistancesForward = new HashMap<Vertex, Double>();
-    var minDistancesBackward = new HashMap<Vertex, Double>();
-    minDistancesForward.put(start, 0.0);
-    minDistancesBackward.put(end, 0.0);
+    var gScoresForward = new HashMap<Vertex, Double>();
+    var gScoresBackward = new HashMap<Vertex, Double>();
+    gScoresForward.put(start, 0.0);
+    gScoresBackward.put(end, 0.0);
 
     var predecessorTreeBackward = new HashMap<Vertex, Edge>();
     var predecessorTreeForward = new HashMap<Vertex, Edge>();
     predecessorTreeForward.put(start, null);
     predecessorTreeBackward.put(end, null);
 
-    var pqForward = new PriorityQueue<ScoredGraphVertex>();
-    var pqBackward = new PriorityQueue<ScoredGraphVertex>();
-    pqForward.add(new ScoredGraphVertex(start, 0.0));
-    pqBackward.add(new ScoredGraphVertex(end, 0.0));
+    var openForward = new PriorityQueue<ScoredGraphVertex>();
+    var openBackward = new PriorityQueue<ScoredGraphVertex>();
+    openForward.add(new ScoredGraphVertex(start, heuristic(start, end)));
+    openBackward.add(new ScoredGraphVertex(end, heuristic(end, start)));
 
     var reversedGraph = graph.reversed();
 
-    while (!pqForward.isEmpty() && !pqBackward.isEmpty()) {
-      var currForward = pqForward.poll();
+    while (!openForward.isEmpty() && !openBackward.isEmpty()) {
+      var currForward = openForward.poll();
       if (predecessorTreeBackward.containsKey(currForward.vertex())) {
         var center =
             centerVertexFinder.findCenterVertex(
                 currForward.vertex(),
-                minDistancesForward.get(currForward.vertex()),
-                minDistancesBackward.get(currForward.vertex()),
-                pqForward,
-                pqBackward);
+                gScoresForward.get(currForward.vertex()),
+                gScoresBackward.get(currForward.vertex()),
+                openForward,
+                openBackward);
         return pathSummaryCreator.createBidirectionalPath(
             start, center, end, predecessorTreeForward, predecessorTreeBackward);
       }
-      visitVertex(currForward, graph, pqForward, predecessorTreeForward, minDistancesForward);
+      visitVertex(
+          currForward.vertex(), graph, openForward, predecessorTreeForward, gScoresForward, end);
 
-      var currBackward = pqBackward.poll();
+      var currBackward = openBackward.poll();
       if (predecessorTreeForward.containsKey(currBackward.vertex())) {
         var center =
             centerVertexFinder.findCenterVertex(
                 currBackward.vertex(),
-                minDistancesForward.get(currBackward.vertex()),
-                minDistancesBackward.get(currBackward.vertex()),
-                pqForward,
-                pqBackward);
+                gScoresForward.get(currBackward.vertex()),
+                gScoresBackward.get(currBackward.vertex()),
+                openForward,
+                openBackward);
 
         return pathSummaryCreator.createBidirectionalPath(
             start, center, end, predecessorTreeForward, predecessorTreeBackward);
       }
       visitVertex(
-          currBackward, reversedGraph, pqBackward, predecessorTreeBackward, minDistancesBackward);
+          currBackward.vertex(),
+          reversedGraph,
+          openBackward,
+          predecessorTreeBackward,
+          gScoresBackward,
+          start);
     }
 
     return pathSummaryCreator.createBidirectionalPath(
@@ -77,27 +83,25 @@ public class BidirectionalDijkstraPathfindingStrategy implements PathfindingStra
   }
 
   private void visitVertex(
-      ScoredGraphVertex curr,
+      Vertex currVertex,
       Graph graph,
-      Queue<ScoredGraphVertex> pq,
+      Queue<ScoredGraphVertex> open,
       Map<Vertex, Edge> predecessorTree,
-      Map<Vertex, Double> minDistances) {
-    var currVertex = curr.vertex();
-    var distanceSoFar = curr.getScore();
-
-    if (distanceSoFar > minDistances.getOrDefault(currVertex, Double.MAX_VALUE)) {
-      return;
-    }
-
+      Map<Vertex, Double> gScores,
+      Vertex end) {
     for (var edge : graph.getVertexEdges(currVertex)) {
       var neighbour = edge.getTo();
-      double distance = distanceSoFar + calculator.calculateWeight(edge);
+      double newScore = gScores.get(currVertex) + calculator.calculateWeight(edge);
 
-      if (distance < minDistances.getOrDefault(neighbour, Double.MAX_VALUE)) {
-        minDistances.put(neighbour, distance);
+      if (newScore < gScores.getOrDefault(neighbour, Double.MAX_VALUE)) {
+        gScores.put(neighbour, newScore);
         predecessorTree.put(neighbour, edge);
-        pq.add(new ScoredGraphVertex(neighbour, distance));
+        open.add(new ScoredGraphVertex(neighbour, newScore + heuristic(neighbour, end)));
       }
     }
+  }
+
+  private double heuristic(Vertex from, Vertex to) {
+    return calculator.calculateWeight(new Edge(from, to, 140));
   }
 }

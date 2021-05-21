@@ -19,15 +19,16 @@ Navigation based on open source geospatial data and pathfinding algorithms.
 
 ## Features
 
-* Implementation and visualization of the following pathfinding algorithms:
+* Implementation and visualization of the following single-source shortest path algorithms:
   * [BFS](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BFSPathfindingStrategy.java) 
   * [Bidirectional BFS](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BidirectionalBFSPathfindingStrategy.java)
-  * [DFS](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/DFSPathfindingStrategy.java) 
   * [Bellman-Ford](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BellmanFordPathfindingStrategy.java)
   * [Dijkstra](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/DijkstraPathfindingStrategy.java)
   * [Bidirectional Dijkstra](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BidirectionalDijkstraPathfindingStrategy.java)
   * [A*](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/AStarPathfindingStrategy.java)
-  * Bidirectional A*
+  * [Bidirectional A*](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BidirectionalAStarPathfindingStrategy.java)
+* Implementation and visualization of the following pathfinding algorithms:
+  * [DFS](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/DFSPathfindingStrategy.java)
 * Geocoding - converting addresses to coordinates
 * Reverse Geocoding - converting coordinates to addresses
 * OSM file parser

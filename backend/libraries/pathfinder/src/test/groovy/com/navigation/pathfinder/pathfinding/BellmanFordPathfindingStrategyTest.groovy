@@ -9,7 +9,7 @@ import static com.navigation.pathfinder.pathfinding.ShortestPathPathfindingTestG
 
 class BellmanFordPathfindingStrategyTest extends Specification {
 
-  def "findShortestPath() should return the shortest path"(
+  def "findPath() should return the shortest path"(
       ShortestPathPathfindingTestGraphs.TestGraphSummary testGraph) {
     given:
     def strategy = new BellmanFordPathfindingStrategy(testGraph.calculator)

@@ -20,6 +20,7 @@ class PathfindingStrategyFactory {
       case BFS -> new BFSPathfindingStrategy();
       case BIDIRECTIONAL_BFS -> new BidirectionalBFSPathfindingStrategy();
       case DFS -> new DFSPathfindingStrategy();
+      case BIDIRECTIONAL_A_STAR -> new BidirectionalAStarPathfindingStrategy(calculator);
     };
   }
 }

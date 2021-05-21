@@ -4,6 +4,7 @@ import java.util.Set;
 
 public enum PathfindingAlgorithms {
   A_STAR(PathfindingOptimizations.allOptimizing),
+  BIDIRECTIONAL_A_STAR(PathfindingOptimizations.allOptimizing),
   BELLMAN_FORD(PathfindingOptimizations.allOptimizing),
   BFS(Set.of(PathfindingOptimizations.NUMBER_OF_NODES)),
   BIDIRECTIONAL_BFS(Set.of(PathfindingOptimizations.NUMBER_OF_NODES)),

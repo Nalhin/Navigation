@@ -7,7 +7,7 @@ import static com.navigation.pathfinder.pathfinding.ShortestPathPathfindingTestG
 
 class BidirectionalDijkstraPathfindingStrategyTest extends Specification {
 
-  def "findShortestPath() should return the shortest path"(TestGraphSummary testGraph) {
+  def "findPath() should return the shortest path"(TestGraphSummary testGraph) {
     given:
     def strategy = new BidirectionalDijkstraPathfindingStrategy(testGraph.calculator)
     when:

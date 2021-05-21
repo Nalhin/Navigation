@@ -4,6 +4,8 @@ import spock.lang.Specification
 
 import static com.navigation.pathfinder.pathfinding.ShortestPathPathfindingTestGraphs.euclideanDistanceTestGraphConnected
 import static com.navigation.pathfinder.pathfinding.ShortestPathPathfindingTestGraphs.euclideanDistanceTestGraphDisconnected
+import static com.navigation.pathfinder.pathfinding.ShortestPathPathfindingTestGraphs.vertexCountTestGraphConnected
+import static com.navigation.pathfinder.pathfinding.ShortestPathPathfindingTestGraphs.vertexCountTestGraphDisconnected
 
 class AStarPathfindingStrategyTest extends Specification {
 
@@ -19,5 +21,7 @@ class AStarPathfindingStrategyTest extends Specification {
     testGraph                                || _
     euclideanDistanceTestGraphConnected()    || _
     euclideanDistanceTestGraphDisconnected() || _
+    vertexCountTestGraphConnected()          || _
+    vertexCountTestGraphDisconnected()       || _
   }
 }
