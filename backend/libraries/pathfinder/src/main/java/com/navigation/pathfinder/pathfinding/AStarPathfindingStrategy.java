@@ -29,7 +29,7 @@ public class AStarPathfindingStrategy implements PathfindingStrategy {
     open.add(new ScoredGraphVertex(start, heuristic(start, end)));
 
     while (!open.isEmpty()) {
-      var curr = open.poll().getVertex();
+      var curr = open.poll().vertex();
 
       if (curr.equals(end)) {
         return pathSummaryCreator.createUnidirectionalPath(start, end, predecessorTree);

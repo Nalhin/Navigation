@@ -4,7 +4,7 @@
 
 # Navigation
 
-Navigation based on open source geospatial data and single-source shortest path algorithms.
+Navigation based on open source geospatial data and pathfinding algorithms.
 
 ## Table of contents
 * [Description](#description)
@@ -18,6 +18,20 @@ Navigation based on open source geospatial data and single-source shortest path 
 ## Description
 
 ## Features
+
+* Implementation and visualization of the following pathfinding algorithms:
+  * [BFS](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BFSPathfindingStrategy.java) 
+  * [Bidirectional BFS](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BidirectionalBFSPathfindingStrategy.java)
+  * DFS  
+  * [Bellman-Ford](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BellmanFordPathfindingStrategy.java)
+  * [Dijkstra](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/DijkstraPathfindingStrategy.java)
+  * [Bidirectional Dijkstra](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BidirectionalDijkstraPathfindingStrategy.java)
+  * [A*](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/AStarPathfindingStrategy.java)
+  * Bidirectional A*
+* Geocoding - converting addresses to coordinates
+* Reverse Geocoding - converting coordinates to addresses
+* OSM file parser
+* Data distribution pipeline in microservices architecture
 
 ## Presentation
 

@@ -40,43 +40,38 @@ public class BidirectionalDijkstraPathfindingStrategy implements PathfindingStra
 
     var reversedGraph = graph.reversed();
 
-    while (!pqForward.isEmpty() || !pqBackward.isEmpty()) {
-      if (!pqForward.isEmpty()) {
-        var curr = pqForward.poll();
-        var currVertex = curr.getVertex();
-
-        if (predecessorTreeBackward.containsKey(curr.getVertex())) {
-          var center =
-              findCenterVertex(
-                  currVertex,
-                  minDistancesForward.get(currVertex),
-                  minDistancesBackward.get(currVertex),
-                  pqForward,
-                  pqBackward);
-          return pathSummaryCreator.createBidirectionalPath(
-              start, center, end, predecessorTreeForward, predecessorTreeBackward);
-        }
-
-        visitVertex(curr, graph, pqForward, predecessorTreeForward, minDistancesForward);
+    while (!pqForward.isEmpty() && !pqBackward.isEmpty()) {
+      var currForward = pqForward.poll();
+      if (predecessorTreeBackward.containsKey(currForward.vertex())) {
+        var center =
+            findCenterVertex(
+                currForward.vertex(),
+                minDistancesForward.get(currForward.vertex()),
+                minDistancesBackward.get(currForward.vertex()),
+                pqForward,
+                pqBackward);
+        return pathSummaryCreator.createBidirectionalPath(
+            start, center, end, predecessorTreeForward, predecessorTreeBackward);
       }
-      if (!pqBackward.isEmpty()) {
-        var curr = pqBackward.poll();
+      visitVertex(currForward, graph, pqForward, predecessorTreeForward, minDistancesForward);
 
-        if (predecessorTreeForward.containsKey(curr.getVertex())) {
-          var center =
-              findCenterVertex(
-                  curr.getVertex(),
-                  minDistancesForward.get(curr.getVertex()),
-                  minDistancesBackward.get(curr.getVertex()),
-                  pqForward,
-                  pqBackward);
+      var currBackward = pqBackward.poll();
+      if (predecessorTreeForward.containsKey(currBackward.vertex())) {
+        var center =
+            findCenterVertex(
+                currBackward.vertex(),
+                minDistancesForward.get(currBackward.vertex()),
+                minDistancesBackward.get(currBackward.vertex()),
+                pqForward,
+                pqBackward);
 
-          return pathSummaryCreator.createBidirectionalPath(
-              start, center, end, predecessorTreeForward, predecessorTreeBackward);
-        }
-        visitVertex(curr, reversedGraph, pqBackward, predecessorTreeBackward, minDistancesBackward);
+        return pathSummaryCreator.createBidirectionalPath(
+            start, center, end, predecessorTreeForward, predecessorTreeBackward);
       }
+      visitVertex(
+          currBackward, reversedGraph, pqBackward, predecessorTreeBackward, minDistancesBackward);
     }
+
     return pathSummaryCreator.createBidirectionalPath(
         start, start, end, predecessorTreeForward, predecessorTreeBackward);
   }
@@ -87,7 +82,7 @@ public class BidirectionalDijkstraPathfindingStrategy implements PathfindingStra
       Queue<ScoredGraphVertex> pq,
       Map<Vertex, Edge> predecessorTree,
       Map<Vertex, Double> minDistances) {
-    var currVertex = curr.getVertex();
+    var currVertex = curr.vertex();
     var distanceSoFar = curr.getScore();
 
     if (distanceSoFar > minDistances.getOrDefault(currVertex, Double.MAX_VALUE)) {
@@ -123,6 +118,7 @@ public class BidirectionalDijkstraPathfindingStrategy implements PathfindingStra
       if (!scoresBackward.containsKey(forwardEntry.getKey())) {
         continue;
       }
+
       double currScore = scoresBackward.get(forwardEntry.getKey()) + forwardEntry.getValue();
       if (minScore > currScore) {
         minScore = currScore;
@@ -136,6 +132,6 @@ public class BidirectionalDijkstraPathfindingStrategy implements PathfindingStra
   private Map<Vertex, Double> buildMinVertexScoreMap(Queue<ScoredGraphVertex> scoredVertices) {
     return scoredVertices.stream()
         .collect(
-            Collectors.toMap(ScoredGraphVertex::getVertex, ScoredGraphVertex::getScore, Math::min));
+            Collectors.toMap(ScoredGraphVertex::vertex, ScoredGraphVertex::getScore, Math::min));
   }
 }

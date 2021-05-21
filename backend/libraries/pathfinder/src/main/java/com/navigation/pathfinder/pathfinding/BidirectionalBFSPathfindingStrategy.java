@@ -25,24 +25,20 @@ public class BidirectionalBFSPathfindingStrategy implements PathfindingStrategy 
 
     var reversedGraph = graph.reversed();
 
-    while (!queueForward.isEmpty() || !queueBackward.isEmpty()) {
-      if (!queueForward.isEmpty()) {
-        var curr = queueForward.poll();
-        if (predecessorTreeBackward.containsKey(curr)) {
-          return pathSummaryCreator.createBidirectionalPath(
-              start, curr, end, predecessorTreeForward, predecessorTreeBackward);
-        }
-        visitVertex(curr, graph, queueForward, predecessorTreeForward);
+    while (!queueForward.isEmpty() && !queueBackward.isEmpty()) {
+      var currForward = queueForward.poll();
+      if (predecessorTreeBackward.containsKey(currForward)) {
+        return pathSummaryCreator.createBidirectionalPath(
+            start, currForward, end, predecessorTreeForward, predecessorTreeBackward);
       }
-      if (!queueBackward.isEmpty()) {
-        var curr = queueBackward.poll();
+      visitVertex(currForward, graph, queueForward, predecessorTreeForward);
 
-        if (predecessorTreeForward.containsKey(curr)) {
-          return pathSummaryCreator.createBidirectionalPath(
-              start, curr, end, predecessorTreeForward, predecessorTreeBackward);
-        }
-        visitVertex(curr, reversedGraph, queueBackward, predecessorTreeBackward);
+      var currBackward = queueBackward.poll();
+      if (predecessorTreeForward.containsKey(currBackward)) {
+        return pathSummaryCreator.createBidirectionalPath(
+            start, currBackward, end, predecessorTreeForward, predecessorTreeBackward);
       }
+      visitVertex(currBackward, reversedGraph, queueBackward, predecessorTreeBackward);
     }
     return pathSummaryCreator.createBidirectionalPath(
         start, start, end, predecessorTreeForward, predecessorTreeBackward);

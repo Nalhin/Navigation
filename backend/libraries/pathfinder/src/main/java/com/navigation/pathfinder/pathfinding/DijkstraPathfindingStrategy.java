@@ -30,7 +30,7 @@ public class DijkstraPathfindingStrategy implements PathfindingStrategy {
 
     while (!pq.isEmpty()) {
       var curr = pq.poll();
-      var currVertex = curr.getVertex();
+      var currVertex = curr.vertex();
       var distanceSoFar = curr.getScore();
 
       if (distanceSoFar > minDistances.getOrDefault(currVertex, Double.MAX_VALUE)) {

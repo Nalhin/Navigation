@@ -11,7 +11,7 @@ final class ScoredGraphVertex implements Comparable<ScoredGraphVertex> {
         this.score = score;
     }
 
-    Vertex getVertex() {
+    Vertex vertex() {
         return vertex;
     }
 
