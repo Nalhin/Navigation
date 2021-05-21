@@ -16,9 +16,9 @@ public class BFSPathfindingStrategy implements PathfindingStrategy {
   @Override
   public PathSummary findShortestPath(Vertex start, Vertex end, Graph graph) {
     var predecessorTree = new HashMap<Vertex, Edge>();
-    var visited = new HashSet<Vertex>();
+    predecessorTree.put(start, null);
+
     var queue = new ArrayDeque<Vertex>();
-    visited.add(start);
     queue.add(start);
 
     while (!queue.isEmpty()) {
@@ -29,8 +29,7 @@ public class BFSPathfindingStrategy implements PathfindingStrategy {
       }
 
       for (var edge : graph.getVertexEdges(curr)) {
-        if (!visited.contains(edge.getTo())) {
-          visited.add(edge.getTo());
+        if (!predecessorTree.containsKey(edge.getTo())) {
           predecessorTree.put(edge.getTo(), edge);
           queue.add(edge.getTo());
         }

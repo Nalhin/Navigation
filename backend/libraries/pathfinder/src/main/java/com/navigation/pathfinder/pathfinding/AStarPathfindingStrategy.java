@@ -20,14 +20,17 @@ public class AStarPathfindingStrategy implements PathfindingStrategy {
   @Override
   public PathSummary findShortestPath(Vertex start, Vertex end, Graph graph) {
     var predecessorTree = new HashMap<Vertex, Edge>();
+    predecessorTree.put(start, null);
+
     var gScores = new HashMap<Vertex, Double>();
     gScores.put(start, 0.0);
 
-    var open = new PriorityQueue<GraphNodeWithDistance>();
-    open.add(new GraphNodeWithDistance(start, heuristic(start, end)));
+    var open = new PriorityQueue<ScoredGraphVertex>();
+    open.add(new ScoredGraphVertex(start, heuristic(start, end)));
 
     while (!open.isEmpty()) {
-      var curr = open.poll().node;
+      var curr = open.poll().getVertex();
+
       if (curr.equals(end)) {
         return pathSummaryCreator.createUnidirectionalPath(start, end, predecessorTree);
       }
@@ -39,7 +42,7 @@ public class AStarPathfindingStrategy implements PathfindingStrategy {
         if (newScore < gScores.getOrDefault(neighbour, Double.MAX_VALUE)) {
           gScores.put(neighbour, newScore);
           predecessorTree.put(neighbour, edge);
-          open.add(new GraphNodeWithDistance(neighbour, newScore + heuristic(neighbour, end)));
+          open.add(new ScoredGraphVertex(neighbour, newScore + heuristic(neighbour, end)));
         }
       }
     }
@@ -49,20 +52,5 @@ public class AStarPathfindingStrategy implements PathfindingStrategy {
 
   private double heuristic(Vertex from, Vertex to) {
     return calculator.calculateWeight(new Edge(from, to, 140));
-  }
-
-  private static final class GraphNodeWithDistance implements Comparable<GraphNodeWithDistance> {
-    private final Vertex node;
-    private final double fScore;
-
-    public GraphNodeWithDistance(Vertex node, double fScore) {
-      this.node = node;
-      this.fScore = fScore;
-    }
-
-    @Override
-    public int compareTo(GraphNodeWithDistance graphNodeWithDistance) {
-      return Double.compare(fScore, graphNodeWithDistance.fScore);
-    }
   }
 }

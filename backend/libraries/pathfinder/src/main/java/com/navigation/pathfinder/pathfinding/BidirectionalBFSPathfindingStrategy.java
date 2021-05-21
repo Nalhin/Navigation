@@ -13,51 +13,46 @@ public class BidirectionalBFSPathfindingStrategy implements PathfindingStrategy 
 
   @Override
   public PathSummary findShortestPath(Vertex start, Vertex end, Graph graph) {
-    var predecessorTreeStart = new HashMap<Vertex, Edge>();
-    var predecessorTreeEnd = new HashMap<Vertex, Edge>();
-    var visitedStart = new HashSet<Vertex>();
-    var visitedEnd = new HashSet<Vertex>();
-    var queueStart = new ArrayDeque<Vertex>();
-    var queueEnd = new ArrayDeque<Vertex>();
+    var predecessorTreeForward = new HashMap<Vertex, Edge>();
+    var predecessorTreeBackward = new HashMap<Vertex, Edge>();
+    predecessorTreeForward.put(start, null);
+    predecessorTreeBackward.put(end, null);
+
+    var queueForward = new ArrayDeque<Vertex>();
+    var queueBackward = new ArrayDeque<Vertex>();
+    queueForward.add(start);
+    queueBackward.add(end);
+
     var reversedGraph = graph.reversed();
-    visitedStart.add(start);
-    visitedEnd.add(end);
-    queueStart.add(start);
-    queueEnd.add(end);
 
-    while (!queueStart.isEmpty() || !queueEnd.isEmpty()) {
-      if (!queueStart.isEmpty()) {
-        var curr = queueStart.poll();
-        if (visitedEnd.contains(curr)) {
+    while (!queueForward.isEmpty() || !queueBackward.isEmpty()) {
+      if (!queueForward.isEmpty()) {
+        var curr = queueForward.poll();
+        if (predecessorTreeBackward.containsKey(curr)) {
           return pathSummaryCreator.createBidirectionalPath(
-              start, curr, end, predecessorTreeStart, predecessorTreeEnd);
+              start, curr, end, predecessorTreeForward, predecessorTreeBackward);
         }
-        visitOne(curr, graph, queueStart, predecessorTreeStart, visitedStart);
+        visitVertex(curr, graph, queueForward, predecessorTreeForward);
       }
-      if (!queueEnd.isEmpty()) {
-        var curr = queueEnd.poll();
+      if (!queueBackward.isEmpty()) {
+        var curr = queueBackward.poll();
 
-        if (visitedStart.contains(curr)) {
+        if (predecessorTreeForward.containsKey(curr)) {
           return pathSummaryCreator.createBidirectionalPath(
-              start, curr, end, predecessorTreeStart, predecessorTreeEnd);
+              start, curr, end, predecessorTreeForward, predecessorTreeBackward);
         }
-        visitOne(curr, reversedGraph, queueEnd, predecessorTreeEnd, visitedEnd);
+        visitVertex(curr, reversedGraph, queueBackward, predecessorTreeBackward);
       }
     }
     return pathSummaryCreator.createBidirectionalPath(
-        start, start, end, predecessorTreeStart, predecessorTreeEnd);
+        start, start, end, predecessorTreeForward, predecessorTreeBackward);
   }
 
-  private void visitOne(
-      Vertex curr,
-      Graph graph,
-      Queue<Vertex> queue,
-      Map<Vertex, Edge> predecessorTree,
-      Set<Vertex> visited) {
+  private void visitVertex(
+      Vertex curr, Graph graph, Queue<Vertex> queue, Map<Vertex, Edge> predecessorTree) {
 
     for (var edge : graph.getVertexEdges(curr)) {
-      if (!visited.contains(edge.getTo())) {
-        visited.add(edge.getTo());
+      if (!predecessorTree.containsKey(edge.getTo())) {
         predecessorTree.put(edge.getTo(), edge);
         queue.add(edge.getTo());
       }

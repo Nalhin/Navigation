@@ -16,6 +16,7 @@ class PathfindingStrategyFactory {
       case A_STAR -> new AStarPathfindingStrategy(calculator);
       case DIJKSTRA -> new DijkstraPathfindingStrategy(calculator);
       case BELLMAN_FORD -> new BellmanFordPathfindingStrategy(calculator);
+      case BIDIRECTIONAL_DIJKSTRA -> new BidirectionalDijkstraPathfindingStrategy(calculator);
       case BFS -> new BFSPathfindingStrategy();
       case BIDIRECTIONAL_BFS -> new BidirectionalBFSPathfindingStrategy();
     };

@@ -46,6 +46,7 @@ const SETTINGS = {
     AlgorithmTypes.BFS,
     AlgorithmTypes.BIDIRECTIONAL_BFS,
     AlgorithmTypes.DIJKSTRA,
+    AlgorithmTypes.BIDIRECTIONAL_DIJKSTRA,
     AlgorithmTypes.A_STAR,
     AlgorithmTypes.BELLMAN_FORD,
   ],

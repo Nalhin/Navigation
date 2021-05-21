@@ -36,7 +36,7 @@ modules
     geocoding-api
     pathfinding-api
     osm-data-exporter
-  core
+  libraries 
     parser
     pathfinder
 

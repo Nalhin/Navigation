@@ -7,7 +7,8 @@ public enum PathfindingAlgorithms {
   BELLMAN_FORD(Set.of(PathfindingOptimizations.values())),
   BFS(Set.of(PathfindingOptimizations.NUMBER_OF_NODES)),
   BIDIRECTIONAL_BFS(Set.of(PathfindingOptimizations.NUMBER_OF_NODES)),
-  DIJKSTRA(Set.of(PathfindingOptimizations.values()));
+  DIJKSTRA(Set.of(PathfindingOptimizations.values())),
+  BIDIRECTIONAL_DIJKSTRA(Set.of(PathfindingOptimizations.values()));
 
   private final Set<PathfindingOptimizations> allowedOptimizations;
 

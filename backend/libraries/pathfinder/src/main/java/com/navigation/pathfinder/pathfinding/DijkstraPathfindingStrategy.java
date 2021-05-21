@@ -20,49 +20,38 @@ public class DijkstraPathfindingStrategy implements PathfindingStrategy {
   @Override
   public PathSummary findShortestPath(Vertex start, Vertex end, Graph graph) {
     var minDistances = new HashMap<Vertex, Double>();
-    var predecessorTree = new HashMap<Vertex, Edge>();
-    minDistances.put(start, Double.MAX_VALUE);
+    minDistances.put(start, 0.0);
 
-    var pq = new PriorityQueue<GraphNodeWithDistance>();
-    pq.add(new GraphNodeWithDistance(start, 0.0));
+    var predecessorTree = new HashMap<Vertex, Edge>();
+    predecessorTree.put(start, null);
+
+    var pq = new PriorityQueue<ScoredGraphVertex>();
+    pq.add(new ScoredGraphVertex(start, 0.0));
 
     while (!pq.isEmpty()) {
       var curr = pq.poll();
+      var currVertex = curr.getVertex();
+      var distanceSoFar = curr.getScore();
 
-      if (curr.distanceSoFar > minDistances.getOrDefault(end, Double.MAX_VALUE)) {
-        return pathSummaryCreator.createUnidirectionalPath(start, end, predecessorTree);
-      }
-
-      if (curr.distanceSoFar > minDistances.getOrDefault(curr.node, Double.MAX_VALUE)) {
+      if (distanceSoFar > minDistances.getOrDefault(currVertex, Double.MAX_VALUE)) {
         continue;
       }
 
-      for (var edge : graph.getVertexEdges(curr.node)) {
-        double distance = curr.distanceSoFar + calculator.calculateWeight(edge);
+      if (currVertex.equals(end)) {
+        return pathSummaryCreator.createUnidirectionalPath(start, end, predecessorTree);
+      }
+
+      for (var edge : graph.getVertexEdges(currVertex)) {
+        double distance = distanceSoFar + calculator.calculateWeight(edge);
 
         if (distance < minDistances.getOrDefault(edge.getTo(), Double.MAX_VALUE)) {
           minDistances.put(edge.getTo(), distance);
           predecessorTree.put(edge.getTo(), edge);
-          pq.add(new GraphNodeWithDistance(edge.getTo(), distance));
+          pq.add(new ScoredGraphVertex(edge.getTo(), distance));
         }
       }
     }
 
     return pathSummaryCreator.createUnidirectionalPath(start, end, predecessorTree);
-  }
-
-  private static final class GraphNodeWithDistance implements Comparable<GraphNodeWithDistance> {
-    private final Vertex node;
-    private final double distanceSoFar;
-
-    public GraphNodeWithDistance(Vertex node, double distanceSoFar) {
-      this.node = node;
-      this.distanceSoFar = distanceSoFar;
-    }
-
-    @Override
-    public int compareTo(GraphNodeWithDistance graphNodeWithDistance) {
-      return Double.compare(distanceSoFar, graphNodeWithDistance.distanceSoFar);
-    }
   }
 }

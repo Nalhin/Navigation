@@ -21,7 +21,9 @@ public class BellmanFordPathfindingStrategy implements PathfindingStrategy {
   public PathSummary findShortestPath(Vertex start, Vertex end, Graph graph) {
     var minWeights = new HashMap<Vertex, Double>();
     minWeights.put(start, 0.0);
+
     var predecessorTree = new HashMap<Vertex, Edge>();
+    predecessorTree.put(start, null);
 
     var edges = graph.edges();
     var vertices = graph.vertices();
