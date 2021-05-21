@@ -19,6 +19,7 @@ class PathfindingStrategyFactory {
       case BIDIRECTIONAL_DIJKSTRA -> new BidirectionalDijkstraPathfindingStrategy(calculator);
       case BFS -> new BFSPathfindingStrategy();
       case BIDIRECTIONAL_BFS -> new BidirectionalBFSPathfindingStrategy();
+      case DFS -> new DFSPathfindingStrategy();
     };
   }
 }

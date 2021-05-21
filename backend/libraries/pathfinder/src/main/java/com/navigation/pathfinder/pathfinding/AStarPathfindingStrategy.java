@@ -18,7 +18,7 @@ public class AStarPathfindingStrategy implements PathfindingStrategy {
   }
 
   @Override
-  public PathSummary findShortestPath(Vertex start, Vertex end, Graph graph) {
+  public PathSummary findPath(Vertex start, Vertex end, Graph graph) {
     var predecessorTree = new HashMap<Vertex, Edge>();
     predecessorTree.put(start, null);
 

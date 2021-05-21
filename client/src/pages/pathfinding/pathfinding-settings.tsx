@@ -41,6 +41,7 @@ const SETTINGS = {
     OptimizationTypes.DISTANCE,
     OptimizationTypes.TIME,
     OptimizationTypes.NUMBER_OF_NODES,
+    OptimizationTypes.NONE,
   ],
   algorithms: [
     AlgorithmTypes.BFS,
@@ -49,6 +50,7 @@ const SETTINGS = {
     AlgorithmTypes.BIDIRECTIONAL_DIJKSTRA,
     AlgorithmTypes.A_STAR,
     AlgorithmTypes.BELLMAN_FORD,
+    AlgorithmTypes.DFS,
   ],
 };
 

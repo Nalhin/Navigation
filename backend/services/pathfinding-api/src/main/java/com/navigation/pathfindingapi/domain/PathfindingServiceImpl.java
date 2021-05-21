@@ -32,7 +32,7 @@ class PathfindingServiceImpl implements PathfindingService {
       var path =
           factory
               .pathfindingStrategy(query.getPathfindingAlgorithm(), query.getPathfindingOptimization())
-              .findShortestPath(startVertex, endVertex, graph);
+              .findPath(startVertex, endVertex, graph);
 
       return new PathWithExecutionSummary(
           path, before, Instant.now(), query.getPathfindingAlgorithm(), query.getPathfindingOptimization());
@@ -59,7 +59,7 @@ class PathfindingServiceImpl implements PathfindingService {
       var path =
           factory
               .pathfindingStrategy(query.getPathfindingAlgorithm(), query.getPathfindingOptimization())
-              .findShortestPath(startVertex, endVertex, graph);
+              .findPath(startVertex, endVertex, graph);
 
       return new PathWithExecutionSummary(
           path, before, Instant.now(), query.getPathfindingAlgorithm(), query.getPathfindingOptimization());

@@ -3,13 +3,11 @@ package com.navigation.pathfinder.pathfinding;
 import com.navigation.pathfinder.graph.Edge;
 import com.navigation.pathfinder.graph.Graph;
 import com.navigation.pathfinder.graph.Vertex;
-
 import com.navigation.pathfinder.path.PathSummaryCreator;
 import java.util.ArrayDeque;
 import java.util.HashMap;
-import java.util.HashSet;
 
-public class BFSPathfindingStrategy implements PathfindingStrategy {
+public class DFSPathfindingStrategy implements PathfindingStrategy {
 
   private static final PathSummaryCreator pathSummaryCreator = new PathSummaryCreator();
 
@@ -18,11 +16,11 @@ public class BFSPathfindingStrategy implements PathfindingStrategy {
     var predecessorTree = new HashMap<Vertex, Edge>();
     predecessorTree.put(start, null);
 
-    var queue = new ArrayDeque<Vertex>();
-    queue.add(start);
+    var stack = new ArrayDeque<Vertex>();
+    stack.add(start);
 
-    while (!queue.isEmpty()) {
-      var curr = queue.poll();
+    while (!stack.isEmpty()) {
+      var curr = stack.pop();
 
       if (curr.equals(end)) {
         return pathSummaryCreator.createUnidirectionalPath(start, end, predecessorTree);
@@ -31,7 +29,7 @@ public class BFSPathfindingStrategy implements PathfindingStrategy {
       for (var edge : graph.getVertexEdges(curr)) {
         if (!predecessorTree.containsKey(edge.getTo())) {
           predecessorTree.put(edge.getTo(), edge);
-          queue.add(edge.getTo());
+          stack.push(edge.getTo());
         }
       }
     }

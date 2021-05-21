@@ -5,6 +5,7 @@ export enum AlgorithmTypes {
   BFS = 'BFS',
   BIDIRECTIONAL_BFS = 'BIDIRECTIONAL_BFS',
   BIDIRECTIONAL_DIJKSTRA = 'BIDIRECTIONAL_DIJKSTRA',
+  DFS = 'DFS',
 }
 
 export const ALGORITHM_TYPE_TRANSLATIONS = {
@@ -14,4 +15,5 @@ export const ALGORITHM_TYPE_TRANSLATIONS = {
   [AlgorithmTypes.BELLMAN_FORD]: 'Bellman-Ford',
   [AlgorithmTypes.A_STAR]: 'A*',
   [AlgorithmTypes.BIDIRECTIONAL_DIJKSTRA]: 'Bidirectional Dijkstra',
+  [AlgorithmTypes.DFS]: 'DFS',
 };

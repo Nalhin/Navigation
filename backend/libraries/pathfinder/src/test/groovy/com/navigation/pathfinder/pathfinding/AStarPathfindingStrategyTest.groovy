@@ -12,7 +12,7 @@ class AStarPathfindingStrategyTest extends Specification {
     given:
     def strategy = new AStarPathfindingStrategy(testGraph.calculator)
     when:
-    def path = strategy.findShortestPath(testGraph.start, testGraph.end, testGraph.graph)
+    def path = strategy.findPath(testGraph.start, testGraph.end, testGraph.graph)
     then:
     path.simplePath() == testGraph.shortestPath
     where:

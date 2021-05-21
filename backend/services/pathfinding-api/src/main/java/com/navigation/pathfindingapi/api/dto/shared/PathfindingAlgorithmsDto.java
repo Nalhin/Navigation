@@ -6,5 +6,6 @@ public enum PathfindingAlgorithmsDto {
     BELLMAN_FORD,
     BFS,
     BIDIRECTIONAL_BFS,
-    BIDIRECTIONAL_DIJKSTRA
+    BIDIRECTIONAL_DIJKSTRA,
+    DFS
 }

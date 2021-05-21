@@ -12,7 +12,7 @@ public class BidirectionalBFSPathfindingStrategy implements PathfindingStrategy 
   private static final PathSummaryCreator pathSummaryCreator = new PathSummaryCreator();
 
   @Override
-  public PathSummary findShortestPath(Vertex start, Vertex end, Graph graph) {
+  public PathSummary findPath(Vertex start, Vertex end, Graph graph) {
     var predecessorTreeForward = new HashMap<Vertex, Edge>();
     var predecessorTreeBackward = new HashMap<Vertex, Edge>();
     predecessorTreeForward.put(start, null);

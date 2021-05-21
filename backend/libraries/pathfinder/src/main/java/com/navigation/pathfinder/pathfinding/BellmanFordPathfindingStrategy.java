@@ -18,7 +18,7 @@ public class BellmanFordPathfindingStrategy implements PathfindingStrategy {
   }
 
   @Override
-  public PathSummary findShortestPath(Vertex start, Vertex end, Graph graph) {
+  public PathSummary findPath(Vertex start, Vertex end, Graph graph) {
     var minWeights = new HashMap<Vertex, Double>();
     minWeights.put(start, 0.0);
 

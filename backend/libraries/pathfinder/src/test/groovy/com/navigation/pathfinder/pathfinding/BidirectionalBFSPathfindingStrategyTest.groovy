@@ -12,7 +12,7 @@ class BidirectionalBFSPathfindingStrategyTest extends Specification {
     given:
     def strategy = new BidirectionalBFSPathfindingStrategy()
     when:
-    def path = strategy.findShortestPath(testGraph.start, testGraph.end, testGraph.graph)
+    def path = strategy.findPath(testGraph.start, testGraph.end, testGraph.graph)
     then:
     path.simplePath() == testGraph.shortestPath
     where:

@@ -3,12 +3,13 @@ package com.navigation.pathfindingapi.domain;
 import java.util.Set;
 
 public enum PathfindingAlgorithms {
-  A_STAR((Set.of(PathfindingOptimizations.values()))),
-  BELLMAN_FORD(Set.of(PathfindingOptimizations.values())),
+  A_STAR(PathfindingOptimizations.allOptimizing),
+  BELLMAN_FORD(PathfindingOptimizations.allOptimizing),
   BFS(Set.of(PathfindingOptimizations.NUMBER_OF_NODES)),
   BIDIRECTIONAL_BFS(Set.of(PathfindingOptimizations.NUMBER_OF_NODES)),
-  DIJKSTRA(Set.of(PathfindingOptimizations.values())),
-  BIDIRECTIONAL_DIJKSTRA(Set.of(PathfindingOptimizations.values()));
+  DIJKSTRA(PathfindingOptimizations.allOptimizing),
+  BIDIRECTIONAL_DIJKSTRA(PathfindingOptimizations.allOptimizing),
+  DFS(Set.of(PathfindingOptimizations.NONE));
 
   private final Set<PathfindingOptimizations> allowedOptimizations;
 

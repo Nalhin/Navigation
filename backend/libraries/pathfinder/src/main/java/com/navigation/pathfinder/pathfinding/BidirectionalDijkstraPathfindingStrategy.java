@@ -22,7 +22,7 @@ public class BidirectionalDijkstraPathfindingStrategy implements PathfindingStra
   }
 
   @Override
-  public PathSummary findShortestPath(Vertex start, Vertex end, Graph graph) {
+  public PathSummary findPath(Vertex start, Vertex end, Graph graph) {
     var minDistancesForward = new HashMap<Vertex, Double>();
     var minDistancesBackward = new HashMap<Vertex, Double>();
     minDistancesForward.put(start, 0.0);
