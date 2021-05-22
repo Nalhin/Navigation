@@ -3,12 +3,14 @@ package com.navigation.pathfinder.graph;
 import java.util.*;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 public final class Graph {
 
   private final Map<Vertex, List<Edge>> adjacencyList;
   private final Map<Long, Vertex> vertices;
+  private final ConcurrentHashMap<Graph, Graph> cache = new ConcurrentHashMap<>();
 
   Graph(Map<Vertex, List<Edge>> adjacencyList, Map<Long, Vertex> vertices) {
     this.adjacencyList = deepImmutableCopy(adjacencyList);
@@ -25,6 +27,10 @@ public final class Graph {
   }
 
   public Graph reversed() {
+    return cache.computeIfAbsent(this, Graph::computeReversedGraph);
+  }
+
+  private Graph computeReversedGraph() {
     var reversedAdjacencyList = new HashMap<Vertex, List<Edge>>();
 
     for (var entry : adjacencyList.entrySet()) {

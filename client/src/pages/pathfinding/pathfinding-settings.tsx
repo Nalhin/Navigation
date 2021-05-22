@@ -48,6 +48,7 @@ const SETTINGS = {
     OptimizationTypes.NONE,
   ],
   algorithms: [
+    AlgorithmTypes.DFS,
     AlgorithmTypes.BFS,
     AlgorithmTypes.BIDIRECTIONAL_BFS,
     AlgorithmTypes.DIJKSTRA,
@@ -55,7 +56,6 @@ const SETTINGS = {
     AlgorithmTypes.A_STAR,
     AlgorithmTypes.BIDIRECTIONAL_A_STAR,
     AlgorithmTypes.BELLMAN_FORD,
-    AlgorithmTypes.DFS,
     AlgorithmTypes.GREEDY_BEST_FIRST_SEARCH,
     AlgorithmTypes.BIDIRECTIONAL_GREEDY_BEST_FIRST_SEARCH,
   ],
