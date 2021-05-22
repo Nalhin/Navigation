@@ -50,7 +50,7 @@ class PathfindingApiMapper {
   public PathBetweenCoordinatesQuery toQuery(PathRequestDtoParams params) {
     var start = new Coordinates(params.getStartLatitude(), params.getStartLongitude());
     var end = new Coordinates(params.getEndLatitude(), params.getEndLongitude());
-    var algorithm = PathfindingAlgorithms.valueOf(params.getAlgorithm().toString());
+    var algorithm = toDomain(params.getAlgorithm());
     var optimization = PathfindingOptimizations.valueOf(params.getOptimization().toString());
     return new PathBetweenCoordinatesQuery(start, end, algorithm, optimization);
   }
@@ -59,5 +59,13 @@ class PathfindingApiMapper {
     var start = new Coordinates(params.getMinLatitude(), params.getMinLongitude());
     var end = new Coordinates(params.getMaxLatitude(), params.getMaxLongitude());
     return new Bounds(start, end);
+  }
+
+  public PathfindingAlgorithms toDomain(PathfindingAlgorithmsDto algorithmsDto) {
+    return PathfindingAlgorithms.valueOf(algorithmsDto.toString());
+  }
+
+  public PathfindingOptimizationsDto toResponse(PathfindingOptimizations optimizations) {
+    return PathfindingOptimizationsDto.valueOf(optimizations.toString());
   }
 }

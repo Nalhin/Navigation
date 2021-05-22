@@ -1,5 +1,8 @@
 package com.navigation.pathfindingapi.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -67,5 +70,10 @@ class PathfindingServiceImpl implements PathfindingService {
       e.printStackTrace();
       throw new RuntimeException();
     }
+  }
+
+  @Override
+  public Set<PathfindingOptimizations> availableOptimisations(PathfindingAlgorithms algorithm) {
+    return algorithm.allowedOptimizations;
   }
 }

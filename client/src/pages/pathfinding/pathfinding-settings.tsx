@@ -30,6 +30,10 @@ import {
   ALGORITHM_TYPE_TRANSLATIONS,
   AlgorithmTypes,
 } from '../../constants/algorithms';
+import { getAvailableOptimizationsForAlgorithm } from '../../api/requests/pathfinding/pathfinding';
+import { useQuery } from 'react-query';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 interface Props {
   isOpen: boolean;
@@ -57,6 +61,18 @@ const SETTINGS = {
   ],
 };
 
+const schema = yup.object().shape({
+  optimization: yup.string().oneOf(Object.values(OptimizationTypes)).required(),
+  algorithm: yup.string().oneOf(Object.values(AlgorithmTypes)).required(),
+  bounded: yup.bool().required(),
+  bounds: yup.object().required().shape({
+    minLatitude: yup.number().required(),
+    maxLatitude: yup.number().required(),
+    minLongitude: yup.number().required(),
+    maxLongitude: yup.number().required(),
+  }),
+});
+
 interface FormState {
   optimization: OptimizationTypes;
   algorithm: AlgorithmTypes;
@@ -67,7 +83,14 @@ interface FormState {
 const PathfindingSettings = ({ isOpen, onClose }: Props) => {
   const settings = usePathfindingSettings();
   const { setSettings } = useSetPathfindingSettings();
-  const { handleSubmit, control } = useForm<FormState>({
+  const {
+    handleSubmit,
+    control,
+    watch,
+    setValue,
+    formState,
+  } = useForm<FormState>({
+    resolver: yupResolver(schema),
     defaultValues: {
       optimization: settings.optimization,
       algorithm: settings.algorithm,
@@ -76,8 +99,22 @@ const PathfindingSettings = ({ isOpen, onClose }: Props) => {
     },
   });
 
+  const selectedAlgorithm = watch('algorithm');
+  React.useEffect(() => {
+    if (formState.dirtyFields.algorithm) {
+      setValue('optimization', '' as OptimizationTypes);
+    }
+  }, [selectedAlgorithm]);
+
+  const { data = [], isLoading } = useQuery(
+    ['availableOptimizations', selectedAlgorithm],
+    () => getAvailableOptimizationsForAlgorithm(selectedAlgorithm),
+    { select: (response) => response.data },
+  );
+
   const onSubmit = (values: PathfindingSettingsContextProps) => {
     setSettings(values);
+    onClose();
   };
 
   return (
@@ -96,7 +133,7 @@ const PathfindingSettings = ({ isOpen, onClose }: Props) => {
               <InputLabel>Algorithm</InputLabel>
               <Controller
                 render={({ field }) => (
-                  <Select {...field}>
+                  <Select {...field} error={!!formState.errors.algorithm}>
                     {SETTINGS.algorithms.map((item) => (
                       <MenuItem value={item} key={item}>
                         {ALGORITHM_TYPE_TRANSLATIONS[item]}
@@ -112,9 +149,17 @@ const PathfindingSettings = ({ isOpen, onClose }: Props) => {
               <InputLabel>Optimization</InputLabel>
               <Controller
                 render={({ field }) => (
-                  <Select {...field}>
+                  <Select
+                    {...field}
+                    disabled={isLoading}
+                    error={!!formState.errors.optimization}
+                  >
                     {SETTINGS.optimization.map((item) => (
-                      <MenuItem value={item} key={item}>
+                      <MenuItem
+                        value={item}
+                        key={item}
+                        disabled={!data.includes(item)}
+                      >
                         {OPTIMIZATION_TYPES_TRANSLATIONS[item]}
                       </MenuItem>
                     ))}
@@ -145,7 +190,11 @@ const PathfindingSettings = ({ isOpen, onClose }: Props) => {
             <FormControl>
               <Controller
                 render={({ field }) => (
-                  <TextField label="Max Longitude" {...field} />
+                  <TextField
+                    label="Max Longitude"
+                    {...field}
+                    error={!!formState.errors.bounds?.maxLongitude}
+                  />
                 )}
                 name="bounds.maxLongitude"
                 control={control}
@@ -154,7 +203,11 @@ const PathfindingSettings = ({ isOpen, onClose }: Props) => {
             <FormControl>
               <Controller
                 render={({ field }) => (
-                  <TextField label="Max Latitude" {...field} />
+                  <TextField
+                    label="Max Latitude"
+                    {...field}
+                    error={!!formState.errors.bounds?.maxLatitude}
+                  />
                 )}
                 name="bounds.maxLatitude"
                 control={control}
@@ -163,7 +216,11 @@ const PathfindingSettings = ({ isOpen, onClose }: Props) => {
             <FormControl>
               <Controller
                 render={({ field }) => (
-                  <TextField label="Min latitude" {...field} />
+                  <TextField
+                    label="Min latitude"
+                    {...field}
+                    error={!!formState.errors.bounds?.minLatitude}
+                  />
                 )}
                 name="bounds.minLatitude"
                 control={control}
@@ -172,7 +229,11 @@ const PathfindingSettings = ({ isOpen, onClose }: Props) => {
             <FormControl>
               <Controller
                 render={({ field }) => (
-                  <TextField label="Min longitude" {...field} />
+                  <TextField
+                    label="Min longitude"
+                    {...field}
+                    error={!!formState.errors.bounds?.minLongitude}
+                  />
                 )}
                 name="bounds.minLongitude"
                 control={control}
@@ -182,13 +243,7 @@ const PathfindingSettings = ({ isOpen, onClose }: Props) => {
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button
-          autoFocus
-          onClick={onClose}
-          color="primary"
-          type="submit"
-          form="settings-form"
-        >
+        <Button autoFocus color="primary" type="submit" form="settings-form">
           Save changes
         </Button>
       </DialogActions>

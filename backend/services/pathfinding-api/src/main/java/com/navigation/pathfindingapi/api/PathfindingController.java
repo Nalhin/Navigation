@@ -3,14 +3,20 @@ package com.navigation.pathfindingapi.api;
 import com.navigation.pathfindingapi.api.dto.params.BoundsRequestDtoParams;
 import com.navigation.pathfindingapi.api.dto.params.PathRequestDtoParams;
 import com.navigation.pathfindingapi.api.dto.response.PathResponseDto;
+import com.navigation.pathfindingapi.api.dto.shared.PathfindingAlgorithmsDto;
+import com.navigation.pathfindingapi.api.dto.shared.PathfindingOptimizationsDto;
+import com.navigation.pathfindingapi.domain.PathfindingOptimizations;
 import com.navigation.pathfindingapi.domain.PathfindingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,5 +58,17 @@ class PathfindingController {
         service.calculateBoundedPathBetween(
             mapper.toQuery(requestDtoParams), mapper.toBounds(boundsRequestDtoParams));
     return ResponseEntity.ok(mapper.toResponse(path));
+  }
+
+  @Operation(
+      tags = "pathfinding",
+      description = "Return available optimizations for the pathfinding algorithm")
+  @ApiResponse(responseCode = "200", description = "Success")
+  @GetMapping(path = "/algorithms/{algorithm}/available-optimizations")
+  public ResponseEntity<List<PathfindingOptimizationsDto>> getAlgorithmOptimizations(
+      @PathVariable PathfindingAlgorithmsDto algorithm) {
+    var availableOptimizations = service.availableOptimisations(mapper.toDomain(algorithm));
+    return ResponseEntity.ok(
+        availableOptimizations.stream().map(mapper::toResponse).collect(Collectors.toList()));
   }
 }

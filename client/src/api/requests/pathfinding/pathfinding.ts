@@ -47,3 +47,10 @@ export const getPathBetweenBounded = ({
     },
   });
 };
+
+export const getAvailableOptimizationsForAlgorithm = (
+  algorithm: AlgorithmTypes,
+) =>
+  axios.get<OptimizationTypes[]>(
+    `/pathfinding/algorithms/${algorithm}/available-optimizations`,
+  );
