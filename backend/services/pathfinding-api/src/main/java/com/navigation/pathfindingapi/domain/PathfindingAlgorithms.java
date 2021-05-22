@@ -10,7 +10,11 @@ public enum PathfindingAlgorithms {
   BIDIRECTIONAL_BFS(Set.of(PathfindingOptimizations.NUMBER_OF_NODES)),
   DIJKSTRA(PathfindingOptimizations.allOptimizing),
   BIDIRECTIONAL_DIJKSTRA(PathfindingOptimizations.allOptimizing),
-  DFS(Set.of(PathfindingOptimizations.NONE));
+  DFS(Set.of(PathfindingOptimizations.NONE)),
+  GREEDY_BEST_FIRST_SEARCH(
+      Set.of(PathfindingOptimizations.DISTANCE, PathfindingOptimizations.TIME)),
+  BIDIRECTIONAL_GREEDY_BEST_FIRST_SEARCH(
+      Set.of(PathfindingOptimizations.DISTANCE, PathfindingOptimizations.TIME));
 
   private final Set<PathfindingOptimizations> allowedOptimizations;
 

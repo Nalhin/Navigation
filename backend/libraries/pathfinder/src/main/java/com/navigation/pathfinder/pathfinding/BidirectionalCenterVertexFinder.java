@@ -10,8 +10,7 @@ class BidirectionalCenterVertexFinder {
 
   Vertex findCenterVertex(
       Vertex candidate,
-      double leftScore,
-      double rightScore,
+      double candidateBidirectionalScore,
       Queue<ScoredGraphVertex> pqForward,
       Queue<ScoredGraphVertex> pqBackward) {
 
@@ -19,7 +18,7 @@ class BidirectionalCenterVertexFinder {
     Map<Vertex, Double> scoresBackward = buildMinVertexScoreMap(pqBackward);
 
     var minVertex = candidate;
-    var minScore = leftScore + rightScore;
+    var minScore = candidateBidirectionalScore;
 
     for (Entry<Vertex, Double> forwardEntry : scoresForward.entrySet()) {
 

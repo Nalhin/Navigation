@@ -21,6 +21,8 @@ class PathfindingStrategyFactory {
       case BIDIRECTIONAL_BFS -> new BidirectionalBFSPathfindingStrategy();
       case DFS -> new DFSPathfindingStrategy();
       case BIDIRECTIONAL_A_STAR -> new BidirectionalAStarPathfindingStrategy(calculator);
+      case GREEDY_BEST_FIRST_SEARCH -> new GreedyBestFirstSearchPathfindingStrategy(calculator);
+      case BIDIRECTIONAL_GREEDY_BEST_FIRST_SEARCH -> new BidirectionalGreedyBestFirstSearchPathfindingStrategy(calculator);
     };
   }
 }

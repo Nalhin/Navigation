@@ -4,7 +4,7 @@
 
 # Navigation
 
-Navigation based on open source geospatial data and pathfinding algorithms.
+Real-world navigation based on open source geospatial data and single-source shortest path algorithms
 
 ## Table of contents
 * [Description](#description)
@@ -19,6 +19,7 @@ Navigation based on open source geospatial data and pathfinding algorithms.
 
 ## Features
 
+* OSM file parser
 * OSM street network graph
 * Implementation and visualization of the following single-source shortest path algorithms:
   * [BFS](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BFSPathfindingStrategy.java) 
@@ -30,10 +31,12 @@ Navigation based on open source geospatial data and pathfinding algorithms.
   * [Bidirectional A*](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BidirectionalAStarPathfindingStrategy.java)
 * Implementation and visualization of the following pathfinding algorithms:
   * [DFS](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/DFSPathfindingStrategy.java)
+  * [Greedy Best First Search](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/GreedyBestFirstSearchPathfindingStrategy.java)
+  * [Bidirectional Greedy Best First Search](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BidirectionalGreedyBestFirstSearchPathfindingStrategy.java)
 * Geocoding - converting addresses to coordinates
 * Reverse Geocoding - converting coordinates to addresses
-* OSM file parser
 * Data distribution pipeline in microservices architecture
+* Interactive map 
 
 ## Presentation
 

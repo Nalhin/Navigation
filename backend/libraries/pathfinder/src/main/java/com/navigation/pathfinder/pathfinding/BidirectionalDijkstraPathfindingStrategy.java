@@ -46,8 +46,8 @@ public class BidirectionalDijkstraPathfindingStrategy implements PathfindingStra
         var center =
             centerVertexFinder.findCenterVertex(
                 currForward.vertex(),
-                minDistancesForward.get(currForward.vertex()),
-                minDistancesBackward.get(currForward.vertex()),
+                minDistancesForward.get(currForward.vertex())
+                    + minDistancesBackward.get(currForward.vertex()),
                 pqForward,
                 pqBackward);
         return pathSummaryCreator.createBidirectionalPath(
@@ -60,8 +60,8 @@ public class BidirectionalDijkstraPathfindingStrategy implements PathfindingStra
         var center =
             centerVertexFinder.findCenterVertex(
                 currBackward.vertex(),
-                minDistancesForward.get(currBackward.vertex()),
-                minDistancesBackward.get(currBackward.vertex()),
+                minDistancesForward.get(currBackward.vertex())
+                    + minDistancesBackward.get(currBackward.vertex()),
                 pqForward,
                 pqBackward);
 

@@ -7,6 +7,8 @@ export enum AlgorithmTypes {
   BIDIRECTIONAL_BFS = 'BIDIRECTIONAL_BFS',
   BIDIRECTIONAL_DIJKSTRA = 'BIDIRECTIONAL_DIJKSTRA',
   DFS = 'DFS',
+  GREEDY_BEST_FIRST_SEARCH = 'GREEDY_BEST_FIRST_SEARCH',
+  BIDIRECTIONAL_GREEDY_BEST_FIRST_SEARCH = 'BIDIRECTIONAL_GREEDY_BEST_FIRST_SEARCH',
 }
 
 export const ALGORITHM_TYPE_TRANSLATIONS = {
@@ -18,4 +20,7 @@ export const ALGORITHM_TYPE_TRANSLATIONS = {
   [AlgorithmTypes.BIDIRECTIONAL_A_STAR]: 'Bidirectional A*',
   [AlgorithmTypes.BIDIRECTIONAL_DIJKSTRA]: 'Bidirectional Dijkstra',
   [AlgorithmTypes.DFS]: 'DFS',
+  [AlgorithmTypes.GREEDY_BEST_FIRST_SEARCH]: 'Greedy Best First Search',
+  [AlgorithmTypes.BIDIRECTIONAL_GREEDY_BEST_FIRST_SEARCH]:
+    'Bidirectional Greedy Best First Search',
 };
