@@ -36,6 +36,11 @@ integrationTest {
 
 check.dependsOn integrationTest
 
+jacocoTestReport {
+  executionData(file("${project.buildDir}/jacoco/test.exec"),
+      file("${project.buildDir}/jacoco/integrationTest.exec"))
+}
+
 dependencies {
   implementation 'org.springdoc:springdoc-openapi-ui:1.5.8'
 
