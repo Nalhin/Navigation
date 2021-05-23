@@ -4,6 +4,9 @@ import com.navigation.pathfindingapi.annotations.IntegrationTest
 import com.navigation.pathfindingapi.specifications.WebMongoDBSpecification
 import org.springframework.http.HttpStatus
 
+import static org.hamcrest.Matchers.containsInAnyOrder
+import static spock.util.matcher.HamcrestSupport.that
+
 @IntegrationTest
 class PathfindingIntegrationTest extends WebMongoDBSpecification {
 
@@ -13,6 +16,6 @@ class PathfindingIntegrationTest extends WebMongoDBSpecification {
         .get("/pathfinding/algorithms/DIJKSTRA/available-optimizations")
     then:
     response.statusCode() == HttpStatus.OK.value()
-    parseJSON(response.body.asString()) as Set == ['DISTANCE', 'NUMBER_OF_NODES', 'TIME'] as Set
+    that parseJSON(response.body.asString()), containsInAnyOrder('DISTANCE', 'NUMBER_OF_NODES', 'TIME')
   }
 }

@@ -49,6 +49,8 @@ dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-web'
   annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
+  testImplementation 'org.hamcrest:hamcrest-library:2.2'
+
   integrationTestImplementation 'org.spockframework:spock-spring:2.0-M4-groovy-3.0'
   integrationTestImplementation 'org.springframework.boot:spring-boot-starter-test'
   integrationTestImplementation 'org.testcontainers:spock'
