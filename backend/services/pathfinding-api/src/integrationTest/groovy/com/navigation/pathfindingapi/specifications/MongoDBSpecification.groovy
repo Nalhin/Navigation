@@ -1,6 +1,7 @@
-package com.navigation.reversegeocodingapi.test
+package com.navigation.pathfindingapi.specifications
 
 import com.mongodb.BasicDBObject
+import com.navigation.pathfindingapi.annotations.IntegrationTest
 import org.bson.Document
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest

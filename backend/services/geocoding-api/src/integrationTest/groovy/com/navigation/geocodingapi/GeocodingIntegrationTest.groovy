@@ -1,7 +1,7 @@
-package com.navigation.geocodingapi.integration
+package com.navigation.geocodingapi
 
-import com.navigation.geocodingapi.test.IntegrationTest
-import com.navigation.geocodingapi.test.WebElasticSearchSpecification
+import com.navigation.geocodingapi.annotations.IntegrationTest
+import com.navigation.geocodingapi.specifications.WebElasticSearchSpecification
 import org.springframework.http.HttpStatus
 
 @IntegrationTest

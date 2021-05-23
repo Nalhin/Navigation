@@ -1,12 +1,11 @@
-package com.navigation.geocodingapi.test
+package com.navigation.geocodingapi.specifications
 
-import org.elasticsearch.action.delete.DeleteRequest
+import com.navigation.geocodingapi.annotations.IntegrationTest
 import org.elasticsearch.action.index.IndexRequest
 import org.elasticsearch.action.support.WriteRequest
 import org.elasticsearch.client.RequestOptions
 import org.elasticsearch.client.RestHighLevelClient
 import org.elasticsearch.index.query.MatchAllQueryBuilder
-import org.elasticsearch.index.query.TermQueryBuilder
 import org.elasticsearch.index.reindex.DeleteByQueryRequest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -14,7 +13,6 @@ import org.springframework.boot.test.util.TestPropertyValues
 import org.springframework.cache.CacheManager
 import org.springframework.context.ApplicationContextInitializer
 import org.springframework.context.ConfigurableApplicationContext
-import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.test.context.ContextConfiguration
 import org.testcontainers.containers.GenericContainer
 import org.testcontainers.elasticsearch.ElasticsearchContainer

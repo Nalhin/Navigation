@@ -1,7 +1,7 @@
-package com.navigation.reversegeocodingapi.integration
+package com.navigation.reversegeocodingapi
 
-import com.navigation.reversegeocodingapi.test.IntegrationTest
-import com.navigation.reversegeocodingapi.test.WebMongoDBSpecification
+import com.navigation.reversegeocodingapi.annotations.IntegrationTest
+import com.navigation.reversegeocodingapi.specifications.WebMongoDBSpecification
 import org.springframework.http.HttpStatus
 
 @IntegrationTest

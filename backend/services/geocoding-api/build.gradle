@@ -8,6 +8,34 @@ ext {
   set('springCloudVersion', "2020.0.2")
 }
 
+sourceSets {
+  integrationTest {
+    compileClasspath += sourceSets.main.output
+    runtimeClasspath += sourceSets.main.output
+  }
+}
+
+configurations {
+  integrationTestImplementation.extendsFrom implementation, testImplementation
+  integrationTestImplementation.extendsFrom runtimeOnly
+}
+
+tasks.register('integrationTest', Test) {
+  description = 'Runs integration tests.'
+  group = 'verification'
+
+  testClassesDirs = sourceSets.integrationTest.output.classesDirs
+  classpath = sourceSets.integrationTest.runtimeClasspath
+  shouldRunAfter test
+}
+
+integrationTest {
+  useJUnitPlatform()
+  finalizedBy jacocoTestReport
+}
+
+check.dependsOn integrationTest
+
 dependencies {
   implementation 'org.springdoc:springdoc-openapi-ui:1.5.8'
 
@@ -17,15 +45,15 @@ dependencies {
 
   implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
   implementation 'org.springframework.boot:spring-boot-starter-web'
-  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  integrationTestImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-  testImplementation 'org.testcontainers:elasticsearch'
-  testImplementation 'org.testcontainers:spock'
+  integrationTestImplementation 'org.testcontainers:elasticsearch'
+  integrationTestImplementation 'org.testcontainers:spock'
 
-  testImplementation 'org.spockframework:spock-spring:2.0-M4-groovy-3.0'
-  testImplementation 'io.rest-assured:rest-assured:4.3.3'
-  testImplementation 'io.rest-assured:json-path:4.3.3'
-  testImplementation 'io.rest-assured:xml-path:4.3.3'
+  integrationTestImplementation 'org.spockframework:spock-spring:2.0-M4-groovy-3.0'
+  integrationTestImplementation 'io.rest-assured:rest-assured:4.3.3'
+  integrationTestImplementation 'io.rest-assured:json-path:4.3.3'
+  integrationTestImplementation 'io.rest-assured:xml-path:4.3.3'
 }
 
 dependencyManagement {

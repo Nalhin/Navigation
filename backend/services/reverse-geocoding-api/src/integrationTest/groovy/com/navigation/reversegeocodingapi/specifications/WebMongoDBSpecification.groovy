@@ -1,5 +1,6 @@
-package com.navigation.reversegeocodingapi.test
+package com.navigation.reversegeocodingapi.specifications
 
+import com.navigation.reversegeocodingapi.annotations.IntegrationTest
 import groovy.json.JsonSlurper
 import io.restassured.RestAssured
 import org.springframework.boot.test.context.SpringBootTest

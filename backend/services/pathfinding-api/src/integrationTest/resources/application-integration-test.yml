@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: pathfinding-api
+  cloud:
+    consul:
+      enabled: false

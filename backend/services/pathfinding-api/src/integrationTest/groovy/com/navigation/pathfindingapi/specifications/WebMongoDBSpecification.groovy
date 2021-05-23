@@ -1,5 +1,6 @@
-package com.navigation.geocodingapi.test
+package com.navigation.pathfindingapi.specifications
 
+import com.navigation.pathfindingapi.annotations.IntegrationTest
 import groovy.json.JsonSlurper
 import io.restassured.RestAssured
 import org.springframework.boot.test.context.SpringBootTest
@@ -9,7 +10,7 @@ import spock.lang.Shared
 
 @IntegrationTest
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-abstract class WebElasticSearchSpecification extends ElasticSearchSpecification {
+abstract class WebMongoDBSpecification extends MongoDBSpecification {
 
   @Shared
   private slurper = new JsonSlurper()

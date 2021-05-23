@@ -1,4 +1,4 @@
-package com.navigation.reversegeocodingapi.test
+package com.navigation.reversegeocodingapi.annotations
 
 import java.lang.annotation.Documented
 import java.lang.annotation.ElementType
@@ -9,7 +9,7 @@ import org.springframework.test.context.ActiveProfiles
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@ActiveProfiles("test")
+@ActiveProfiles("integration-test")
 @Documented
 @interface IntegrationTest {
 }
