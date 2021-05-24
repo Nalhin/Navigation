@@ -4,3 +4,6 @@ spring:
   cloud:
     consul:
       enabled: false
+  data:
+    mongodb:
+      auto-index-creation: true

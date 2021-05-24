@@ -33,6 +33,10 @@ abstract class MongoDBSpecification extends Specification {
     template.save(new BasicDBObject(entity), collection)
   }
 
+  def saveAllInCollection(List<Map<String,Object>> entities, String collection){
+    entities.each {saveInCollection(it, collection)}
+  }
+
   def clearCollection(String collectionName) {
     template.getCollection(collectionName).deleteMany(new Document())
   }
