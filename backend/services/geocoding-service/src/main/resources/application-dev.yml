@@ -1,0 +1,19 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: geocoding-service
+
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        hostname: localhost
+  redis:
+    host: localhost
+    port: 6379
+  elasticsearch:
+    rest:
+      uris: http://localhost:9200

@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: osm-data-processor-service
+  kafka:
+    bootstrap-servers: 'localhost:9092'
+
+infrastructure:
+  osm:
+    filePath: "../../data/poland-latest.osm.bz2"
+  topics:
+    address: "exporter.address"
+    street-connections: "exporter.street-connections"
+    street-nodes: "exporter.street-nodes"

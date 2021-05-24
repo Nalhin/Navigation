@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: osm-data-processor-service
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+
+infrastructure:
+  osm:
+    filePath: ${OSM_FILE_PATH}
+  topics:
+    address: "exporter.address"
+    street-connections: "exporter.street-connections"
+    street-nodes: "exporter.street-nodes"

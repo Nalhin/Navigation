@@ -1,0 +1,17 @@
+server:
+  port: ${SERVER_PORT}
+
+spring:
+  application:
+    name: reverse-geocoding-service
+  cloud:
+    consul:
+      host: ${CONSUL_HOST}
+      port: ${CONSUL_PORT}
+
+  data:
+    mongodb:
+      database: ${MONGO_DATABASE}
+      port: ${MONGO_PORT}
+      host: ${MONGO_HOST}
+
