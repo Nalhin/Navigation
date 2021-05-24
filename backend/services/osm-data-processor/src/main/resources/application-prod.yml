@@ -1,10 +1,10 @@
 spring:
   kafka:
-    bootstrap-servers: 'localhost:9092'
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
 
 infrastructure:
   osm:
-    filePath: "/home/nalhin/Desktop/Navigation/data/poland-latest.osm.bz2"
+    filePath: ${OSM_FILE_PATH}
   topics:
     address: "exporter.address"
     street-connections: "exporter.street-connections"

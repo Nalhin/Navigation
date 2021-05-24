@@ -1,0 +1,25 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: pathfinding-api
+  data:
+    mongodb:
+      database: pathfinding
+      port: 27017
+      host: localhost
+
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        hostname: localhost
+
+springdoc:
+  paths-to-match: /api/v1/**
+  api-docs:
+    path: /api-docs-json
+  swagger-ui:
+    path: /api-docs

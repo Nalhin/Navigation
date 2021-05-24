@@ -1,6 +1,6 @@
-FROM openjdk:15-jdk-alpine
+FROM openjdk:15-alpine
 
-ARG JAR_FILE=build/*.jar
+ARG JAR_FILE=build/libs/*.jar
 
 COPY ${JAR_FILE} app.jar
 

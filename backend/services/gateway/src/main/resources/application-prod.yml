@@ -1,0 +1,12 @@
+
+server:
+  port: ${SERVER_PORT}
+
+spring:
+  application:
+    name: gateway
+
+  cloud:
+    consul:
+      host: ${CONSUL_HOST}
+      port: ${CONSUL_PORT}

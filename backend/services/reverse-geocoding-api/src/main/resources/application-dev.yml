@@ -1,0 +1,25 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: reverse-geocoding-api
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        hostname: localhost
+
+  data:
+    mongodb:
+      database: reverseGeocoding
+      port: 27018
+      host: localhost
+
+springdoc:
+  paths-to-match: /api/v1/**
+  api-docs:
+    path: /api-docs-json
+  swagger-ui:
+    path: /api-docs

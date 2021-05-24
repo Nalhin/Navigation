@@ -60,6 +60,7 @@ services:
     image: confluentinc/cp-kafka-connect:5.5.4
     depends_on:
       - zookeeper
+      - kafka
     ports:
       - 8090:8090
     environment:
@@ -105,6 +106,76 @@ services:
     image: redis:6.0.9-alpine
     ports:
       - 6379:6379
+
+  osm-data-processor:
+    build: ../backend/services/osm-data-processor
+    volumes:
+      - ../data:/data/osm
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: "kafka:29092"
+      OSM_FILE_PATH: /data/osm/osm-data.osm.bz2
+      SPRING_PROFILES_ACTIVE: prod
+
+  geocoding-service:
+    build: ../backend/services/geocoding-api
+    depends_on:
+      - elasticsearch
+      - consul
+      - redis
+    environment:
+      SERVER_PORT: 8082
+      CONSUL_HOST: consul
+      CONSUL_PORT: 8500
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      ELASTICSEARCH_URI: http://elasticsearch:9200
+      SPRING_PROFILES_ACTIVE: prod
+
+  pathfinding-service:
+    build: ../backend/services/pathfinding-api
+    depends_on:
+      - mongodb_pathfinding
+      - consul
+    environment:
+      SERVER_PORT: 8083
+      CONSUL_HOST: consul
+      CONSUL_PORT: 8500
+      MONGO_DATABASE: pathfinding
+      MONGO_PORT: 27017
+      MONGO_HOST: mongodb_pathfinding
+      SPRING_PROFILES_ACTIVE: prod
+
+
+  reverse-geocoding-service:
+    build: ../backend/services/reverse-geocoding-api
+    depends_on:
+      - mongodb_reverse_geocoding
+      - consul
+    environment:
+      SERVER_PORT: 8083
+      CONSUL_HOST: consul
+      CONSUL_PORT: 8500
+      MONGO_DATABASE: reverseGeocoding
+      MONGO_PORT: 27017
+      MONGO_HOST: mongodb_reverse_geocoding
+      SPRING_PROFILES_ACTIVE: prod
+
+  gateway:
+    build: ../backend/services/gateway
+    ports:
+      - "8000:8000"
+    environment:
+      SERVER_PORT: 8000
+      CONSUL_HOST: consul
+      CONSUL_PORT: 8500
+      SPRING_PROFILES_ACTIVE: prod
+
+  client:
+    build: ../client
+    ports:
+      - "3000:8080"
+    environment:
+      API_URI: http://gateway:8000
 
 volumes:
   elastic:
