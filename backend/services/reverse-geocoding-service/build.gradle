@@ -1,11 +1,6 @@
 plugins {
-  id 'org.springframework.boot' version '2.4.5'
-  id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-}
-
-ext {
-  set('testcontainersVersion', "1.15.3")
-  set('springCloudVersion', "2020.0.2")
+  id 'org.springframework.boot' version "${springBootVersion}"
+  id 'io.spring.dependency-management' version "${springDepManagementVersion}"
 }
 
 sourceSets {
@@ -42,26 +37,23 @@ jacocoTestReport {
 }
 
 dependencies {
-  implementation 'org.springdoc:springdoc-openapi-ui:1.5.8'
+  implementation "org.springdoc:springdoc-openapi-ui:${springDocVersion}"
 
   implementation 'org.springframework.boot:spring-boot-starter-actuator'
-  implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery'
-
   implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
   implementation 'org.springframework.boot:spring-boot-starter-web'
 
-  integrationTestImplementation 'org.spockframework:spock-spring:2.0-M4-groovy-3.0'
+  implementation platform("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
+  implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery'
+
+  integrationTestImplementation "org.spockframework:spock-spring:${spockVersion}"
   integrationTestImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+  implementation platform("org.testcontainers:testcontainers-bom:${testcontainersVersion}")
   integrationTestImplementation 'org.testcontainers:spock'
   integrationTestImplementation 'org.testcontainers:mongodb'
-  integrationTestImplementation 'io.rest-assured:rest-assured:4.3.3'
-  integrationTestImplementation 'io.rest-assured:json-path:4.3.3'
-  integrationTestImplementation 'io.rest-assured:xml-path:4.3.3'
-}
 
-dependencyManagement {
-  imports {
-    mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
-    mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-  }
+  integrationTestImplementation "io.rest-assured:rest-assured:${restAssuredVersion}"
+  integrationTestImplementation "io.rest-assured:json-path:${restAssuredVersion}"
+  integrationTestImplementation "io.rest-assured:xml-path:${restAssuredVersion}"
 }

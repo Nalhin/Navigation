@@ -7,6 +7,11 @@ allprojects {
   }
 }
 
+ext {
+  set('groovyVersion', '3.0.7')
+  set('spockVersion', '2.0-M4-groovy-3.0')
+}
+
 subprojects {
   apply plugin: 'groovy'
   apply plugin: 'java'
@@ -15,8 +20,8 @@ subprojects {
   dependencies {
     implementation 'org.jetbrains:annotations:20.1.0'
 
-    testImplementation 'org.codehaus.groovy:groovy:3.0.7'
-    testImplementation 'org.spockframework:spock-core:2.0-M4-groovy-3.0'
+    testImplementation "org.codehaus.groovy:groovy:${groovyVersion}"
+    testImplementation "org.spockframework:spock-core:${spockVersion}"
   }
 
   jacoco {
