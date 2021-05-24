@@ -35,8 +35,8 @@ Real-world navigation based on open source geospatial data and single-source sho
   * [Bidirectional Greedy Best First Search](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BidirectionalGreedyBestFirstSearchPathfindingStrategy.java)
 * Geocoding - converting addresses to coordinates
 * Reverse Geocoding - converting coordinates to addresses
-* Data distribution pipeline in microservices architecture
-* Interactive map 
+* Data distribution pipeline in microservice architecture
+* Interactive visualization on street and satellite maps
 
 ## Presentation
 
@@ -63,7 +63,6 @@ modules
 
 ## Prerequisites
 
-
 Install [jdk16](https://www.oracle.com/java/technologies/javase-jdk16-downloads.html)
 and [gradle](https://gradle.org/).
 
@@ -73,22 +72,22 @@ java --version
 gradle --version
 ```
 
-Install [docker](https://docs.docker.com/install/). 
-You should be able to run the following commands:
+Install [docker](https://docs.docker.com/install/) and [docker-compose](https://docs.docker.com/compose/). 
 
+You should be able to run the following commands:
 ```bash
 docker --version
+docker-compsoe --version
 ```
 
 Install [node](https://nodejs.org/en), [npm](https://www.npmjs.com) and [yarn](https://yarnpkg.com). 
-You should be able to run the following commands:
 
+You should be able to run the following commands:
 ```bash
 node --version
 npm --version
 yarn --version
 ```
-
 
 ## Setup
 
@@ -105,14 +104,16 @@ bash download.sh
 Visit [geofabrik website](http://download.geofabrik.de/europe) and download any .osm.bzip of choice.
 Rename the downloaded file to ``osm-data.osm.bz2`` and move it to the `data` directory.
 
-### Build backend 
+### Build the application
+
+#### Backend
 
 ```
 cd backend
 ./gradlew clean build 
 ```
 
-### Build client
+#### Client
 
 ```
 cd client
@@ -124,14 +125,14 @@ yarn build
 
 ```bash
 cd docker
-docker compose -f docker-compose.prod.yml up -d
-sleep 10
+docker-compose -f docker-compose.prod.yml up -d
+sleep 30
 bash init-prod.sh
 ```
 
 ### Wait for export
 
-Wait for the export process to finish (osm-data-processor will shut itself down).
+Wait for the export process to finish (osm-data-processor should shut itself down).
 This process should take approximately 3-5 min per 100Mb of compressed map data.
 
 ### Open client
