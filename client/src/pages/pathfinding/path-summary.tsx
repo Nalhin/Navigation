@@ -29,6 +29,9 @@ const PathSummary = ({ path }: Props) => {
         <Typography>
           Execution duration: {path.executionDuration.toFixed(2)} seconds
         </Typography>
+        <Typography>
+          Result: {path.found ? 'Path found' : 'Path not found'}
+        </Typography>
       </Grid>
     </Box>
   );

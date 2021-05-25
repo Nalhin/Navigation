@@ -17,11 +17,11 @@ import spock.lang.Subject
 
 import java.time.Instant
 
-class PathfindingRestDtoMapperTest extends Specification {
+class PathfindingDtoMapperTest extends Specification {
 
   @Shared
   @Subject
-  def pathfindingApiMapper = new PathfindingRestDtoMapper()
+  def pathfindingApiMapper = new PathfindingDtoMapper()
 
   def "toResponse(PathWithExecutionSummary) should convert path with summary to PathResponseDto"() {
     given:

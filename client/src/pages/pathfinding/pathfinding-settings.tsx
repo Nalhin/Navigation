@@ -187,19 +187,7 @@ const PathfindingSettings = ({ isOpen, onClose }: Props) => {
                 label="Bounded?"
               />
             </Box>
-            <FormControl>
-              <Controller
-                render={({ field }) => (
-                  <TextField
-                    label="Max Longitude"
-                    {...field}
-                    error={!!formState.errors.bounds?.maxLongitude}
-                  />
-                )}
-                name="bounds.maxLongitude"
-                control={control}
-              />
-            </FormControl>
+
             <FormControl>
               <Controller
                 render={({ field }) => (
@@ -210,6 +198,19 @@ const PathfindingSettings = ({ isOpen, onClose }: Props) => {
                   />
                 )}
                 name="bounds.maxLatitude"
+                control={control}
+              />
+            </FormControl>
+            <FormControl>
+              <Controller
+                render={({ field }) => (
+                  <TextField
+                    label="Max Longitude"
+                    {...field}
+                    error={!!formState.errors.bounds?.maxLongitude}
+                  />
+                )}
+                name="bounds.maxLongitude"
                 control={control}
               />
             </FormControl>

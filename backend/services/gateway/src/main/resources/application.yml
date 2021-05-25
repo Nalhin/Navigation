@@ -7,20 +7,20 @@ spring:
         locator:
           enabled: true
       routes:
-        - id: geocoding-api
-          uri: lb://geocoding-api
+        - id: geocoding-service
+          uri: lb://geocoding-service
           predicates:
             - Path=/api/geocode/**
           filters:
             - RewritePath=/api/(?<path>.*), /api/v1/$\{path}
-        - id: reverse-geocoding-api
-          uri: lb://reverse-geocoding-api
+        - id: reverse-geocoding-service
+          uri: lb://reverse-geocoding-service
           predicates:
             - Path=/api/reverse-geocode/**
           filters:
             - RewritePath=/api/(?<path>.*), /api/v1/$\{path}
-        - id: pathfinding-api
-          uri: lb://pathfinding-api
+        - id: pathfinding-service
+          uri: lb://pathfinding-service
           predicates:
             - Path=/api/pathfinding/**
           filters:

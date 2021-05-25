@@ -50,7 +50,6 @@ final class PathBetweenCoordinatesService implements PathBetweenCoordinatesUseCa
       PathBetweenCoordinatesQuery query, Supplier<Graph> graphSupplier) {
 
     var startAndEndVertices = findStartAndEndVertices(query.getStart(), query.getEnd());
-    var graph = graphSupplier.get();
     var pathfindingStrategy =
         pathfindingStrategyFactory.pathfindingStrategy(
             query.getPathfindingAlgorithm(), query.getPathfindingOptimization());
@@ -62,7 +61,7 @@ final class PathBetweenCoordinatesService implements PathBetweenCoordinatesUseCa
         .flatMap(
             strategy ->
                 startAndEndVertices.map(
-                    vertices -> strategy.findPath(vertices._1, vertices._2, graph)))
+                    vertices -> strategy.findPath(vertices._1, vertices._2, graphSupplier.get())))
         .map(
             path ->
                 new PathWithExecutionSummary(

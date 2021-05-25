@@ -9,6 +9,8 @@ import {
 import { Coordinates } from '../../api/requests/shared.types';
 import { usePathfindingSettings } from '../pathfinding-settings/pathfinding-settings-context';
 import { useMap } from '../map/map-context';
+import { AxiosError } from 'axios';
+import { useSnackbar } from 'notistack';
 
 const PathfindingContext = React.createContext<PathfindingContext | null>(null);
 
@@ -42,6 +44,7 @@ export const PathfindingProvider: React.FC = ({ children }) => {
   });
   const settings = usePathfindingSettings();
   const { map } = useMap();
+  const snackbar = useSnackbar();
 
   const { data, mutate, reset } = useMutation(
     ['path-between'],
@@ -57,13 +60,28 @@ export const PathfindingProvider: React.FC = ({ children }) => {
         : getPathBetween(start, end, settings.algorithm, settings.optimization),
     {
       onSuccess: (data) => {
-        const path = data.data.simplePath;
-        const latitudes = path.map((el) => el.latitude);
-        const longitudes = path.map((el) => el.longitude);
+        const latitudes = data.data.searchBoundaries.flatMap((el) =>
+          el.map((e) => e.latitude),
+        );
+        const longitudes = data.data.searchBoundaries.flatMap((el) =>
+          el.map((e) => e.longitude),
+        );
         map?.fitBounds([
           [Math.min(...latitudes), Math.min(...longitudes)],
           [Math.max(...latitudes), Math.max(...longitudes)],
         ]);
+      },
+      onError: (error: AxiosError) => {
+        snackbar.enqueueSnackbar(
+          error.response?.data.message ?? 'Unexpected error',
+          {
+            variant: 'error',
+            anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'right',
+            },
+          },
+        );
       },
     },
   );

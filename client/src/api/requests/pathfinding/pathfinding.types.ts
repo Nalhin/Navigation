@@ -11,6 +11,7 @@ export interface PathResponse {
   executionDuration: number;
   algorithm: AlgorithmTypes;
   optimization: OptimizationTypes;
+  found: true;
 }
 
 export interface Bounds {

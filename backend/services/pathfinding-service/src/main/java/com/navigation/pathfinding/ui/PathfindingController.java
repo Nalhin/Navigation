@@ -2,11 +2,15 @@ package com.navigation.pathfinding.ui;
 
 import com.navigation.pathfinding.ui.dto.params.BoundsRequestDtoParams;
 import com.navigation.pathfinding.ui.dto.params.PathRequestDtoParams;
+import com.navigation.pathfinding.ui.dto.response.ErrorResponse;
+import com.navigation.pathfinding.ui.dto.response.PathResponseDto;
 import com.navigation.pathfinding.ui.dto.shared.PathfindingAlgorithmsDto;
 import com.navigation.pathfinding.ui.dto.shared.PathfindingOptimizationsDto;
 import com.navigation.pathfinding.application.AvailableOptimizationsUseCase;
 import com.navigation.pathfinding.application.PathBetweenCoordinatesUseCase;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
@@ -26,13 +30,13 @@ class PathfindingController {
 
   private final PathBetweenCoordinatesUseCase pathBetweenUseCase;
   private final AvailableOptimizationsUseCase availableOptimizationsUseCase;
-  private final PathfindingRestDtoMapper dtoMapper;
+  private final PathfindingDtoMapper dtoMapper;
   private final PathfindingRestResponseMapper responseMapper;
 
   public PathfindingController(
       PathBetweenCoordinatesUseCase pathBetweenUseCase,
       AvailableOptimizationsUseCase availableOptimizationsUseCase,
-      PathfindingRestDtoMapper dtoMapper,
+      PathfindingDtoMapper dtoMapper,
       PathfindingRestResponseMapper responseMapper) {
     this.pathBetweenUseCase = pathBetweenUseCase;
     this.availableOptimizationsUseCase = availableOptimizationsUseCase;
@@ -43,8 +47,18 @@ class PathfindingController {
   @Operation(
       tags = "pathfinding",
       description = "Find path between two points with selected algorithm and strategy")
-  @ApiResponse(responseCode = "200", description = "Success")
-  @ApiResponse(responseCode = "404", description = "Path not found")
+  @ApiResponse(
+      responseCode = "200",
+      description = "Success",
+      content = @Content(schema = @Schema(implementation = PathResponseDto.class)))
+  @ApiResponse(
+      responseCode = "400",
+      description = "Invalid configuration",
+      content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+  @ApiResponse(
+      responseCode = "404",
+      description = "Points not found",
+      content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
   @GetMapping(path = "/path-between", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> findPath(@Validated PathRequestDtoParams requestDtoParams) {
     var path = pathBetweenUseCase.calculatePathBetween(dtoMapper.toQuery(requestDtoParams));
@@ -56,8 +70,18 @@ class PathfindingController {
   @Operation(
       tags = "pathfinding",
       description = "Find bounded path between two points with selected algorithm and strategy")
-  @ApiResponse(responseCode = "200", description = "Success")
-  @ApiResponse(responseCode = "404", description = "Path not found")
+  @ApiResponse(
+      responseCode = "200",
+      description = "Success",
+      content = @Content(schema = @Schema(implementation = PathResponseDto.class)))
+  @ApiResponse(
+      responseCode = "400",
+      description = "Invalid configuration",
+      content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+  @ApiResponse(
+      responseCode = "404",
+      description = "Points not found",
+      content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
   @GetMapping(path = "/path-between/bounded", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<?> findPath(
       @Validated PathRequestDtoParams requestDtoParams,

@@ -6,22 +6,25 @@ import { CssBaseline } from '@material-ui/core';
 import { PathfindingSettingsProvider } from './context/pathfinding-settings/pathfinding-settings-context';
 import { MapProvider } from './context/map/map-context';
 import { PathfindingProvider } from './context/pathfinding/pathfinding-context';
+import { SnackbarProvider } from 'notistack';
 
 const queryClient = new QueryClient();
 
 const App = () => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <MapProvider>
-        <PathfindingSettingsProvider>
-          <PathfindingProvider>
-            <CssBaseline />
-            <GlobalLoader />
-            <Main />
-          </PathfindingProvider>
-        </PathfindingSettingsProvider>
-      </MapProvider>
-    </QueryClientProvider>
+    <SnackbarProvider maxSnack={3}>
+      <QueryClientProvider client={queryClient}>
+        <MapProvider>
+          <PathfindingSettingsProvider>
+            <PathfindingProvider>
+              <CssBaseline />
+              <GlobalLoader />
+              <Main />
+            </PathfindingProvider>
+          </PathfindingSettingsProvider>
+        </MapProvider>
+      </QueryClientProvider>
+    </SnackbarProvider>
   );
 };
 

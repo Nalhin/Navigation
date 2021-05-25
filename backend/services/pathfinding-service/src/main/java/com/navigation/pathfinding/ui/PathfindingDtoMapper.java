@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 import java.util.stream.Collectors;
 
 @Component
-class PathfindingRestDtoMapper {
+class PathfindingDtoMapper {
 
   public PathResponseDto toResponse(PathWithExecutionSummary pathWithSummary) {
     var response = new PathResponseDto();
