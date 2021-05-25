@@ -1,4 +1,4 @@
-package com.navigation.pathfinding.api.dto.response;
+package com.navigation.pathfinding.ui.dto.response;
 
 import java.util.Objects;
 

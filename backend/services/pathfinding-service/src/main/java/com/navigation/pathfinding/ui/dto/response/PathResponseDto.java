@@ -1,7 +1,7 @@
-package com.navigation.pathfinding.api.dto.response;
+package com.navigation.pathfinding.ui.dto.response;
 
-import com.navigation.pathfinding.api.dto.shared.PathfindingOptimizationsDto;
-import com.navigation.pathfinding.api.dto.shared.PathfindingAlgorithmsDto;
+import com.navigation.pathfinding.ui.dto.shared.PathfindingOptimizationsDto;
+import com.navigation.pathfinding.ui.dto.shared.PathfindingAlgorithmsDto;
 import java.util.List;
 import java.util.Objects;
 

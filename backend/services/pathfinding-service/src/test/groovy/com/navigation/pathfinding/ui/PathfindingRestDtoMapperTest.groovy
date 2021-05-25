@@ -1,13 +1,13 @@
-package com.navigation.pathfinding.api
+package com.navigation.pathfinding.ui
 
 import com.navigation.pathfinder.graph.Coordinates
 import com.navigation.pathfinder.graph.Vertex
 import com.navigation.pathfinder.pathfinding.PathSummary
-import com.navigation.pathfinding.api.dto.params.BoundsRequestDtoParams
-import com.navigation.pathfinding.api.dto.params.PathRequestDtoParams
-import com.navigation.pathfinding.api.dto.response.NodeResponseDto
-import com.navigation.pathfinding.api.dto.shared.PathfindingAlgorithmsDto
-import com.navigation.pathfinding.api.dto.shared.PathfindingOptimizationsDto
+import com.navigation.pathfinding.ui.dto.params.BoundsRequestDtoParams
+import com.navigation.pathfinding.ui.dto.params.PathRequestDtoParams
+import com.navigation.pathfinding.ui.dto.response.NodeResponseDto
+import com.navigation.pathfinding.ui.dto.shared.PathfindingAlgorithmsDto
+import com.navigation.pathfinding.ui.dto.shared.PathfindingOptimizationsDto
 import com.navigation.pathfinding.domain.PathWithExecutionSummary
 import com.navigation.pathfinding.domain.PathfindingAlgorithms
 import com.navigation.pathfinding.domain.PathfindingOptimizations
@@ -17,11 +17,11 @@ import spock.lang.Subject
 
 import java.time.Instant
 
-class PathfindingApiMapperTest extends Specification {
+class PathfindingRestDtoMapperTest extends Specification {
 
   @Shared
   @Subject
-  def pathfindingApiMapper = new PathfindingApiMapper()
+  def pathfindingApiMapper = new PathfindingRestDtoMapper()
 
   def "toResponse(PathWithExecutionSummary) should convert path with summary to PathResponseDto"() {
     given:
@@ -79,7 +79,7 @@ class PathfindingApiMapperTest extends Specification {
     }
   }
 
-  def "toBounds() should map BoundsRequestDtoParams to Bounds"() {
+  def "toQuery(BoundsRequestDtoParams) should map BoundsRequestDtoParams to Bounds"() {
     given:
     def params = new BoundsRequestDtoParams(
         minLatitude: 1,
@@ -87,7 +87,7 @@ class PathfindingApiMapperTest extends Specification {
         minLongitude: 3,
         maxLongitude: 4)
     when:
-    def result = pathfindingApiMapper.toBounds(params)
+    def result = pathfindingApiMapper.toQuery(params)
     then:
     verifyAll(result) {
       leftBottom == new Coordinates(1, 3)

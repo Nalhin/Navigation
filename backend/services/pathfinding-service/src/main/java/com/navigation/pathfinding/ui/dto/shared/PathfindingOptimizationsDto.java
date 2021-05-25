@@ -1,4 +1,4 @@
-package com.navigation.pathfinding.api.dto.shared;
+package com.navigation.pathfinding.ui.dto.shared;
 
 public enum PathfindingOptimizationsDto {
     TIME,

@@ -16,7 +16,7 @@ public enum PathfindingAlgorithms {
   BIDIRECTIONAL_GREEDY_BEST_FIRST_SEARCH(
       Set.of(PathfindingOptimizations.DISTANCE, PathfindingOptimizations.TIME));
 
-  final Set<PathfindingOptimizations> allowedOptimizations;
+  public final Set<PathfindingOptimizations> allowedOptimizations;
 
   PathfindingAlgorithms(Set<PathfindingOptimizations> allowedOptimizations) {
     this.allowedOptimizations = allowedOptimizations;

@@ -38,12 +38,14 @@ class PathfindingIntegrationTest extends WebMongoDBSpecification {
     given:
     saveAllInCollection(streetConnections(), STREET_CONNECTION_COLLECTION)
     saveAllInCollection(streetNodes(), STREET_NODES_COLLECTION)
-    def params = [algorithm     : "DIJKSTRA",
-                  optimization  : "DISTANCE",
-                  startLatitude : 50.1d,
-                  startLongitude: 19.9d,
-                  endLatitude   : 50.4d,
-                  endLongitude  : 19.6d]
+    def params = [
+        algorithm     : "DIJKSTRA",
+        optimization  : "DISTANCE",
+        startLatitude : 50.1d,
+        startLongitude: 19.9d,
+        endLatitude   : 50.4d,
+        endLongitude  : 19.6d
+    ]
     when:
     def response = apiClient()
         .params(params)
@@ -73,20 +75,68 @@ class PathfindingIntegrationTest extends WebMongoDBSpecification {
     }
   }
 
+  def 'GET /pathfinding/path-between should return 404 (NOT_FOUND) status code when either start or end are too far from available street nodes'(
+      double startLat, double startLong, double endLat, double endLong) {
+    given:
+    saveAllInCollection(streetConnections(), STREET_CONNECTION_COLLECTION)
+    saveAllInCollection(streetNodes(), STREET_NODES_COLLECTION)
+    def params = [
+        algorithm     : "DIJKSTRA",
+        optimization  : "DISTANCE",
+        startLatitude : startLat,
+        startLongitude: startLong,
+        endLatitude   : endLat,
+        endLongitude  : endLong
+    ]
+    when:
+    def response = apiClient()
+        .params(params)
+        .get("/pathfinding/path-between")
+    then:
+    response.statusCode == HttpStatus.NOT_FOUND.value()
+    where:
+    startLat | startLong | endLat | endLong
+    19.5d    | 50.5d     | 19.9d  | 50.1
+    19.9d    | 50.1      | 19.5d  | 50.5d
+    19.5d    | 50.5d     | 19.5d  | 50.5d
+  }
+
+  def 'GET /pathfinding/path-between should return 400 (BAD_REQUEST) status code when algorithm does not support requested optimization'() {
+    given:
+    saveAllInCollection(streetConnections(), STREET_CONNECTION_COLLECTION)
+    saveAllInCollection(streetNodes(), STREET_NODES_COLLECTION)
+    def params = [
+        algorithm     : "BFS",
+        optimization  : "DISTANCE",
+        startLatitude : 50.1d,
+        startLongitude: 19.9d,
+        endLatitude   : 50.4d,
+        endLongitude  : 19.6d
+    ]
+    when:
+    def response = apiClient()
+        .params(params)
+        .get("/pathfinding/path-between")
+    then:
+    response.statusCode == HttpStatus.BAD_REQUEST.value()
+  }
+
   def 'GET /pathfinding/path-between/bounded should return 200 (OK) status code and bounded path between points'() {
     given:
     saveAllInCollection(streetConnections(), STREET_CONNECTION_COLLECTION)
     saveAllInCollection(streetNodes(), STREET_NODES_COLLECTION)
-    def params = [algorithm     : "BELLMAN_FORD",
-                  optimization  : "TIME",
-                  startLatitude : 50.1d,
-                  startLongitude: 19.9d,
-                  endLatitude   : 50.4d,
-                  endLongitude  : 19.6d,
-                  minLatitude   : 50d,
-                  maxLatitude   : 51d,
-                  minLongitude  : 19d,
-                  maxLongitude  : 21d]
+    def params = [
+        algorithm     : "BELLMAN_FORD",
+        optimization  : "TIME",
+        startLatitude : 50.1d,
+        startLongitude: 19.9d,
+        endLatitude   : 50.4d,
+        endLongitude  : 19.6d,
+        minLatitude   : 50d,
+        maxLatitude   : 51d,
+        minLongitude  : 19d,
+        maxLongitude  : 21d
+    ]
     when:
     def response = apiClient()
         .params(params)
@@ -114,6 +164,60 @@ class PathfindingIntegrationTest extends WebMongoDBSpecification {
       optimization == "TIME"
       algorithm == "BELLMAN_FORD"
     }
+  }
+
+
+  def 'GET /pathfinding/path-between/bounded should return 404 (NOT_FOUND) status code when either start or end are too far from available street nodes'(
+      double startLat, double startLong, double endLat, double endLong) {
+    given:
+    saveAllInCollection(streetConnections(), STREET_CONNECTION_COLLECTION)
+    saveAllInCollection(streetNodes(), STREET_NODES_COLLECTION)
+    def params = [
+        algorithm     : "DIJKSTRA",
+        optimization  : "DISTANCE",
+        startLatitude : startLat,
+        startLongitude: startLong,
+        endLatitude   : endLat,
+        endLongitude  : endLong,
+        minLatitude   : 50d,
+        maxLatitude   : 51d,
+        minLongitude  : 19d,
+        maxLongitude  : 21d
+    ]
+    when:
+    def response = apiClient()
+        .params(params)
+        .get("/pathfinding/path-between")
+    then:
+    response.statusCode == HttpStatus.NOT_FOUND.value()
+    where:
+    startLat | startLong | endLat | endLong
+    19.5d    | 50.5d     | 19.9d  | 50.1
+    19.9d    | 50.1      | 19.5d  | 50.5d
+    19.5d    | 50.5d     | 19.5d  | 50.5d
+  }
+
+  def 'GET /pathfinding/path-between/bounded should return 400 (BAD_REQUEST) status code when algorithm does not support requested optimization'() {
+    given:
+    saveAllInCollection(streetConnections(), STREET_CONNECTION_COLLECTION)
+    saveAllInCollection(streetNodes(), STREET_NODES_COLLECTION)
+    def params = [algorithm     : "BFS",
+                  optimization  : "DISTANCE",
+                  startLatitude : 50.1d,
+                  startLongitude: 19.9d,
+                  endLatitude   : 50.4d,
+                  endLongitude  : 19.6d,
+                  minLatitude   : 50d,
+                  maxLatitude   : 51d,
+                  minLongitude  : 19d,
+                  maxLongitude  : 21d
+    ]
+    when:
+    def response = apiClient()
+        .params(params)
+        .get("/pathfinding/path-between/bounded")
+    then:
+    response.statusCode == HttpStatus.BAD_REQUEST.value()
   }
 
   def "GET /pathfinding/algorithms/DIJKSTRA/available-optimization should return 200 (OK) status code and optimizations offered by the algorithm"() {

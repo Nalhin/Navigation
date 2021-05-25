@@ -5,7 +5,7 @@ import com.navigation.pathfinder.pathfinding.PathSummary;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
-public class PathWithExecutionSummary {
+public final class PathWithExecutionSummary {
 
   private final PathSummary pathSummary;
   private final Instant start;

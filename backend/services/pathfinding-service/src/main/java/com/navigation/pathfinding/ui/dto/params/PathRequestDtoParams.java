@@ -1,7 +1,7 @@
-package com.navigation.pathfinding.api.dto.params;
+package com.navigation.pathfinding.ui.dto.params;
 
-import com.navigation.pathfinding.api.dto.shared.PathfindingOptimizationsDto;
-import com.navigation.pathfinding.api.dto.shared.PathfindingAlgorithmsDto;
+import com.navigation.pathfinding.ui.dto.shared.PathfindingOptimizationsDto;
+import com.navigation.pathfinding.ui.dto.shared.PathfindingAlgorithmsDto;
 import java.util.Objects;
 import javax.validation.constraints.NotNull;
 

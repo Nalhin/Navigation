@@ -1,7 +1,7 @@
 package com.navigation.pathfinding.infrastructure.database
 
 import com.navigation.pathfinder.graph.Coordinates
-import com.navigation.pathfinding.domain.Bounds
+import com.navigation.pathfinding.application.PathBetweenCoordinatesUseCase
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint
 import spock.lang.Shared
 import spock.lang.Specification
@@ -49,9 +49,9 @@ class PathfindingDatabaseMapperTest extends Specification {
     }
   }
 
-  def "toBox() should map Bounds to Box"() {
+  def "toBox() should map BoundsQuery to Box"() {
     given:
-    def bounds = new Bounds(new Coordinates(1, 2), new Coordinates(3, 4))
+    def bounds = new PathBetweenCoordinatesUseCase.BoundsQuery(new Coordinates(1, 2), new Coordinates(3, 4))
     when:
     def result = databaseMapper.toBox(bounds)
     then:

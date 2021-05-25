@@ -1,4 +1,4 @@
-package com.navigation.pathfinding.api.dto.params;
+package com.navigation.pathfinding.ui.dto.params;
 
 import java.util.Objects;
 import javax.validation.constraints.NotNull;

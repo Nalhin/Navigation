@@ -2,7 +2,7 @@ package com.navigation.pathfinding.infrastructure.database;
 
 import com.navigation.pathfinder.graph.Coordinates;
 import com.navigation.pathfinder.graph.Vertex;
-import com.navigation.pathfinding.domain.Bounds;
+import com.navigation.pathfinding.application.PathBetweenCoordinatesUseCase.BoundsQuery;
 import org.springframework.data.geo.Box;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Component;
@@ -22,7 +22,7 @@ class PathfindingDatabaseMapper {
     return new GeoJsonPoint(coordinates.getLongitude(), coordinates.getLatitude());
   }
 
-  public Box toBox(Bounds bounds) {
+  public Box toBox(BoundsQuery bounds) {
     return new Box(toGeoJsonPoint(bounds.getLeftBottom()), toGeoJsonPoint(bounds.getTopRight()));
   }
 }

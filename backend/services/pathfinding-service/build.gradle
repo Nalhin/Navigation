@@ -41,6 +41,8 @@ dependencies {
 
   implementation "org.springdoc:springdoc-openapi-ui:${springDocVersion}"
 
+  implementation "io.vavr:vavr:${vavrVersion}"
+
   implementation 'org.springframework.boot:spring-boot-starter-actuator'
   implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
   implementation 'org.springframework.boot:spring-boot-starter-web'

@@ -4,13 +4,15 @@ import com.navigation.pathfinder.graph.Coordinates;
 import com.navigation.pathfinder.graph.Graph;
 import com.navigation.pathfinder.graph.GraphBuilder;
 import com.navigation.pathfinder.graph.Vertex;
-import com.navigation.pathfinding.domain.Bounds;
-import com.navigation.pathfinding.domain.GraphRepository;
+import com.navigation.pathfinding.application.GraphRepository;
+import com.navigation.pathfinding.application.PathBetweenCoordinatesUseCase.BoundsQuery;
+import io.vavr.control.Option;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.Metrics;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -30,10 +32,10 @@ public class MongoGraphRepository implements GraphRepository {
   }
 
   @Override
-  public Optional<Vertex> closestNode(Coordinates location) {
-    Optional<StreetNodeEntity> node =
+  public Option<Vertex> closestVertex(Coordinates location, double distanceThresholdInKm) {
+    Option<StreetNodeEntity> node =
         nodeRepository.findTop1ByLocationNear(
-            new GeoJsonPoint(location.getLongitude(), location.getLatitude()));
+            new GeoJsonPoint(location.getLongitude(), location.getLatitude()),  new Distance(distanceThresholdInKm, Metrics.KILOMETERS));
 
     return node.map(
         first ->
@@ -62,7 +64,7 @@ public class MongoGraphRepository implements GraphRepository {
 
   @Cacheable(value = "graphBounded", sync = true)
   @Override
-  public Graph prepareGraphWithinBounds(Bounds bounds) {
+  public Graph prepareGraphWithinBounds(BoundsQuery bounds) {
 
     var builder = new GraphBuilder();
     var locations = nodeRepository.findByLocationWithin(pathfindingDatabaseMapper.toBox(bounds));

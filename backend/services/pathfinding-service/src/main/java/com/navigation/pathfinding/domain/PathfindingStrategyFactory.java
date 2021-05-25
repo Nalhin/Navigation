@@ -1,18 +1,21 @@
 package com.navigation.pathfinding.domain;
 
 import com.navigation.pathfinder.pathfinding.*;
+import io.vavr.control.Option;
+import org.springframework.stereotype.Component;
 
-class PathfindingStrategyFactory {
+@Component
+public class PathfindingStrategyFactory {
 
-  public PathfindingStrategy pathfindingStrategy(
+  public Option<PathfindingStrategy> pathfindingStrategy(
           PathfindingAlgorithms pathfindingAlgorithms, PathfindingOptimizations pathfindingOptimizations) {
     if(!pathfindingAlgorithms.isOptimizationAllowed(pathfindingOptimizations)){
-      throw new IllegalArgumentException("This algorithm does not support selected optimization");
+      return Option.none();
     }
 
     var calculator = pathfindingOptimizations.supplier.get();
 
-    return switch(pathfindingAlgorithms){
+    return Option.of(switch(pathfindingAlgorithms){
       case A_STAR -> new AStarPathfindingStrategy(calculator);
       case DIJKSTRA -> new DijkstraPathfindingStrategy(calculator);
       case BELLMAN_FORD -> new BellmanFordPathfindingStrategy(calculator);
@@ -23,6 +26,6 @@ class PathfindingStrategyFactory {
       case BIDIRECTIONAL_A_STAR -> new BidirectionalAStarPathfindingStrategy(calculator);
       case GREEDY_BEST_FIRST_SEARCH -> new GreedyBestFirstSearchPathfindingStrategy(calculator);
       case BIDIRECTIONAL_GREEDY_BEST_FIRST_SEARCH -> new BidirectionalGreedyBestFirstSearchPathfindingStrategy(calculator);
-    };
+    });
   }
 }

@@ -10,6 +10,7 @@ allprojects {
 ext {
   set('groovyVersion', '3.0.7')
   set('spockVersion', '2.0-M4-groovy-3.0')
+  set('vavrVersion', '0.10.3')
 }
 
 subprojects {

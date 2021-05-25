@@ -1,20 +1,22 @@
-package com.navigation.pathfinding.api;
+package com.navigation.pathfinding.ui;
 
 import com.navigation.pathfinder.graph.Coordinates;
 import com.navigation.pathfinder.graph.Vertex;
-import com.navigation.pathfinding.api.dto.params.BoundsRequestDtoParams;
-import com.navigation.pathfinding.api.dto.params.PathRequestDtoParams;
-import com.navigation.pathfinding.api.dto.response.NodeResponseDto;
-import com.navigation.pathfinding.api.dto.response.PathResponseDto;
-import com.navigation.pathfinding.api.dto.shared.PathfindingOptimizationsDto;
-import com.navigation.pathfinding.api.dto.shared.PathfindingAlgorithmsDto;
+import com.navigation.pathfinding.ui.dto.params.BoundsRequestDtoParams;
+import com.navigation.pathfinding.ui.dto.params.PathRequestDtoParams;
+import com.navigation.pathfinding.ui.dto.response.NodeResponseDto;
+import com.navigation.pathfinding.ui.dto.response.PathResponseDto;
+import com.navigation.pathfinding.ui.dto.shared.PathfindingOptimizationsDto;
+import com.navigation.pathfinding.ui.dto.shared.PathfindingAlgorithmsDto;
 import com.navigation.pathfinding.domain.*;
+import com.navigation.pathfinding.application.PathBetweenCoordinatesUseCase.BoundsQuery;
+import com.navigation.pathfinding.application.PathBetweenCoordinatesUseCase.PathBetweenCoordinatesQuery;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
 
 @Component
-class PathfindingApiMapper {
+class PathfindingRestDtoMapper {
 
   public PathResponseDto toResponse(PathWithExecutionSummary pathWithSummary) {
     var response = new PathResponseDto();
@@ -55,10 +57,10 @@ class PathfindingApiMapper {
     return new PathBetweenCoordinatesQuery(start, end, algorithm, optimization);
   }
 
-  public Bounds toBounds(BoundsRequestDtoParams params) {
+  public BoundsQuery toQuery(BoundsRequestDtoParams params) {
     var start = new Coordinates(params.getMinLatitude(), params.getMinLongitude());
     var end = new Coordinates(params.getMaxLatitude(), params.getMaxLongitude());
-    return new Bounds(start, end);
+    return new BoundsQuery(start, end);
   }
 
   public PathfindingAlgorithms toDomain(PathfindingAlgorithmsDto algorithmsDto) {
