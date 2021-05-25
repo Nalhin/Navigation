@@ -1,15 +1,14 @@
 package com.navigation.pathfinder.pathfinding
 
-import com.navigation.pathfinder.pathfinding.ShortestPathPathfindingTestGraphs.TestGraphSummary
 import spock.lang.Specification
 
 import static com.navigation.pathfinder.pathfinding.ShortestPathPathfindingTestGraphs.*
 
-class BidirectionalDijkstraPathfindingStrategyTest extends Specification {
+class AStarPathfinderTest extends Specification {
 
-  def "findPath() should return the shortest path"(TestGraphSummary testGraph) {
+  def "findShortestPath() should return the shortest path"(TestGraphSummary testGraph) {
     given:
-    def strategy = new BidirectionalDijkstraPathfindingStrategy(testGraph.calculator)
+    def strategy = new AStarPathfinder(testGraph.calculator)
     when:
     def path = strategy.findPath(testGraph.start, testGraph.end, testGraph.graph)
     then:

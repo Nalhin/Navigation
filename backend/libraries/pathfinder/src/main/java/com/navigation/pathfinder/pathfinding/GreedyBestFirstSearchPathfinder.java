@@ -8,12 +8,12 @@ import com.navigation.pathfinder.weight.EdgeWeightCalculator;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 
-public class GreedyBestFirstSearchPathfindingStrategy implements PathfindingStrategy {
+public class GreedyBestFirstSearchPathfinder implements PathfindingStrategy {
 
   private static final PathSummaryCreator pathSummaryCreator = new PathSummaryCreator();
   private final EdgeWeightCalculator calculator;
 
-  public GreedyBestFirstSearchPathfindingStrategy(EdgeWeightCalculator calculator) {
+  public GreedyBestFirstSearchPathfinder(EdgeWeightCalculator calculator) {
     this.calculator = calculator;
   }
 

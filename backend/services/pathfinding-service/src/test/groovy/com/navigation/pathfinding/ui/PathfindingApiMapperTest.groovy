@@ -8,7 +8,7 @@ import com.navigation.pathfinding.ui.dto.params.PathRequestDtoParams
 import com.navigation.pathfinding.ui.dto.response.NodeResponseDto
 import com.navigation.pathfinding.ui.dto.shared.PathfindingAlgorithmsDto
 import com.navigation.pathfinding.ui.dto.shared.PathfindingOptimizationsDto
-import com.navigation.pathfinding.domain.PathWithExecutionSummary
+import com.navigation.pathfinding.domain.PathfindingExecutionSummary
 import com.navigation.pathfinding.domain.PathfindingAlgorithms
 import com.navigation.pathfinding.domain.PathfindingOptimizations
 import spock.lang.Shared
@@ -17,11 +17,11 @@ import spock.lang.Subject
 
 import java.time.Instant
 
-class PathfindingDtoMapperTest extends Specification {
+class PathfindingApiMapperTest extends Specification {
 
   @Shared
   @Subject
-  def pathfindingApiMapper = new PathfindingDtoMapper()
+  def pathfindingApiMapper = new PathfindingApiMapper()
 
   def "toResponse(PathWithExecutionSummary) should convert path with summary to PathResponseDto"() {
     given:
@@ -34,14 +34,14 @@ class PathfindingDtoMapperTest extends Specification {
       isFound() >> true
       searchBoundaries() >> [[new Vertex(3, new Coordinates(5, 6))]]
     }
-    def pathWithExecutionSummary = new PathWithExecutionSummary(
+    def pathWithExecutionSummary = new PathfindingExecutionSummary(
         pathSummary,
         Instant.EPOCH,
         Instant.ofEpochMilli(500),
         PathfindingAlgorithms.DIJKSTRA,
         PathfindingOptimizations.DISTANCE)
     when:
-    def result = pathfindingApiMapper.toResponse(pathWithExecutionSummary)
+    def result = pathfindingApiMapper.toDto(pathWithExecutionSummary)
     then:
     verifyAll(result) {
       simplePath ==

@@ -5,8 +5,8 @@ import static io.vavr.API.For;
 import com.navigation.pathfinder.graph.Coordinates;
 import com.navigation.pathfinder.graph.Graph;
 import com.navigation.pathfinder.graph.Vertex;
-import com.navigation.pathfinding.domain.PathWithExecutionSummary;
-import com.navigation.pathfinding.domain.PathfindingStrategyFactory;
+import com.navigation.pathfinding.domain.PathfindingExecutionSummary;
+import com.navigation.pathfinding.domain.Pathfinders;
 import io.vavr.Tuple;
 import io.vavr.Tuple2;
 import io.vavr.concurrent.Future;
@@ -21,37 +21,35 @@ final class PathBetweenCoordinatesService implements PathBetweenCoordinatesUseCa
 
   private static final double NODE_DISTANCE_THRESHOLD_IN_KM = 5;
 
-  private final PathfindingStrategyFactory pathfindingStrategyFactory;
+  private final Pathfinders pathfinders;
   private final GraphRepository graphRepository;
   private final Clock clock;
 
   public PathBetweenCoordinatesService(
-      GraphRepository graphRepository,
-      PathfindingStrategyFactory pathfindingStrategyFactory,
-      Clock clock) {
+      GraphRepository graphRepository, Pathfinders pathfinders, Clock clock) {
     this.graphRepository = graphRepository;
-    this.pathfindingStrategyFactory = pathfindingStrategyFactory;
+    this.pathfinders = pathfinders;
     this.clock = clock;
   }
 
   @Override
-  public Either<PathBetweenCoordinatesErrors, PathWithExecutionSummary> calculatePathBetween(
+  public Either<PathBetweenCoordinatesErrors, PathfindingExecutionSummary> calculatePathBetween(
       PathBetweenCoordinatesQuery query) {
     return findPathBetweenPoints(query, graphRepository::prepareGraph);
   }
 
   @Override
-  public Either<PathBetweenCoordinatesErrors, PathWithExecutionSummary> calculateBoundedPathBetween(
-      PathBetweenCoordinatesQuery query, BoundsQuery bounds) {
+  public Either<PathBetweenCoordinatesErrors, PathfindingExecutionSummary>
+      calculateBoundedPathBetween(PathBetweenCoordinatesQuery query, BoundsQuery bounds) {
     return findPathBetweenPoints(query, () -> graphRepository.prepareGraphWithinBounds(bounds));
   }
 
-  private Either<PathBetweenCoordinatesErrors, PathWithExecutionSummary> findPathBetweenPoints(
+  private Either<PathBetweenCoordinatesErrors, PathfindingExecutionSummary> findPathBetweenPoints(
       PathBetweenCoordinatesQuery query, Supplier<Graph> graphSupplier) {
 
     var startAndEndVertices = findStartAndEndVertices(query.getStart(), query.getEnd());
     var pathfindingStrategy =
-        pathfindingStrategyFactory.pathfindingStrategy(
+        pathfinders.selectPathfinder(
             query.getPathfindingAlgorithm(), query.getPathfindingOptimization());
 
     var executionStartTime = clock.instant();
@@ -64,7 +62,7 @@ final class PathBetweenCoordinatesService implements PathBetweenCoordinatesUseCa
                     vertices -> strategy.findPath(vertices._1, vertices._2, graphSupplier.get())))
         .map(
             path ->
-                new PathWithExecutionSummary(
+                new PathfindingExecutionSummary(
                     path,
                     executionStartTime,
                     clock.instant(),

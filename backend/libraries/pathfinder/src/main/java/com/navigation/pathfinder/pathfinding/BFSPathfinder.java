@@ -9,7 +9,7 @@ import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class BFSPathfindingStrategy implements PathfindingStrategy {
+public class BFSPathfinder implements PathfindingStrategy {
 
   private static final PathSummaryCreator pathSummaryCreator = new PathSummaryCreator();
 

@@ -8,12 +8,12 @@ import com.navigation.pathfinder.weight.EdgeWeightCalculator;
 
 import java.util.HashMap;
 
-public class BellmanFordPathfindingStrategy implements PathfindingStrategy {
+public class BellmanFordPathfinder implements PathfindingStrategy {
 
   private final EdgeWeightCalculator calculator;
   private static final PathSummaryCreator pathSummaryCreator = new PathSummaryCreator();
 
-  public BellmanFordPathfindingStrategy(EdgeWeightCalculator calculator) {
+  public BellmanFordPathfinder(EdgeWeightCalculator calculator) {
     this.calculator = calculator;
   }
 

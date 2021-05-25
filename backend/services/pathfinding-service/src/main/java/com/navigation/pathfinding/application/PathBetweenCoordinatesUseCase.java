@@ -1,7 +1,7 @@
 package com.navigation.pathfinding.application;
 
 import com.navigation.pathfinder.graph.Coordinates;
-import com.navigation.pathfinding.domain.PathWithExecutionSummary;
+import com.navigation.pathfinding.domain.PathfindingExecutionSummary;
 import com.navigation.pathfinding.domain.PathfindingAlgorithms;
 import com.navigation.pathfinding.domain.PathfindingOptimizations;
 import io.vavr.control.Either;
@@ -9,10 +9,10 @@ import java.util.Objects;
 
 public interface PathBetweenCoordinatesUseCase {
 
-  Either<PathBetweenCoordinatesErrors, PathWithExecutionSummary> calculatePathBetween(
+  Either<PathBetweenCoordinatesErrors, PathfindingExecutionSummary> calculatePathBetween(
       PathBetweenCoordinatesQuery query);
 
-  Either<PathBetweenCoordinatesErrors, PathWithExecutionSummary> calculateBoundedPathBetween(
+  Either<PathBetweenCoordinatesErrors, PathfindingExecutionSummary> calculateBoundedPathBetween(
       PathBetweenCoordinatesQuery query, BoundsQuery bounds);
 
   enum PathBetweenCoordinatesErrors {

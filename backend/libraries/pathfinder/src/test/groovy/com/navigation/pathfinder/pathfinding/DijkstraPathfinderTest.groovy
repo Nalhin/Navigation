@@ -1,5 +1,6 @@
 package com.navigation.pathfinder.pathfinding
 
+import com.navigation.pathfinder.pathfinding.ShortestPathPathfindingTestGraphs.TestGraphSummary
 import spock.lang.Specification
 
 import static com.navigation.pathfinder.pathfinding.ShortestPathPathfindingTestGraphs.euclideanDistanceTestGraphConnected
@@ -7,12 +8,11 @@ import static com.navigation.pathfinder.pathfinding.ShortestPathPathfindingTestG
 import static com.navigation.pathfinder.pathfinding.ShortestPathPathfindingTestGraphs.vertexCountTestGraphConnected
 import static com.navigation.pathfinder.pathfinding.ShortestPathPathfindingTestGraphs.vertexCountTestGraphDisconnected
 
-class AStarPathfindingStrategyTest extends Specification {
+class DijkstraPathfinderTest extends Specification {
 
-  def "findShortestPath() should return the shortest path"(
-      ShortestPathPathfindingTestGraphs.TestGraphSummary testGraph) {
+  def "findPath() should return the shortest path"(TestGraphSummary testGraph) {
     given:
-    def strategy = new AStarPathfindingStrategy(testGraph.calculator)
+    def strategy = new DijkstraPathfinder(testGraph.calculator)
     when:
     def path = strategy.findPath(testGraph.start, testGraph.end, testGraph.graph)
     then:

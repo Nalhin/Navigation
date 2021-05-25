@@ -5,27 +5,27 @@ import io.vavr.control.Option;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PathfindingStrategyFactory {
+public class PathfindingStrategyFactory implements Pathfinders {
 
-  public Option<PathfindingStrategy> pathfindingStrategy(
+  public Option<PathfindingStrategy> selectPathfinder(
           PathfindingAlgorithms pathfindingAlgorithms, PathfindingOptimizations pathfindingOptimizations) {
     if(!pathfindingAlgorithms.isOptimizationAllowed(pathfindingOptimizations)){
       return Option.none();
     }
 
-    var calculator = pathfindingOptimizations.supplier.get();
+    var calculator = pathfindingOptimizations.calculator.get();
 
     return Option.of(switch(pathfindingAlgorithms){
-      case A_STAR -> new AStarPathfindingStrategy(calculator);
-      case DIJKSTRA -> new DijkstraPathfindingStrategy(calculator);
-      case BELLMAN_FORD -> new BellmanFordPathfindingStrategy(calculator);
-      case BIDIRECTIONAL_DIJKSTRA -> new BidirectionalDijkstraPathfindingStrategy(calculator);
-      case BFS -> new BFSPathfindingStrategy();
-      case BIDIRECTIONAL_BFS -> new BidirectionalBFSPathfindingStrategy();
-      case DFS -> new DFSPathfindingStrategy();
-      case BIDIRECTIONAL_A_STAR -> new BidirectionalAStarPathfindingStrategy(calculator);
-      case GREEDY_BEST_FIRST_SEARCH -> new GreedyBestFirstSearchPathfindingStrategy(calculator);
-      case BIDIRECTIONAL_GREEDY_BEST_FIRST_SEARCH -> new BidirectionalGreedyBestFirstSearchPathfindingStrategy(calculator);
+      case A_STAR -> new AStarPathfinder(calculator);
+      case DIJKSTRA -> new DijkstraPathfinder(calculator);
+      case BELLMAN_FORD -> new BellmanFordPathfinder(calculator);
+      case BIDIRECTIONAL_DIJKSTRA -> new BidirectionalDijkstraPathfinder(calculator);
+      case BFS -> new BFSPathfinder();
+      case BIDIRECTIONAL_BFS -> new BidirectionalBFSPathfinder();
+      case DFS -> new DFSPathfinder();
+      case BIDIRECTIONAL_A_STAR -> new BidirectionalAStarPathfinder(calculator);
+      case GREEDY_BEST_FIRST_SEARCH -> new GreedyBestFirstSearchPathfinder(calculator);
+      case BIDIRECTIONAL_GREEDY_BEST_FIRST_SEARCH -> new BidirectionalGreedyBestFirstSearchPathfinder(calculator);
     });
   }
 }

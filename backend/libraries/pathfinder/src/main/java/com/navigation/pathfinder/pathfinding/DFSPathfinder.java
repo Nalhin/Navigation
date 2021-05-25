@@ -7,7 +7,7 @@ import com.navigation.pathfinder.path.PathSummaryCreator;
 import java.util.ArrayDeque;
 import java.util.HashMap;
 
-public class DFSPathfindingStrategy implements PathfindingStrategy {
+public class DFSPathfinder implements PathfindingStrategy {
 
   private static final PathSummaryCreator pathSummaryCreator = new PathSummaryCreator();
 

@@ -8,12 +8,12 @@ import com.navigation.pathfinder.weight.EdgeWeightCalculator;
 
 import java.util.*;
 
-public class AStarPathfindingStrategy implements PathfindingStrategy {
+public class AStarPathfinder implements PathfindingStrategy {
 
   private final EdgeWeightCalculator calculator;
   private static final PathSummaryCreator pathSummaryCreator = new PathSummaryCreator();
 
-  public AStarPathfindingStrategy(EdgeWeightCalculator calculator) {
+  public AStarPathfinder(EdgeWeightCalculator calculator) {
     this.calculator = calculator;
   }
 

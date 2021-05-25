@@ -16,13 +16,13 @@ import org.springframework.stereotype.Component;
 import java.util.stream.Collectors;
 
 @Component
-class PathfindingDtoMapper {
+class PathfindingApiMapper {
 
-  public PathResponseDto toResponse(PathWithExecutionSummary pathWithSummary) {
+  public PathResponseDto toDto(PathfindingExecutionSummary pathWithSummary) {
     var response = new PathResponseDto();
     var path = pathWithSummary.getPathSummary();
     response.setSimplePath(
-        path.simplePath().stream().map(this::toResponse).collect(Collectors.toList()));
+        path.simplePath().stream().map(this::toDto).collect(Collectors.toList()));
 
     response.setTotalDistance(path.totalDistance());
     response.setTotalNodes(path.numberOfVertices());
@@ -31,18 +31,16 @@ class PathfindingDtoMapper {
     response.setExecutionDuration(pathWithSummary.getExecutionDurationInSeconds());
     response.setSearchBoundaries(
         path.searchBoundaries().stream()
-            .map(hull -> hull.stream().map(this::toResponse).collect(Collectors.toList()))
+            .map(hull -> hull.stream().map(this::toDto).collect(Collectors.toList()))
             .collect(Collectors.toList()));
-    response.setAlgorithm(
-        PathfindingAlgorithmsDto.valueOf(pathWithSummary.getAlgorithm().toString()));
-    response.setOptimization(
-        PathfindingOptimizationsDto.valueOf(pathWithSummary.getOptimization().toString()));
+    response.setAlgorithm(toDto(pathWithSummary.getAlgorithm()));
+    response.setOptimization(toDto(pathWithSummary.getOptimization()));
     response.setFound(path.isFound());
 
     return response;
   }
 
-  private NodeResponseDto toResponse(Vertex vertex) {
+  private NodeResponseDto toDto(Vertex vertex) {
     return new NodeResponseDto(
         vertex.getCoordinates().getLatitude(),
         vertex.getCoordinates().getLongitude(),
@@ -53,7 +51,7 @@ class PathfindingDtoMapper {
     var start = new Coordinates(params.getStartLatitude(), params.getStartLongitude());
     var end = new Coordinates(params.getEndLatitude(), params.getEndLongitude());
     var algorithm = toDomain(params.getAlgorithm());
-    var optimization = PathfindingOptimizations.valueOf(params.getOptimization().toString());
+    var optimization = toDomain(params.getOptimization());
     return new PathBetweenCoordinatesQuery(start, end, algorithm, optimization);
   }
 
@@ -67,7 +65,15 @@ class PathfindingDtoMapper {
     return PathfindingAlgorithms.valueOf(algorithmsDto.toString());
   }
 
-  public PathfindingOptimizationsDto toResponse(PathfindingOptimizations optimizations) {
+  public PathfindingAlgorithmsDto toDto(PathfindingAlgorithms algorithms) {
+    return PathfindingAlgorithmsDto.valueOf(algorithms.toString());
+  }
+
+  public PathfindingOptimizations toDomain(PathfindingOptimizationsDto optimizationsDto) {
+    return PathfindingOptimizations.valueOf(optimizationsDto.toString());
+  }
+
+  public PathfindingOptimizationsDto toDto(PathfindingOptimizations optimizations) {
     return PathfindingOptimizationsDto.valueOf(optimizations.toString());
   }
 }

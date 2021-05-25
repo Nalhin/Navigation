@@ -8,12 +8,12 @@ import com.navigation.pathfinder.weight.EdgeWeightCalculator;
 
 import java.util.*;
 
-public class DijkstraPathfindingStrategy implements PathfindingStrategy {
+public class DijkstraPathfinder implements PathfindingStrategy {
 
   private final EdgeWeightCalculator calculator;
   private static final PathSummaryCreator pathSummaryCreator = new PathSummaryCreator();
 
-  public DijkstraPathfindingStrategy(EdgeWeightCalculator calculator) {
+  public DijkstraPathfinder(EdgeWeightCalculator calculator) {
     this.calculator = calculator;
   }
 

@@ -15,11 +15,13 @@ public enum PathfindingOptimizations {
   TIME(DurationEdgeWeightCalculator::new),
   NONE(UnweightedDistanceCalculator::new);
 
-  public final static Set<PathfindingOptimizations> allOptimizing = Set.of(DISTANCE, NUMBER_OF_NODES, TIME);
+  public static final Set<PathfindingOptimizations> COORDINATES_BASED = Set.of(DISTANCE, TIME);
+  public static final Set<PathfindingOptimizations> ALL_OPTIMIZING =
+      Set.of(DISTANCE, NUMBER_OF_NODES, TIME);
 
-  public final Supplier<? extends EdgeWeightCalculator> supplier;
+  public final Supplier<? extends EdgeWeightCalculator> calculator;
 
-  <T extends EdgeWeightCalculator> PathfindingOptimizations(Supplier<T> supplier) {
-    this.supplier = supplier;
+  <T extends EdgeWeightCalculator> PathfindingOptimizations(Supplier<T> calculator) {
+    this.calculator = calculator;
   }
 }

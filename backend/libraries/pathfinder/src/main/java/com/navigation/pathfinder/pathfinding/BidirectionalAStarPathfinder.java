@@ -10,57 +10,73 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-public class BidirectionalGreedyBestFirstSearchPathfindingStrategy implements PathfindingStrategy {
+public class BidirectionalAStarPathfinder implements PathfindingStrategy {
+
   private static final PathSummaryCreator pathSummaryCreator = new PathSummaryCreator();
   private static final BidirectionalCenterVertexFinder centerVertexFinder =
       new BidirectionalCenterVertexFinder();
 
   private final EdgeWeightCalculator calculator;
 
-  public BidirectionalGreedyBestFirstSearchPathfindingStrategy(EdgeWeightCalculator calculator) {
+  public BidirectionalAStarPathfinder(EdgeWeightCalculator calculator) {
     this.calculator = calculator;
   }
 
   @Override
   public PathSummary findPath(Vertex start, Vertex end, Graph graph) {
+    var gScoresForward = new HashMap<Vertex, Double>();
+    var gScoresBackward = new HashMap<Vertex, Double>();
+    gScoresForward.put(start, 0.0);
+    gScoresBackward.put(end, 0.0);
+
     var predecessorTreeBackward = new HashMap<Vertex, Edge>();
     var predecessorTreeForward = new HashMap<Vertex, Edge>();
     predecessorTreeForward.put(start, null);
     predecessorTreeBackward.put(end, null);
 
-    var pqForward = new PriorityQueue<ScoredGraphVertex>();
-    var pqBackward = new PriorityQueue<ScoredGraphVertex>();
-    pqForward.add(new ScoredGraphVertex(start, heuristic(start, end)));
-    pqBackward.add(new ScoredGraphVertex(end, heuristic(end, start)));
+    var openForward = new PriorityQueue<ScoredGraphVertex>();
+    var openBackward = new PriorityQueue<ScoredGraphVertex>();
+    openForward.add(new ScoredGraphVertex(start, heuristic(start, end)));
+    openBackward.add(new ScoredGraphVertex(end, heuristic(end, start)));
 
     var reversedGraph = graph.reversed();
 
-    while (!pqForward.isEmpty() && !pqBackward.isEmpty()) {
-      var currForward = pqForward.poll();
+    while (!openForward.isEmpty() && !openBackward.isEmpty()) {
+      var currForward = openForward.poll();
       if (predecessorTreeBackward.containsKey(currForward.vertex())) {
         var center =
             centerVertexFinder.findCenterVertex(
                 currForward.vertex(),
-                heuristic(currForward.vertex(), start) + heuristic(currForward.vertex(), end),
-                pqForward,
-                pqBackward);
+                gScoresForward.get(currForward.vertex())
+                    + gScoresBackward.get(currForward.vertex()),
+                openForward,
+                openBackward);
         return pathSummaryCreator.createBidirectionalPath(
             start, center, end, predecessorTreeForward, predecessorTreeBackward);
       }
-      visitVertex(currForward.vertex(), graph, pqForward, predecessorTreeForward, end);
+      visitVertex(
+          currForward.vertex(), graph, openForward, predecessorTreeForward, gScoresForward, end);
 
-      var currBackward = pqBackward.poll();
+      var currBackward = openBackward.poll();
       if (predecessorTreeForward.containsKey(currBackward.vertex())) {
         var center =
             centerVertexFinder.findCenterVertex(
                 currBackward.vertex(),
-                heuristic(currBackward.vertex(), start) + heuristic(currBackward.vertex(), end),
-                pqForward,
-                pqBackward);
+                gScoresForward.get(currBackward.vertex())
+                    + gScoresBackward.get(currBackward.vertex()),
+                openForward,
+                openBackward);
+
         return pathSummaryCreator.createBidirectionalPath(
             start, center, end, predecessorTreeForward, predecessorTreeBackward);
       }
-      visitVertex(currBackward.vertex(), reversedGraph, pqBackward, predecessorTreeBackward, start);
+      visitVertex(
+          currBackward.vertex(),
+          reversedGraph,
+          openBackward,
+          predecessorTreeBackward,
+          gScoresBackward,
+          start);
     }
 
     return pathSummaryCreator.createBidirectionalPath(
@@ -70,15 +86,18 @@ public class BidirectionalGreedyBestFirstSearchPathfindingStrategy implements Pa
   private void visitVertex(
       Vertex currVertex,
       Graph graph,
-      Queue<ScoredGraphVertex> pq,
+      Queue<ScoredGraphVertex> open,
       Map<Vertex, Edge> predecessorTree,
+      Map<Vertex, Double> gScores,
       Vertex end) {
     for (var edge : graph.getVertexEdges(currVertex)) {
       var neighbour = edge.getTo();
+      double newScore = gScores.get(currVertex) + calculator.calculateWeight(edge);
 
-      if (!predecessorTree.containsKey(neighbour)) {
+      if (newScore < gScores.getOrDefault(neighbour, Double.MAX_VALUE)) {
+        gScores.put(neighbour, newScore);
         predecessorTree.put(neighbour, edge);
-        pq.add(new ScoredGraphVertex(neighbour, heuristic(neighbour, end)));
+        open.add(new ScoredGraphVertex(neighbour, newScore + heuristic(neighbour, end)));
       }
     }
   }

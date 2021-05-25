@@ -7,7 +7,7 @@ import com.navigation.pathfinder.graph.Vertex;
 import com.navigation.pathfinder.path.PathSummaryCreator;
 import java.util.*;
 
-public class BidirectionalBFSPathfindingStrategy implements PathfindingStrategy {
+public class BidirectionalBFSPathfinder implements PathfindingStrategy {
 
   private static final PathSummaryCreator pathSummaryCreator = new PathSummaryCreator();
 
