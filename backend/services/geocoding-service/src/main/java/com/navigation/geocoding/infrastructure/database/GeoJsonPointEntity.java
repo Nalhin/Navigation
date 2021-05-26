@@ -3,7 +3,7 @@ package com.navigation.geocoding.infrastructure.database;
 import java.io.Serializable;
 import java.util.List;
 
-public class GeoJsonPointEntity implements Serializable {
+class GeoJsonPointEntity implements Serializable {
 
   private List<Double> coordinates;
   private String type;

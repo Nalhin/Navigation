@@ -17,9 +17,9 @@ import java.util.stream.Collectors;
 @Component
 public class MongoGraphRepository implements GraphRepository {
 
-  private final PathfindingDatabaseMapper databaseMapper;
   private final MongoConnectionRepository connectionRepository;
   private final MongoNodeRepository nodeRepository;
+  private final PathfindingDatabaseMapper databaseMapper;
 
   public MongoGraphRepository(
       MongoConnectionRepository connectionRepository,

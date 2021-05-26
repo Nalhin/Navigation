@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ElasticSearchAddressEntityRepository extends ElasticsearchRepository<AddressEntity, String>  {
+interface ElasticSearchAddressEntityRepository extends ElasticsearchRepository<AddressEntity, String>  {
 
   @Cacheable("searchAddress")
   @Query("""

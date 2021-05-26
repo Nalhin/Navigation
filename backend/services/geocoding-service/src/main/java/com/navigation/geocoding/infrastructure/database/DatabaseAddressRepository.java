@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
-public class DatabaseAddressRepository implements AddressRepository {
+class DatabaseAddressRepository implements AddressRepository {
   private final ElasticSearchAddressEntityRepository addressRepository;
   private final DatabaseMapper mapper;
 
@@ -19,7 +19,7 @@ public class DatabaseAddressRepository implements AddressRepository {
   }
 
   @Override
-  public List<Address> searchAllByAddress(String search) {
+  public List<Address> findMatching(String search) {
     return addressRepository.searchAllByAddress(search).stream()
         .map(mapper::toDomain)
         .collect(Collectors.toList());

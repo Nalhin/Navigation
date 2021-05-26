@@ -1,6 +1,6 @@
 package com.navigation.geocoding.domain;
 
-public class Location {
+public final class Location {
   private final double latitude;
   private final double longitude;
 

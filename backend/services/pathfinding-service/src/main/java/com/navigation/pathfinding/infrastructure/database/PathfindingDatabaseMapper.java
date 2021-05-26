@@ -13,23 +13,23 @@ import org.springframework.stereotype.Component;
 @Component
 class PathfindingDatabaseMapper {
 
-  public Coordinates toCoordinates(GeoJsonPoint point) {
+  Coordinates toCoordinates(GeoJsonPoint point) {
     return new Coordinates(point.getY(), point.getX());
   }
 
-  public Vertex toVertex(StreetNodeEntity entity) {
+  Vertex toVertex(StreetNodeEntity entity) {
     return new Vertex(entity.getId(), toCoordinates(entity.getLocation()));
   }
 
-  public GeoJsonPoint toGeoJsonPoint(Coordinates coordinates) {
+  GeoJsonPoint toGeoJsonPoint(Coordinates coordinates) {
     return new GeoJsonPoint(coordinates.getLongitude(), coordinates.getLatitude());
   }
 
-  public Box toBox(BoundsQuery bounds) {
+  Box toBox(BoundsQuery bounds) {
     return new Box(toGeoJsonPoint(bounds.getLeftBottom()), toGeoJsonPoint(bounds.getTopRight()));
   }
 
-  public Graph buildGraph(
+  Graph buildGraph(
           List<StreetNodeEntity> streetNodes, List<StreetConnectionEntity> connections) {
 
     var builder = new GraphBuilder();

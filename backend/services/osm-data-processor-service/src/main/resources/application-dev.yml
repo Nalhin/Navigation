@@ -6,7 +6,7 @@ spring:
 
 infrastructure:
   osm:
-    filePath: "../../data/poland-latest.osm.bz2"
+    filePath: "./data/osm-data.osm.bz2"
   topics:
     address: "exporter.address"
     street-connections: "exporter.street-connections"

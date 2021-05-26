@@ -6,9 +6,9 @@ import java.util.Set;
 import org.springframework.stereotype.Service;
 
 @Service
-final class AvailableOptimizationsService implements AvailableOptimizationsUseCase {
+public class AvailableOptimizationsService implements AvailableOptimizationsUseCase {
   @Override
   public Set<PathfindingOptimizations> availableOptimizations(PathfindingAlgorithms algorithm) {
-    return algorithm.ALLOWED_OPTIMIZATIONS;
+    return algorithm.SUPPORTED_OPTIMIZATIONS;
   }
 }

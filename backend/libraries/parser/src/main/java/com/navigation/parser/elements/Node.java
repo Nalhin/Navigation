@@ -3,6 +3,7 @@ package com.navigation.parser.elements;
 import java.util.Map;
 
 public final class Node extends TaggedElement implements Element {
+
   private final double latitude;
   private final double longitude;
 

@@ -220,10 +220,11 @@ class PathfindingIntegrationTest extends WebMongoDBSpecification {
     response.statusCode == HttpStatus.BAD_REQUEST.value()
   }
 
-  def "GET /pathfinding/algorithms/DIJKSTRA/available-optimization should return 200 (OK) status code and optimizations offered by the algorithm"() {
+  def "GET /pathfinding/algorithms/DIJKSTRA/supported-optimizations should return 200 (OK) status code and optimizations offered by the algorithm"() {
+    def algorithm = "DIJKSTRA"
     when:
     def response = apiClient()
-        .get("/pathfinding/algorithms/DIJKSTRA/available-optimizations")
+        .get("/pathfinding/algorithms/${algorithm}/supported-optimizations")
     then:
     response.statusCode() == HttpStatus.OK.value()
     that parseJSON(response.body.asString()),

@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Component
 class PathfindingApiMapper {
 
-  public PathResponseDto toDto(PathfindingExecutionSummary pathWithSummary) {
+  PathResponseDto toDto(PathfindingExecutionSummary pathWithSummary) {
     var response = new PathResponseDto();
     var path = pathWithSummary.getPathSummary();
     response.setSimplePath(
@@ -40,14 +40,14 @@ class PathfindingApiMapper {
     return response;
   }
 
-  private NodeResponseDto toDto(Vertex vertex) {
+  NodeResponseDto toDto(Vertex vertex) {
     return new NodeResponseDto(
         vertex.getCoordinates().getLatitude(),
         vertex.getCoordinates().getLongitude(),
         vertex.getId());
   }
 
-  public PathBetweenCoordinatesQuery toQuery(PathRequestDtoParams params) {
+  PathBetweenCoordinatesQuery toQuery(PathRequestDtoParams params) {
     var start = new Coordinates(params.getStartLatitude(), params.getStartLongitude());
     var end = new Coordinates(params.getEndLatitude(), params.getEndLongitude());
     var algorithm = toDomain(params.getAlgorithm());
@@ -55,25 +55,25 @@ class PathfindingApiMapper {
     return new PathBetweenCoordinatesQuery(start, end, algorithm, optimization);
   }
 
-  public BoundsQuery toQuery(BoundsRequestDtoParams params) {
+  BoundsQuery toQuery(BoundsRequestDtoParams params) {
     var start = new Coordinates(params.getMinLatitude(), params.getMinLongitude());
     var end = new Coordinates(params.getMaxLatitude(), params.getMaxLongitude());
     return new BoundsQuery(start, end);
   }
 
-  public PathfindingAlgorithms toDomain(PathfindingAlgorithmsDto algorithmsDto) {
+  PathfindingAlgorithms toDomain(PathfindingAlgorithmsDto algorithmsDto) {
     return PathfindingAlgorithms.valueOf(algorithmsDto.toString());
   }
 
-  public PathfindingAlgorithmsDto toDto(PathfindingAlgorithms algorithms) {
+  PathfindingAlgorithmsDto toDto(PathfindingAlgorithms algorithms) {
     return PathfindingAlgorithmsDto.valueOf(algorithms.toString());
   }
 
-  public PathfindingOptimizations toDomain(PathfindingOptimizationsDto optimizationsDto) {
+  PathfindingOptimizations toDomain(PathfindingOptimizationsDto optimizationsDto) {
     return PathfindingOptimizations.valueOf(optimizationsDto.toString());
   }
 
-  public PathfindingOptimizationsDto toDto(PathfindingOptimizations optimizations) {
+  PathfindingOptimizationsDto toDto(PathfindingOptimizations optimizations) {
     return PathfindingOptimizationsDto.valueOf(optimizations.toString());
   }
 }

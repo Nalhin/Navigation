@@ -14,13 +14,13 @@ public enum PathfindingAlgorithms {
   GREEDY_BEST_FIRST_SEARCH(PathfindingOptimizations.COORDINATES_BASED),
   BIDIRECTIONAL_GREEDY_BEST_FIRST_SEARCH(PathfindingOptimizations.COORDINATES_BASED);
 
-  public final Set<PathfindingOptimizations> ALLOWED_OPTIMIZATIONS;
+  public final Set<PathfindingOptimizations> SUPPORTED_OPTIMIZATIONS;
 
-  PathfindingAlgorithms(Set<PathfindingOptimizations> ALLOWED_OPTIMIZATIONS) {
-    this.ALLOWED_OPTIMIZATIONS = ALLOWED_OPTIMIZATIONS;
+  PathfindingAlgorithms(Set<PathfindingOptimizations> SUPPORTED_OPTIMIZATIONS) {
+    this.SUPPORTED_OPTIMIZATIONS = SUPPORTED_OPTIMIZATIONS;
   }
 
   public boolean isOptimizationAllowed(PathfindingOptimizations optimization) {
-    return ALLOWED_OPTIMIZATIONS.contains(optimization);
+    return SUPPORTED_OPTIMIZATIONS.contains(optimization);
   }
 }

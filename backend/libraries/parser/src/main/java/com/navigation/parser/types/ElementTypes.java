@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum ElementTypes {
+
   WAY("way"),
   NODE("node"),
   BOUNDS("bounds"),

@@ -17,7 +17,7 @@ import java.util.function.Supplier;
 import org.springframework.stereotype.Service;
 
 @Service
-final class PathBetweenCoordinatesService implements PathBetweenCoordinatesUseCase {
+public class PathBetweenCoordinatesService implements PathBetweenCoordinatesUseCase {
 
   private static final double NODE_DISTANCE_THRESHOLD_IN_KM = 5;
 

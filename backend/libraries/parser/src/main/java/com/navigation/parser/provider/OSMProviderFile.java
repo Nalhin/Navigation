@@ -5,6 +5,7 @@ import javax.xml.stream.XMLStreamException;
 import java.io.FileInputStream;
 
 public class OSMProviderFile implements OSMProvider {
+
   private final String filePath;
 
   public OSMProviderFile(String filePath) {

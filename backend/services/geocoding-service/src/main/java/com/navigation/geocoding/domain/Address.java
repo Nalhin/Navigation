@@ -1,6 +1,6 @@
 package com.navigation.geocoding.domain;
 
-public class Address {
+public final class Address {
   private final long id;
   private final Location location;
   private final String city;

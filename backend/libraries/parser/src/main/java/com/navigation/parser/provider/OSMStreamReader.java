@@ -23,7 +23,6 @@ public class OSMStreamReader extends StreamReaderDelegate implements AutoCloseab
       super.close();
       stream.close();
     } catch (XMLStreamException | IOException ignored) {
-
     }
   }
 }

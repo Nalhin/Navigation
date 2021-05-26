@@ -96,9 +96,9 @@ class PathfindingController {
 
   @Operation(
       tags = "pathfinding",
-      description = "Return available optimizations for the pathfinding algorithm")
+      description = "Return optimizations supported by the pathfinding algorithm")
   @ApiResponse(responseCode = "200", description = "Success")
-  @GetMapping(path = "/algorithms/{algorithm}/available-optimizations")
+  @GetMapping(path = "/algorithms/{algorithm}/supported-optimizations")
   public ResponseEntity<List<PathfindingOptimizationsDto>> getAlgorithmOptimizations(
       @PathVariable PathfindingAlgorithmsDto algorithm) {
     var availableOptimizations =

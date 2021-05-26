@@ -8,7 +8,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
 
 @Document(indexName = "address")
-public class AddressEntity implements Serializable {
+class AddressEntity implements Serializable {
 
   @Id private long id;
 
