@@ -17,7 +17,9 @@ class StreetExporterTest extends Specification {
   def "accept(Node) should export address transformed from node"() {
     given:
     def processedExporter = Mock(ProcessedStreetExporter)
-    def streetExporter = new StreetExporter(processedExporter, new StreetConnectionExtractor(),
+    def streetExporter = new StreetExporter(
+        processedExporter,
+        new StreetConnectionExtractor(),
         new StreetNodeExtractor())
     when:
     streetExporter.accept(new Node(1, [:], 2, 3))
@@ -25,7 +27,7 @@ class StreetExporterTest extends Specification {
     1 * processedExporter.exportProcessedStreetNode("1", new StreetNode(1, 2, 3))
   }
 
-  def "accept(Way) should export one way connections"() {
+  def "accept(Way) should export one way street connection"() {
     given:
     def processedExporter = Mock(ProcessedStreetExporter)
     def streetExporter = new StreetExporter(processedExporter, new StreetConnectionExtractor(),
@@ -33,47 +35,10 @@ class StreetExporterTest extends Specification {
     when:
     streetExporter.accept(new Way(11, [oneway: "yes", maxspeed: "60"], [1L, 2L]))
     then:
-    1 * processedExporter.exportProcessedStreetConnection("1#2", new StreetConnection("1#2", 1, 2, 60))
+    1 * processedExporter.
+        exportProcessedStreetConnection("1#2", new StreetConnection("1#2", 1, 2, 60))
   }
 
-  def "accept(Way) should provide default max speed value when max speed has illegal value"() {
-    given:
-    def processedExporter = Mock(ProcessedStreetExporter)
-    def streetExporter = new StreetExporter(processedExporter, new StreetConnectionExtractor(),
-        new StreetNodeExtractor())
-    when:
-    streetExporter.accept(new Way(11, [oneway: "yes", maxspeed: "dd"], [1L, 2L]))
-    then:
-    1 * processedExporter.exportProcessedStreetConnection("1#2", new StreetConnection("1#2", 1, 2, 50))
-  }
-
-  def "accept(Way) should provide default max speed value is not present"() {
-    given:
-    def processedExporter = Mock(ProcessedStreetExporter)
-    def streetExporter = new StreetExporter(processedExporter, new StreetConnectionExtractor(),
-        new StreetNodeExtractor())
-    when:
-    streetExporter.accept(new Way(11, [oneway: "yes"], [1L, 2L]))
-    then:
-    1 * processedExporter.exportProcessedStreetConnection("1#2", new StreetConnection("1#2", 1, 2, 50))
-  }
-
-  def "accept(Way) should export two way connections"() {
-    given:
-    def processedExporter = Mock(ProcessedStreetExporter)
-    def streetExporter = new StreetExporter(processedExporter, new StreetConnectionExtractor(),
-        new StreetNodeExtractor())
-    when:
-    streetExporter.accept(new Way(11, [:], [1L, 2L, 3L]))
-    then:
-    with(processedExporter) {
-      1 * exportProcessedStreetConnection("1#2", new StreetConnection("1#2", 1, 2, 50))
-      1 * exportProcessedStreetConnection("2#3", new StreetConnection("2#3", 2, 3, 50))
-      1 * exportProcessedStreetConnection("3#2", new StreetConnection("3#2", 3, 2, 50))
-      1 * exportProcessedStreetConnection("2#1", new StreetConnection("2#1", 2, 1, 50))
-      0 * _
-    }
-  }
 
   def "accept(Bounds) should throw ExportNotSupportedException"() {
     given:

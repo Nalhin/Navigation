@@ -53,8 +53,6 @@ dependencies {
   implementation platform("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion")
   implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery'
 
-  testImplementation 'org.hamcrest:hamcrest-library:2.2'
-
   integrationTestImplementation "org.spockframework:spock-spring:$spockVersion"
   integrationTestImplementation 'org.springframework.boot:spring-boot-starter-test'
 

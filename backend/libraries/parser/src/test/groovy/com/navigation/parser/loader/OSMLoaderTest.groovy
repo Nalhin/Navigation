@@ -13,7 +13,7 @@ import spock.lang.Specification
 
 class OSMLoaderTest extends Specification {
 
-  private final static OSM_XML = """<?xml version='1.0' encoding='UTF-8'?>
+  def OSM_XML = """<?xml version='1.0' encoding='UTF-8'?>
 <osm version='0.6' generator='JOSM'>
   <bounds minlat='34.0662408634219' minlon='-118.736715316772' maxlat='34.0731374116421' maxlon='-118.73122215271' origin='OpenStreetMap server' />
   <node id='358802885' timestamp='2009-03-11T06:30:08Z' user='yellowbkpk' visible='true' version='1' lat='34.0666735' lon='-118.734254'>

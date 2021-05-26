@@ -11,9 +11,9 @@ public class StreetConnection {
 
   public StreetConnection(String id, long fromId, long toId, int maxSpeed) {
     this.id = id;
-    this.maxSpeed = maxSpeed;
     this.fromId = fromId;
     this.toId = toId;
+    this.maxSpeed = maxSpeed;
   }
 
   public long getFromId() {

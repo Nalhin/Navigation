@@ -9,6 +9,7 @@ allprojects {
 ext.groovyVersion = '3.0.7'
 ext.spockVersion = '2.0-M4-groovy-3.0'
 ext.vavrVersion = '0.10.3'
+ext.hamcrestVersion = '2.2'
 
 subprojects {
   apply plugin: 'groovy'
@@ -20,6 +21,7 @@ subprojects {
 
     testImplementation "org.codehaus.groovy:groovy:$groovyVersion"
     testImplementation "org.spockframework:spock-core:$spockVersion"
+    testImplementation "org.hamcrest:hamcrest-library:$hamcrestVersion"
   }
 
   jacoco {
