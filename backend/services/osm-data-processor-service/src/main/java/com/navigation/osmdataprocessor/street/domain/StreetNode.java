@@ -9,9 +9,9 @@ public class StreetNode {
   private final long id;
 
   public StreetNode(long id, double latitude, double longitude) {
+    this.id = id;
     this.latitude = latitude;
     this.longitude = longitude;
-    this.id = id;
   }
 
   public long getId() {

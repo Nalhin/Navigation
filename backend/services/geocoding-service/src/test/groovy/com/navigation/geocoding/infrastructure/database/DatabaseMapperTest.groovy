@@ -8,7 +8,7 @@ class DatabaseMapperTest extends Specification {
   @Subject
   def mapper = new DatabaseMapper()
 
-  def "toDomain should map AddressEntity to Address domain object"() {
+  def "toDomain() should map AddressEntity to Address domain object"() {
     given:
     def entity = new AddressEntity(
         id: 1,

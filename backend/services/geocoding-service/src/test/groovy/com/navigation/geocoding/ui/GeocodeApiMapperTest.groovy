@@ -10,7 +10,7 @@ class GeocodeApiMapperTest extends Specification {
   @Subject
   def mapper = new GeocodeApiMapper()
 
-  def "toDto should map Address domain object to AddressDto"() {
+  def "toDto() should map Address domain object to AddressDto"() {
     given:
     def address = new Address(
         1,
