@@ -1,6 +1,6 @@
 plugins {
-  id 'org.springframework.boot' version "${springBootVersion}"
-  id 'io.spring.dependency-management' version "${springDepManagementVersion}"
+  id 'org.springframework.boot' version "$springBootVersion"
+  id 'io.spring.dependency-management' version "$springDepManagementVersion"
 }
 
 sourceSets {
@@ -32,35 +32,37 @@ integrationTest {
 check.dependsOn integrationTest
 
 jacocoTestReport {
-  executionData(file("${project.buildDir}/jacoco/test.exec"),
-      file("${project.buildDir}/jacoco/integrationTest.exec"))
+  executionData(
+      file("${project.buildDir}/jacoco/test.exec"),
+      file("${project.buildDir}/jacoco/integrationTest.exec")
+  )
 }
 
 dependencies {
   implementation project(':libraries:pathfinder')
 
-  implementation "org.springdoc:springdoc-openapi-ui:${springDocVersion}"
+  implementation "org.springdoc:springdoc-openapi-ui:$springDocVersion"
 
-  implementation "io.vavr:vavr:${vavrVersion}"
+  implementation "io.vavr:vavr:$vavrVersion"
 
   implementation 'org.springframework.boot:spring-boot-starter-actuator'
   implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
   implementation 'org.springframework.boot:spring-boot-starter-web'
   annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
-  implementation platform("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
+  implementation platform("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion")
   implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery'
 
   testImplementation 'org.hamcrest:hamcrest-library:2.2'
 
-  integrationTestImplementation "org.spockframework:spock-spring:${spockVersion}"
+  integrationTestImplementation "org.spockframework:spock-spring:$spockVersion"
   integrationTestImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-  implementation platform("org.testcontainers:testcontainers-bom:${testcontainersVersion}")
+  implementation platform("org.testcontainers:testcontainers-bom:$testcontainersVersion")
   integrationTestImplementation 'org.testcontainers:spock'
   integrationTestImplementation 'org.testcontainers:mongodb'
 
-  integrationTestImplementation "io.rest-assured:rest-assured:${restAssuredVersion}"
-  integrationTestImplementation "io.rest-assured:json-path:${restAssuredVersion}"
-  integrationTestImplementation "io.rest-assured:xml-path:${restAssuredVersion}"
+  integrationTestImplementation "io.rest-assured:rest-assured:$restAssuredVersion"
+  integrationTestImplementation "io.rest-assured:json-path:$restAssuredVersion"
+  integrationTestImplementation "io.rest-assured:xml-path:$restAssuredVersion"
 }

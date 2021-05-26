@@ -1,6 +1,6 @@
 plugins {
-  id 'org.springframework.boot' version "${springBootVersion}"
-  id 'io.spring.dependency-management' version "${springDepManagementVersion}"
+  id 'org.springframework.boot' version "$springBootVersion"
+  id 'io.spring.dependency-management' version "$springDepManagementVersion"
 }
 
 dependencies {
@@ -11,5 +11,5 @@ dependencies {
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
   implementation 'org.springframework.kafka:spring-kafka:2.7.0'
-  implementation "io.vavr:vavr:${vavrVersion}"
+  implementation "io.vavr:vavr:$vavrVersion"
 }

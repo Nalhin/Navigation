@@ -1,12 +1,12 @@
 plugins {
-    id 'org.springframework.boot' version "${springBootVersion}"
-    id 'io.spring.dependency-management' version "${springDepManagementVersion}"
+    id 'org.springframework.boot' version "$springBootVersion"
+    id 'io.spring.dependency-management' version "$springDepManagementVersion"
 }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
-    implementation platform("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
+    implementation platform("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion")
     implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery'
     implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery'
     implementation 'org.springframework.cloud:spring-cloud-starter-loadbalancer'

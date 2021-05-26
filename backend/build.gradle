@@ -1,5 +1,4 @@
 group 'com.navigation'
-version '1.0-SNAPSHOT'
 
 allprojects {
   repositories {
@@ -7,11 +6,9 @@ allprojects {
   }
 }
 
-ext {
-  set('groovyVersion', '3.0.7')
-  set('spockVersion', '2.0-M4-groovy-3.0')
-  set('vavrVersion', '0.10.3')
-}
+ext.groovyVersion = '3.0.7'
+ext.spockVersion = '2.0-M4-groovy-3.0'
+ext.vavrVersion = '0.10.3'
 
 subprojects {
   apply plugin: 'groovy'
@@ -21,8 +18,8 @@ subprojects {
   dependencies {
     implementation 'org.jetbrains:annotations:20.1.0'
 
-    testImplementation "org.codehaus.groovy:groovy:${groovyVersion}"
-    testImplementation "org.spockframework:spock-core:${spockVersion}"
+    testImplementation "org.codehaus.groovy:groovy:$groovyVersion"
+    testImplementation "org.spockframework:spock-core:$spockVersion"
   }
 
   jacoco {

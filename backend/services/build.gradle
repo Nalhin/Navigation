@@ -1,8 +1,6 @@
-ext {
-  set('springBootVersion', '2.4.5')
-  set('springDepManagementVersion', '1.0.11.RELEASE')
-  set('testcontainersVersion', '1.15.3')
-  set('springCloudVersion', '2020.0.2')
-  set('springDocVersion', '1.5.8')
-  set('restAssuredVersion', '4.3.3')
-}
+ext.springBootVersion = '2.4.5'
+ext.springDepManagementVersion = '1.0.11.RELEASE'
+ext.testcontainersVersion = '1.15.3'
+ext.springCloudVersion = '2020.0.2'
+ext.springDocVersion = '1.5.8'
+ext.restAssuredVersion = '4.3.3'
