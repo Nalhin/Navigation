@@ -4,9 +4,7 @@ import com.navigation.parser.elements.Way;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
-import org.springframework.stereotype.Component;
 
-@Component
 public class StreetConnectionExtractor {
 
   private static final Pattern ONLY_DIGITS_PATTERN = Pattern.compile("\\d+");

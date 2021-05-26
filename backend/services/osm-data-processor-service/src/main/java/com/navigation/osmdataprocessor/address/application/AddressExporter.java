@@ -4,24 +4,22 @@ import com.navigation.osmdataprocessor.shared.exceptions.ExportNotSupportedExcep
 import com.navigation.osmdataprocessor.address.domain.AddressExtractor;
 import com.navigation.parser.elements.*;
 import com.navigation.parser.exporter.OSMExporter;
-import org.springframework.stereotype.Component;
 
-@Component
 public class AddressExporter implements OSMExporter {
 
-  private final ProcessedAddressExporter processedAddressExporter;
+  private final ProcessedAddressSender processedAddressSender;
   private final AddressExtractor addressExtractor;
 
   public AddressExporter(
-      ProcessedAddressExporter processedAddressExporter, AddressExtractor addressExtractor) {
-    this.processedAddressExporter = processedAddressExporter;
+          ProcessedAddressSender processedAddressSender, AddressExtractor addressExtractor) {
+    this.processedAddressSender = processedAddressSender;
     this.addressExtractor = addressExtractor;
   }
 
   @Override
   public boolean accept(Node node) {
     var address = addressExtractor.extractFromNode(node);
-    processedAddressExporter.exportProcessedAddress(String.valueOf(address.getId()), address);
+    processedAddressSender.sendProcessedAddress(String.valueOf(address.getId()), address);
     return true;
   }
 

@@ -1,6 +1,6 @@
 package com.navigation.osmdataprocessor.street.infrastructure.kafka;
 
-import com.navigation.osmdataprocessor.street.application.ProcessedStreetExporter;
+import com.navigation.osmdataprocessor.street.application.ProcessedStreetSender;
 import com.navigation.osmdataprocessor.street.domain.StreetConnection;
 import com.navigation.osmdataprocessor.street.domain.StreetNode;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,13 +8,13 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProcessedStreetKafkaExporter implements ProcessedStreetExporter {
+public class ProcessedStreetKafkaSender implements ProcessedStreetSender {
   private final String STREET_CONNECTIONS_TOPIC;
   private final String STREET_NODES_TOPIC;
 
   private final KafkaTemplate<String, Object> kafkaTemplate;
 
-  public ProcessedStreetKafkaExporter(
+  public ProcessedStreetKafkaSender(
       KafkaTemplate<String, Object> kafkaTemplate,
       @Value("${infrastructure.topics.street-connections}") String streetWaysTopic,
       @Value("${infrastructure.topics.street-nodes}") String streetNodesTopic) {
@@ -24,12 +24,12 @@ public class ProcessedStreetKafkaExporter implements ProcessedStreetExporter {
   }
 
   @Override
-  public void exportProcessedStreetConnection(String id, StreetConnection streetConnection) {
+  public void sendProcessedStreetConnection(String id, StreetConnection streetConnection) {
     kafkaTemplate.send(STREET_CONNECTIONS_TOPIC, id, streetConnection);
   }
 
   @Override
-  public void exportProcessedStreetNode(String id, StreetNode streetNode) {
+  public void sendProcessedStreetNode(String id, StreetNode streetNode) {
     kafkaTemplate.send(STREET_NODES_TOPIC, id, streetNode);
   }
 }

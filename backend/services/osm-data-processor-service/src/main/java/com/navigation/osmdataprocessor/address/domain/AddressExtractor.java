@@ -1,9 +1,7 @@
 package com.navigation.osmdataprocessor.address.domain;
 
 import com.navigation.parser.elements.Node;
-import org.springframework.stereotype.Component;
 
-@Component
 public class AddressExtractor {
 
   public Address extractFromNode(Node node) {

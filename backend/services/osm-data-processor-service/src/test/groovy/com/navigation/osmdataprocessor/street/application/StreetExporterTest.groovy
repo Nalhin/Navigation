@@ -16,34 +16,41 @@ class StreetExporterTest extends Specification {
 
   def "accept(Node) should export address transformed from node"() {
     given:
-    def processedExporter = Mock(ProcessedStreetExporter)
+    def processedSender = Mock(ProcessedStreetSender)
     def streetExporter = new StreetExporter(
-        processedExporter,
+        processedSender,
         new StreetConnectionExtractor(),
-        new StreetNodeExtractor())
+        new StreetNodeExtractor()
+    )
     when:
     streetExporter.accept(new Node(1, [:], 2, 3))
     then:
-    1 * processedExporter.exportProcessedStreetNode("1", new StreetNode(1, 2, 3))
+    1 * processedSender.sendProcessedStreetNode("1", new StreetNode(1, 2, 3))
   }
 
   def "accept(Way) should export one way street connection"() {
     given:
-    def processedExporter = Mock(ProcessedStreetExporter)
-    def streetExporter = new StreetExporter(processedExporter, new StreetConnectionExtractor(),
-        new StreetNodeExtractor())
+    def processedExporter = Mock(ProcessedStreetSender)
+    def streetExporter = new StreetExporter(
+        processedExporter,
+        new StreetConnectionExtractor(),
+        new StreetNodeExtractor()
+    )
     when:
     streetExporter.accept(new Way(11, [oneway: "yes", maxspeed: "60"], [1L, 2L]))
     then:
     1 * processedExporter.
-        exportProcessedStreetConnection("1#2", new StreetConnection("1#2", 1, 2, 60))
+        sendProcessedStreetConnection("1#2", new StreetConnection("1#2", 1, 2, 60))
   }
 
 
   def "accept(Bounds) should throw ExportNotSupportedException"() {
     given:
-    def streetExporter = new StreetExporter(null, new StreetConnectionExtractor(),
-        new StreetNodeExtractor())
+    def streetExporter = new StreetExporter(
+        Mock(ProcessedStreetSender),
+        new StreetConnectionExtractor(),
+        new StreetNodeExtractor()
+    )
     when:
     streetExporter.accept(new Bounds(1, 1, 1, 1))
     then:
@@ -52,8 +59,11 @@ class StreetExporterTest extends Specification {
 
   def "accept(Metadata) should throw ExportNotSupportedException"() {
     given:
-    def streetExporter = new StreetExporter(null, new StreetConnectionExtractor(),
-        new StreetNodeExtractor())
+    def streetExporter = new StreetExporter(
+        Mock(ProcessedStreetSender),
+        new StreetConnectionExtractor(),
+        new StreetNodeExtractor()
+    )
     when:
     streetExporter.accept(new Metadata("", ""))
     then:
@@ -62,8 +72,11 @@ class StreetExporterTest extends Specification {
 
   def "accept(Relation) should throw ExportNotSupportedException"() {
     given:
-    def streetExporter = new StreetExporter(null, new StreetConnectionExtractor(),
-        new StreetNodeExtractor())
+    def streetExporter = new StreetExporter(
+        Mock(ProcessedStreetSender),
+        new StreetConnectionExtractor(),
+        new StreetNodeExtractor()
+    )
     when:
     streetExporter.accept(new Relation(1, [:], []))
     then:

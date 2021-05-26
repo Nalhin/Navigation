@@ -5,16 +5,14 @@ import com.navigation.osmdataprocessor.street.domain.StreetConnectionExtractor;
 import com.navigation.osmdataprocessor.street.domain.StreetNodeExtractor;
 import com.navigation.parser.elements.*;
 import com.navigation.parser.exporter.OSMExporter;
-import org.springframework.stereotype.Component;
 
-@Component
 public class StreetExporter implements OSMExporter {
-  private final ProcessedStreetExporter processedExporter;
+  private final ProcessedStreetSender processedExporter;
   private final StreetConnectionExtractor streetConnectionExtractor;
   private final StreetNodeExtractor streetNodeExtractor;
 
   public StreetExporter(
-      ProcessedStreetExporter processedExporter,
+      ProcessedStreetSender processedExporter,
       StreetConnectionExtractor streetConnectionExtractor,
       StreetNodeExtractor streetNodeExtractor) {
     this.processedExporter = processedExporter;
@@ -25,7 +23,7 @@ public class StreetExporter implements OSMExporter {
   @Override
   public boolean accept(Node node) {
     var streetNode = streetNodeExtractor.extractFromNode(node);
-    processedExporter.exportProcessedStreetNode(String.valueOf(streetNode.getId()), streetNode);
+    processedExporter.sendProcessedStreetNode(String.valueOf(streetNode.getId()), streetNode);
     return true;
   }
 
@@ -33,7 +31,7 @@ public class StreetExporter implements OSMExporter {
   public boolean accept(Way way) {
     var streetConnections = streetConnectionExtractor.extractFromWay(way);
     streetConnections.forEach(
-        conn -> processedExporter.exportProcessedStreetConnection(conn.getId(), conn));
+        conn -> processedExporter.sendProcessedStreetConnection(conn.getId(), conn));
     return true;
   }
 

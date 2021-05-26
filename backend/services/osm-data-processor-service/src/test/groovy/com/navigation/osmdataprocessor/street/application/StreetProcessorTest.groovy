@@ -1,6 +1,5 @@
 package com.navigation.osmdataprocessor.street.application
 
-import com.navigation.osmdataprocessor.address.domain.AddressExtractor
 import com.navigation.osmdataprocessor.street.domain.StreetConnection
 import com.navigation.osmdataprocessor.street.domain.StreetConnectionExtractor
 import com.navigation.osmdataprocessor.street.domain.StreetNode
@@ -24,34 +23,34 @@ class StreetProcessorTest extends Specification {
   </way>
 </osm>"""
 
-  def "processAndExport() should export street connections and nodes contained in connections"() {
+  def "processAndSend() should send street connections and nodes contained in connections"() {
     given:
-    def processedStreetExporter = Mock(ProcessedStreetExporter)
+    def processedStreetSender = Mock(ProcessedStreetSender)
     def processor = new StreetProcessor(
         new OSMProviderInMemory(STREET_OSM_XML),
         new StreetExporter(
-            processedStreetExporter,
+            processedStreetSender,
             new StreetConnectionExtractor(),
             new StreetNodeExtractor()
         )
     )
     when:
-    def actualResult = processor.processAndExport().get()
+    def actualResult = processor.processAndSend().get()
     then:
     verifyAll(actualResult) {
       totalParsed() == 4
       totalExported() == 3
       totalAccepted() == 3
     }
-    with(processedStreetExporter) {
-      1 * exportProcessedStreetNode('453966480', new StreetNode(453966480, 52.229676, 21.012227))
-      1 * exportProcessedStreetNode('453966490', new StreetNode(453966490, 52.229677, 21.012228))
-      0 * exportProcessedStreetNode(_, _)
+    with(processedStreetSender) {
+      1 * sendProcessedStreetNode('453966480', new StreetNode(453966480, 52.229676, 21.012227))
+      1 * sendProcessedStreetNode('453966490', new StreetNode(453966490, 52.229677, 21.012228))
+      0 * sendProcessedStreetNode(_, _)
 
-      1 * exportProcessedStreetConnection(
+      1 * sendProcessedStreetConnection(
           "453966480#453966490",
           new StreetConnection("453966480#453966490", 453966480, 453966490, 60))
-      0 * exportProcessedStreetConnection(_, _)
+      0 * sendProcessedStreetConnection(_, _)
     }
   }
 }

@@ -14,12 +14,12 @@ class AddressExporterTest extends Specification {
 
   def "accept(Node) should export address transformed from node"() {
     given:
-    def processedExporter = Mock(ProcessedAddressExporter)
-    def addressExporter = new AddressExporter(processedExporter, new AddressExtractor())
+    def processedSender = Mock(ProcessedAddressSender)
+    def addressExporter = new AddressExporter(processedSender, new AddressExtractor())
     when:
     addressExporter.accept(new Node(1, [:], 2, 3))
     then:
-    1 * processedExporter.exportProcessedAddress("1", _ as Address)
+    1 * processedSender.sendProcessedAddress("1", _ as Address)
   }
 
 

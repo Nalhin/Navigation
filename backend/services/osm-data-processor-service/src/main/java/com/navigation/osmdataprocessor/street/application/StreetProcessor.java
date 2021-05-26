@@ -19,7 +19,7 @@ public class StreetProcessor implements OSMProcessor {
   }
 
   @Override
-  public Try<ExportSummary> processAndExport() {
+  public Try<ExportSummary> processAndSend() {
     return Try.of(new OSMLoader(provider, exporter, new StreetDataSpecification())::export);
   }
 }

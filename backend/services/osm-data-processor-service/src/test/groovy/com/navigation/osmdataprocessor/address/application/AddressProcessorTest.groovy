@@ -17,12 +17,12 @@ class AddressProcessorTest extends Specification {
   </node>
 </osm>"""
 
-  def "processAndExport() should export addresses in osm file"() {
+  def "processAndSend() should send addresses exporter from osm file"() {
     given:
-    def processedAddressExporter = Mock(ProcessedAddressExporter)
+    def processedAddressSender = Mock(ProcessedAddressSender)
     def processor = new AddressProcessor(
         new OSMProviderInMemory(ADDRESS_OSM_XML),
-        new AddressExporter(processedAddressExporter, new AddressExtractor())
+        new AddressExporter(processedAddressSender, new AddressExtractor())
     )
     def expectedAddress = new Address.AddressBuilder()
         .setCity("Warsaw")
@@ -35,13 +35,13 @@ class AddressProcessorTest extends Specification {
         .setLongitude(21.012229D)
         .createAddress()
     when:
-    def actualResult = processor.processAndExport().get()
+    def actualResult = processor.processAndSend().get()
     then:
     verifyAll(actualResult) {
       totalExported() == 1
       totalAccepted() == 1
       totalParsed() == 1
     }
-    1 * processedAddressExporter.exportProcessedAddress("358802885", expectedAddress)
+    1 * processedAddressSender.sendProcessedAddress("358802885", expectedAddress)
   }
 }

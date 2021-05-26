@@ -46,7 +46,7 @@ public class RootExporter implements ApplicationListener<ApplicationReadyEvent> 
     var startTime = Instant.now(clock);
 
     List.of(addressProcessor, streetDataProcessor).stream()
-        .map(OSMProcessor -> Future.of(OSMProcessor::processAndExport))
+        .map(OSMProcessor -> Future.of(OSMProcessor::processAndSend))
         .map(
             future ->
                 future.onComplete(
