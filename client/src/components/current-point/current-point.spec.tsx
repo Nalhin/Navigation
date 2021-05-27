@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react';
 import CurrentPoint from './current-point';
 import React from 'react';
 import { usePathfinding } from '../../context/pathfinding-context/pathfinding-context';
-import { mocked } from 'ts-jest';
+import { mocked } from 'ts-jest/utils';
 import { screen } from '@testing-library/react';
 
 jest.mock('../../context/pathfinding-context/pathfinding-context');

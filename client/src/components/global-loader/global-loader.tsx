@@ -18,7 +18,13 @@ const GlobalLoader = () => {
     return null;
   }
 
-  return <StyledLinearProgress variant="indeterminate" color="secondary" />;
+  return (
+    <StyledLinearProgress
+      variant="indeterminate"
+      color="secondary"
+      aria-label="loader"
+    />
+  );
 };
 
 export default GlobalLoader;
