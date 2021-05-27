@@ -20,7 +20,7 @@ class PathfindingApiMapper {
 
   PathResponseDto toDto(PathfindingExecutionSummary pathWithSummary) {
     var response = new PathResponseDto();
-    var path = pathWithSummary.getPathSummary();
+    var path = pathWithSummary.pathSummary();
     response.setSimplePath(
         path.simplePath().stream().map(this::toDto).collect(Collectors.toList()));
 
@@ -28,13 +28,13 @@ class PathfindingApiMapper {
     response.setTotalNodes(path.numberOfVertices());
     response.setTotalVisitedNodes(path.totalVisitedVertices());
     response.setTotalDuration(path.totalDuration());
-    response.setExecutionDuration(pathWithSummary.getExecutionDurationInSeconds());
+    response.setExecutionDuration(pathWithSummary.executionDurationInSeconds());
     response.setSearchBoundaries(
         path.searchBoundaries().stream()
             .map(hull -> hull.stream().map(this::toDto).collect(Collectors.toList()))
             .collect(Collectors.toList()));
-    response.setAlgorithm(toDto(pathWithSummary.getAlgorithm()));
-    response.setOptimization(toDto(pathWithSummary.getOptimization()));
+    response.setAlgorithm(toDto(pathWithSummary.algorithm()));
+    response.setOptimization(toDto(pathWithSummary.optimization()));
     response.setFound(path.isFound());
 
     return response;

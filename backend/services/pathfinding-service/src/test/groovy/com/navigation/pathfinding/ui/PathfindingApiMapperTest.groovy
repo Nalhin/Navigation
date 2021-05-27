@@ -23,7 +23,7 @@ class PathfindingApiMapperTest extends Specification {
   @Subject
   def pathfindingApiMapper = new PathfindingApiMapper()
 
-  def "toResponse(PathWithExecutionSummary) should convert path with summary to PathResponseDto"() {
+  def "toDto(PathWithExecutionSummary) should convert path with summary to PathResponseDto"() {
     given:
     def pathSummary = Stub(PathSummary) {
       simplePath() >> [new Vertex(1, new Coordinates(2, 3)), new Vertex(2, new Coordinates(4, 5))]
@@ -59,6 +59,20 @@ class PathfindingApiMapperTest extends Specification {
     }
   }
 
+  def "toDto(Vertex) should map Vertex to NodeResponseDto"() {
+    given:
+    def vertex = new Vertex(1, new Coordinates(2d, 3d))
+    when:
+    def result = pathfindingApiMapper.toDto(vertex)
+    then:
+    verifyAll(result) {
+      latitude == 2d
+      longitude == 3d
+      id == 1
+    }
+  }
+
+
   def "toQuery(PathRequestDtoParams) should map PathRequestDtoParams to PathBetweenCoordinatesQuery"() {
     given:
     def params = new PathRequestDtoParams(
@@ -67,7 +81,8 @@ class PathfindingApiMapperTest extends Specification {
         endLatitude: 3,
         endLongitude: 4,
         algorithm: PathfindingAlgorithmsDto.BIDIRECTIONAL_BFS,
-        optimization: PathfindingOptimizationsDto.DISTANCE)
+        optimization: PathfindingOptimizationsDto.DISTANCE
+    )
     when:
     def result = pathfindingApiMapper.toQuery(params)
     then:
@@ -79,13 +94,14 @@ class PathfindingApiMapperTest extends Specification {
     }
   }
 
-  def "toQuery(BoundsRequestDtoParams) should map BoundsRequestDtoParams to Bounds"() {
+  def "toQuery(BoundsRequestDtoParams) should map BoundsRequestDtoParams to BoundsQuery"() {
     given:
     def params = new BoundsRequestDtoParams(
         minLatitude: 1,
         maxLatitude: 2,
         minLongitude: 3,
-        maxLongitude: 4)
+        maxLongitude: 4
+    )
     when:
     def result = pathfindingApiMapper.toQuery(params)
     then:
@@ -93,5 +109,41 @@ class PathfindingApiMapperTest extends Specification {
       leftBottom == new Coordinates(1, 3)
       topRight == new Coordinates(2, 4)
     }
+  }
+
+  def "toDomain(PathfindingAlgorithmsDto) should map PathfindingAlgorithmsDto to PathfindingAlgorithms"() {
+    given:
+    def algorithmDto = PathfindingAlgorithmsDto.DIJKSTRA
+    when:
+    def result = pathfindingApiMapper.toDomain(algorithmDto)
+    then:
+    result == PathfindingAlgorithms.DIJKSTRA
+  }
+
+  def "toDto(PathfindingAlgorithms) should map PathfindingAlgorithms to PathfindingAlgorithmsDto"() {
+    given:
+    def algorithm = PathfindingAlgorithms.DIJKSTRA
+    when:
+    def result = pathfindingApiMapper.toDto(algorithm)
+    then:
+    result == PathfindingAlgorithmsDto.DIJKSTRA
+  }
+
+  def "toDomain(PathfindingOptimizationsDto) should map PathfindingOptimizationsDto to PathfindingOptimizations"() {
+    given:
+    def optimizationDto = PathfindingOptimizationsDto.TIME
+    when:
+    def result = pathfindingApiMapper.toDomain(optimizationDto)
+    then:
+    result == PathfindingOptimizations.TIME
+  }
+
+  def "toDto(PathfindingOptimizations) should map PathfindingOptimizations to PathfindingOptimizationsDto"() {
+    given:
+    def optimization = PathfindingOptimizations.TIME
+    when:
+    def result = pathfindingApiMapper.toDto(optimization)
+    then:
+    result == PathfindingOptimizationsDto.TIME
   }
 }

@@ -1,6 +1,8 @@
 package com.navigation.pathfinding.infrastructure.database
 
 import com.navigation.pathfinder.graph.Coordinates
+import com.navigation.pathfinder.graph.Edge
+import com.navigation.pathfinder.graph.Vertex
 import com.navigation.pathfinding.application.PathBetweenCoordinatesUseCase
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint
 import spock.lang.Shared
@@ -51,7 +53,8 @@ class PathfindingDatabaseMapperTest extends Specification {
 
   def "toBox() should map BoundsQuery to Box"() {
     given:
-    def bounds = new PathBetweenCoordinatesUseCase.BoundsQuery(new Coordinates(1, 2), new Coordinates(3, 4))
+    def bounds = new PathBetweenCoordinatesUseCase.BoundsQuery(new Coordinates(1, 2),
+        new Coordinates(3, 4))
     when:
     def result = databaseMapper.toBox(bounds)
     then:
@@ -61,5 +64,19 @@ class PathfindingDatabaseMapperTest extends Specification {
       second.x == 4
       second.y == 3
     }
+  }
+
+  def "buildGraph() should build graph from street nodes and street connections"() {
+    given:
+    def streetNodes = [new StreetNodeEntity(1, new GeoJsonPoint(1, 1)), new StreetNodeEntity(2,
+        new GeoJsonPoint(1, 1))]
+    def streetConnections = [new StreetConnectionEntity("1#2", 1, 2, 50)]
+    when:
+    def result = databaseMapper.buildGraph(streetNodes, streetConnections)
+    then:
+    result.vertices().size() == 2
+    result.edges().size() == 1
+    result.getVertexEdges(new Vertex(1, new Coordinates(1, 1))).first() ==
+        new Edge(new Vertex(1, new Coordinates(1, 1)), new Vertex(2, new Coordinates(1, 1)), 50)
   }
 }

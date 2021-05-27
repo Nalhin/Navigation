@@ -51,7 +51,7 @@ public class PathSummaryCreator {
 
     var fromEndToMid = reconstructPathFromPredecessorTree(mid, end, predecessorTreeEnd);
 
-    if (fromMidToStart.isEmpty() || fromEndToMid.isEmpty()) {
+    if ((start != mid && fromMidToStart.isEmpty()) || (end != mid && fromEndToMid.isEmpty())) {
       return new BidirectionalPathSummary(
           Collections.emptyList(), predecessorTreeStart.keySet(), predecessorTreeEnd.keySet());
     }

@@ -26,19 +26,19 @@ public final class PathfindingExecutionSummary {
     this.optimization = optimization;
   }
 
-  public PathSummary getPathSummary() {
+  public PathSummary pathSummary() {
     return pathSummary;
   }
 
-  public double getExecutionDurationInSeconds() {
+  public double executionDurationInSeconds() {
     return ChronoUnit.MILLIS.between(start, end) / 1000.0;
   }
 
-  public PathfindingAlgorithms getAlgorithm() {
+  public PathfindingAlgorithms algorithm() {
     return algorithm;
   }
 
-  public PathfindingOptimizations getOptimization() {
+  public PathfindingOptimizations optimization() {
     return optimization;
   }
 }

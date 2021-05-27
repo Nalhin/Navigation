@@ -42,6 +42,30 @@ class PathSummaryCreatorTest extends Specification {
     }
   }
 
+  def "createUnidirectionalPath() should return path between start and end when start and mid are equal and start and end are connected"() {
+    given:
+    def start = new Vertex(1, new Coordinates(1, 1))
+    def mid = start
+    def end = new Vertex(3, new Coordinates(1, 1))
+    def predecessorTree = [(end): new Edge(mid, end, 50)]
+    when:
+    def result = pathSummaryCreator.createUnidirectionalPath(start, end, predecessorTree)
+    then:
+    result.simplePath() == [start, end]
+  }
+
+  def "createUnidirectionalPath() should return path between start and end when mid and end are equal and end and start are connected"() {
+    given:
+    def start = new Vertex(1, new Coordinates(1, 1))
+    def end = new Vertex(3, new Coordinates(1, 1))
+    def mid = end
+    def predecessorTree = [(mid): new Edge(start, mid, 50)]
+    when:
+    def result = pathSummaryCreator.createUnidirectionalPath(start, end, predecessorTree)
+    then:
+    result.simplePath() == [start, end]
+  }
+
   def "createBidirectionalPath() should return path between start and end vertex present in predecessor tree"() {
     given:
     def start = new Vertex(1, new Coordinates(1, 1))

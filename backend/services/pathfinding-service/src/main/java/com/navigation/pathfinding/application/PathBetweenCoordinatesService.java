@@ -21,8 +21,8 @@ public class PathBetweenCoordinatesService implements PathBetweenCoordinatesUseC
 
   private static final double NODE_DISTANCE_THRESHOLD_IN_KM = 5;
 
-  private final Pathfinders pathfinders;
   private final GraphRepository graphRepository;
+  private final Pathfinders pathfinders;
   private final Clock clock;
 
   public PathBetweenCoordinatesService(
