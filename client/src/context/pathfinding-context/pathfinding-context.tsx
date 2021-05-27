@@ -14,7 +14,7 @@ import { useSnackbar } from 'notistack';
 
 const PathfindingContext = React.createContext<PathfindingContext | null>(null);
 
-interface PathfindingContext {
+export interface PathfindingContext {
   path: PathResponse | null;
   selectedPoints: SelectedPoints;
   setStart: (item: AddressItem | null) => void;

@@ -2,8 +2,8 @@ import { OptimizationTypes } from '../../../constants/optimizations';
 import { AlgorithmTypes } from '../../../constants/algorithms';
 
 export interface PathResponse {
-  simplePath: Node[];
-  searchBoundaries: Node[][];
+  simplePath: MapNode[];
+  searchBoundaries: MapNode[][];
   totalDistance: number;
   totalDuration: number;
   totalNodes: number;
@@ -11,7 +11,7 @@ export interface PathResponse {
   executionDuration: number;
   algorithm: AlgorithmTypes;
   optimization: OptimizationTypes;
-  found: true;
+  found: boolean;
 }
 
 export interface Bounds {
@@ -21,7 +21,7 @@ export interface Bounds {
   maxLongitude: number;
 }
 
-export interface Node {
+export interface MapNode {
   latitude: number;
   longitude: number;
   id: number;

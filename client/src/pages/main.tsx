@@ -5,12 +5,13 @@ import { useMutation } from 'react-query';
 import { getReverseGeocode } from '../api/requests/reverse-geocode/reverse-geocode.requests';
 import { LatLng } from 'leaflet';
 import { AxiosError } from 'axios';
-import { uniqueId } from '../utils/unique-id';
 import { Box } from '@material-ui/core';
 import PathDrawerMenu from '../components/path-drawer-menu/path-drawer-menu';
 import CurrentPoint from '../components/current-point/current-point';
 import { usePathfinding } from '../context/pathfinding-context/pathfinding-context';
 import MapLocationFinder from '../components/map-location-finder/map-location-finder';
+import { createEmptyAddressItem } from '../utils/create-empty-address-item/create-empty-address-item';
+import { Coordinates } from '../api/requests/shared.types';
 
 const Main = () => {
   const [current, setCurrent] = React.useState<AddressItem | null>(null);
@@ -18,35 +19,24 @@ const Main = () => {
   const pathfinding = usePathfinding();
 
   const { mutate: addGeocodedPoint } = useMutation(
-    ({ lat, lng }: LatLng) =>
-      getReverseGeocode({ latitude: lat, longitude: lng }),
+    (coordinates: Coordinates) => getReverseGeocode(coordinates),
     {
-      onSuccess: (resp, call) => {
-        const data = resp.data;
-        const item: AddressItem = {
-          ...data,
-          location: { latitude: call.lat, longitude: call.lng },
-        };
-        setCurrent(item);
+      onSuccess: (resp, args) => {
+        setCurrent({
+          ...resp.data,
+          location: args,
+        });
       },
-      onError: (error: AxiosError, call) => {
+      onError: (error: AxiosError, args) => {
         if (error.response?.status === 404) {
-          const item: AddressItem = {
-            id: uniqueId(),
-            city: 'Unknown',
-            country: 'Unknown',
-            houseNumber: 'Unknown',
-            street: 'Unknown',
-            postCode: 'Unknown',
-            location: { latitude: call.lat, longitude: call.lng },
-          };
-          setCurrent(item);
+          setCurrent(createEmptyAddressItem(args));
         }
       },
     },
   );
+
   const addPoint = (mapClick: LatLng) => {
-    addGeocodedPoint(mapClick);
+    addGeocodedPoint({ latitude: mapClick.lat, longitude: mapClick.lng });
   };
 
   return (
