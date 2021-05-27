@@ -16,38 +16,38 @@ class StreetExporterTest extends Specification {
 
   def "accept(Node) should export address transformed from node"() {
     given:
-    def processedSender = Mock(ProcessedStreetSender)
+    def processedPublisher = Mock(ProcessedStreetPublisher)
     def streetExporter = new StreetExporter(
-        processedSender,
+        processedPublisher,
         new StreetConnectionExtractor(),
         new StreetNodeExtractor()
     )
     when:
     streetExporter.accept(new Node(1, [:], 2, 3))
     then:
-    1 * processedSender.sendProcessedStreetNode("1", new StreetNode(1, 2, 3))
+    1 * processedPublisher.publishProcessedStreetNode("1", new StreetNode(1, 2, 3))
   }
 
   def "accept(Way) should export one way street connection"() {
     given:
-    def processedExporter = Mock(ProcessedStreetSender)
+    def processedPublisher = Mock(ProcessedStreetPublisher)
     def streetExporter = new StreetExporter(
-        processedExporter,
+        processedPublisher,
         new StreetConnectionExtractor(),
         new StreetNodeExtractor()
     )
     when:
     streetExporter.accept(new Way(11, [oneway: "yes", maxspeed: "60"], [1L, 2L]))
     then:
-    1 * processedExporter.
-        sendProcessedStreetConnection("1#2", new StreetConnection("1#2", 1, 2, 60))
+    1 * processedPublisher.
+        publishProcessedStreetConnection("1#2", new StreetConnection("1#2", 1, 2, 60))
   }
 
 
   def "accept(Bounds) should throw ExportNotSupportedException"() {
     given:
     def streetExporter = new StreetExporter(
-        Mock(ProcessedStreetSender),
+        Stub(ProcessedStreetPublisher),
         new StreetConnectionExtractor(),
         new StreetNodeExtractor()
     )
@@ -60,7 +60,7 @@ class StreetExporterTest extends Specification {
   def "accept(Metadata) should throw ExportNotSupportedException"() {
     given:
     def streetExporter = new StreetExporter(
-        Mock(ProcessedStreetSender),
+        Stub(ProcessedStreetPublisher),
         new StreetConnectionExtractor(),
         new StreetNodeExtractor()
     )
@@ -73,7 +73,7 @@ class StreetExporterTest extends Specification {
   def "accept(Relation) should throw ExportNotSupportedException"() {
     given:
     def streetExporter = new StreetExporter(
-        Mock(ProcessedStreetSender),
+        Stub(ProcessedStreetPublisher),
         new StreetConnectionExtractor(),
         new StreetNodeExtractor()
     )

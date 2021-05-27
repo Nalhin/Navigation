@@ -25,7 +25,7 @@ class StreetProcessorTest extends Specification {
 
   def "processAndSend() should send street connections and nodes contained in connections"() {
     given:
-    def processedStreetSender = Mock(ProcessedStreetSender)
+    def processedStreetSender = Mock(ProcessedStreetPublisher)
     def processor = new StreetProcessor(
         new OSMProviderInMemory(STREET_OSM_XML),
         new StreetExporter(
@@ -35,7 +35,7 @@ class StreetProcessorTest extends Specification {
         )
     )
     when:
-    def actualResult = processor.processAndSend().get()
+    def actualResult = processor.processAndPublish().get()
     then:
     verifyAll(actualResult) {
       totalParsed() == 4
@@ -43,14 +43,14 @@ class StreetProcessorTest extends Specification {
       totalAccepted() == 3
     }
     with(processedStreetSender) {
-      1 * sendProcessedStreetNode('453966480', new StreetNode(453966480, 52.229676, 21.012227))
-      1 * sendProcessedStreetNode('453966490', new StreetNode(453966490, 52.229677, 21.012228))
-      0 * sendProcessedStreetNode(_, _)
+      1 * publishProcessedStreetNode('453966480', new StreetNode(453966480, 52.229676, 21.012227))
+      1 * publishProcessedStreetNode('453966490', new StreetNode(453966490, 52.229677, 21.012228))
+      0 * publishProcessedStreetNode(_, _)
 
-      1 * sendProcessedStreetConnection(
+      1 * publishProcessedStreetConnection(
           "453966480#453966490",
           new StreetConnection("453966480#453966490", 453966480, 453966490, 60))
-      0 * sendProcessedStreetConnection(_, _)
+      0 * publishProcessedStreetConnection(_, _)
     }
   }
 }

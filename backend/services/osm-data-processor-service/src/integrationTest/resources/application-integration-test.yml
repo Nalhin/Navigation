@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: osm-data-processor-service
+
+infrastructure:
+  topics:
+    address: "exporter.address"
+    street-connections: "exporter.street-connections"
+    street-nodes: "exporter.street-nodes"
+  osm:
+    filePath: "random"

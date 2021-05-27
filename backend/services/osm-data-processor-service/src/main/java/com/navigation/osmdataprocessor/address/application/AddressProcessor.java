@@ -19,7 +19,7 @@ public class AddressProcessor implements OSMProcessor {
   }
 
   @Override
-  public Try<ExportSummary> processAndSend() {
+  public Try<ExportSummary> processAndPublish() {
     return Try.of(new OSMLoader(provider, exporter, new AddressSpecification())::export);
   }
 }

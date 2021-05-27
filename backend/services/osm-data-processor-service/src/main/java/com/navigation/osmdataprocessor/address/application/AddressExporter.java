@@ -7,19 +7,19 @@ import com.navigation.parser.exporter.OSMExporter;
 
 public class AddressExporter implements OSMExporter {
 
-  private final ProcessedAddressSender processedAddressSender;
+  private final ProcessedAddressPublisher processedAddressPublisher;
   private final AddressExtractor addressExtractor;
 
   public AddressExporter(
-          ProcessedAddressSender processedAddressSender, AddressExtractor addressExtractor) {
-    this.processedAddressSender = processedAddressSender;
+          ProcessedAddressPublisher processedAddressPublisher, AddressExtractor addressExtractor) {
+    this.processedAddressPublisher = processedAddressPublisher;
     this.addressExtractor = addressExtractor;
   }
 
   @Override
   public boolean accept(Node node) {
     var address = addressExtractor.extractFromNode(node);
-    processedAddressSender.sendProcessedAddress(String.valueOf(address.getId()), address);
+    processedAddressPublisher.publishProcessedAddress(String.valueOf(address.getId()), address);
     return true;
   }
 

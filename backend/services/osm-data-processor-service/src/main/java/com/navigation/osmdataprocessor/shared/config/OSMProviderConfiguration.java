@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class OSMProviderConfiguration {
 
   @Bean
-  public OSMProvider OSMProvider(@Value("${infrastructure.osm.filePath}") String filePath) {
+  public OSMProvider osmProvider(@Value("${infrastructure.osm.filePath}") String filePath) {
     return new OSMProviderBzipFile(filePath);
   }
 }

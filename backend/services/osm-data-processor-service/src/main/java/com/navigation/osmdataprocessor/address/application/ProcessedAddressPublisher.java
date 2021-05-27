@@ -2,7 +2,7 @@ package com.navigation.osmdataprocessor.address.application;
 
 import com.navigation.osmdataprocessor.address.domain.Address;
 
-public interface ProcessedAddressSender {
+public interface ProcessedAddressPublisher {
 
-  void sendProcessedAddress(String id, Address address);
+  void publishProcessedAddress(String id, Address address);
 }

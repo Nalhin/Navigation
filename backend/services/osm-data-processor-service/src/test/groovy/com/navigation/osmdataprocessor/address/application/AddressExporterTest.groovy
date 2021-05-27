@@ -14,18 +14,18 @@ class AddressExporterTest extends Specification {
 
   def "accept(Node) should export address transformed from node"() {
     given:
-    def processedSender = Mock(ProcessedAddressSender)
-    def addressExporter = new AddressExporter(processedSender, new AddressExtractor())
+    def processedPublisher = Mock(ProcessedAddressPublisher)
+    def addressExporter = new AddressExporter(processedPublisher, new AddressExtractor())
     when:
     addressExporter.accept(new Node(1, [:], 2, 3))
     then:
-    1 * processedSender.sendProcessedAddress("1", _ as Address)
+    1 * processedPublisher.publishProcessedAddress("1", _ as Address)
   }
 
 
   def "accept(Way) should throw ExportNotSupportedException"() {
     given:
-    def addressExporter = new AddressExporter(null, new AddressExtractor())
+    def addressExporter = new AddressExporter(Stub(ProcessedAddressPublisher), new AddressExtractor())
     when:
     addressExporter.accept(new Way(11, [:], []))
     then:
@@ -35,7 +35,7 @@ class AddressExporterTest extends Specification {
 
   def "accept(Bounds) should throw ExportNotSupportedException"() {
     given:
-    def addressExporter = new AddressExporter(null, new AddressExtractor())
+    def addressExporter = new AddressExporter(Stub(ProcessedAddressPublisher), new AddressExtractor())
     when:
     addressExporter.accept(new Bounds(1, 1, 1, 1))
     then:
@@ -44,7 +44,7 @@ class AddressExporterTest extends Specification {
 
   def "accept(Metadata) should throw ExportNotSupportedException"() {
     given:
-    def addressExporter = new AddressExporter(null, new AddressExtractor())
+    def addressExporter = new AddressExporter(Stub(ProcessedAddressPublisher), new AddressExtractor())
     when:
     addressExporter.accept(new Metadata("", ""))
     then:
@@ -53,7 +53,7 @@ class AddressExporterTest extends Specification {
 
   def "accept(Relation) should throw ExportNotSupportedException"() {
     given:
-    def addressExporter = new AddressExporter(null, new AddressExtractor())
+    def addressExporter = new AddressExporter(Stub(ProcessedAddressPublisher), new AddressExtractor())
     when:
     addressExporter.accept(new Relation(1, [:], []))
     then:

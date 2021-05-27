@@ -17,9 +17,9 @@ class AddressProcessorTest extends Specification {
   </node>
 </osm>"""
 
-  def "processAndSend() should send addresses exporter from osm file"() {
+  def "processAndPublish() should send addresses exporter from osm file"() {
     given:
-    def processedAddressSender = Mock(ProcessedAddressSender)
+    def processedAddressSender = Mock(ProcessedAddressPublisher)
     def processor = new AddressProcessor(
         new OSMProviderInMemory(ADDRESS_OSM_XML),
         new AddressExporter(processedAddressSender, new AddressExtractor())
@@ -35,13 +35,13 @@ class AddressProcessorTest extends Specification {
         .setLongitude(21.012229D)
         .createAddress()
     when:
-    def actualResult = processor.processAndSend().get()
+    def actualResult = processor.processAndPublish().get()
     then:
     verifyAll(actualResult) {
       totalExported() == 1
       totalAccepted() == 1
       totalParsed() == 1
     }
-    1 * processedAddressSender.sendProcessedAddress("358802885", expectedAddress)
+    1 * processedAddressSender.publishProcessedAddress("358802885", expectedAddress)
   }
 }

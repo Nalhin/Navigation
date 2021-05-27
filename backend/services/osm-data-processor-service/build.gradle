@@ -3,12 +3,54 @@ plugins {
   id 'io.spring.dependency-management' version "$springDepManagementVersion"
 }
 
+sourceSets {
+  integrationTest {
+    compileClasspath += sourceSets.main.output
+    runtimeClasspath += sourceSets.main.output
+  }
+}
+
+configurations {
+  integrationTestImplementation.extendsFrom implementation, testImplementation
+  integrationTestImplementation.extendsFrom runtimeOnly
+}
+
+tasks.register('integrationTest', Test) {
+  description = 'Runs integration tests.'
+  group = 'verification'
+
+  testClassesDirs = sourceSets.integrationTest.output.classesDirs
+  classpath = sourceSets.integrationTest.runtimeClasspath
+  shouldRunAfter test
+}
+
+integrationTest {
+  useJUnitPlatform()
+  finalizedBy jacocoTestReport
+}
+
+check.dependsOn integrationTest
+
+jacocoTestReport {
+  executionData(
+      file("${project.buildDir}/jacoco/test.exec"),
+      file("${project.buildDir}/jacoco/integrationTest.exec")
+  )
+}
+
 dependencies {
   implementation project(':libraries:parser')
 
   annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
   implementation 'org.springframework.boot:spring-boot-starter-web'
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+  integrationTestImplementation "org.spockframework:spock-spring:$spockVersion"
+  integrationTestImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+  implementation platform("org.testcontainers:testcontainers-bom:$testcontainersVersion")
+  integrationTestImplementation 'org.testcontainers:spock'
+  integrationTestImplementation 'org.testcontainers:kafka'
 
   implementation 'org.springframework.kafka:spring-kafka:2.7.0'
   implementation "io.vavr:vavr:$vavrVersion"

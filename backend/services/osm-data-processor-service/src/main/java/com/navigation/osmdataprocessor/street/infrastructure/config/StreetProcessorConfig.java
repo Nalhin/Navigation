@@ -1,6 +1,6 @@
 package com.navigation.osmdataprocessor.street.infrastructure.config;
 
-import com.navigation.osmdataprocessor.street.application.ProcessedStreetSender;
+import com.navigation.osmdataprocessor.street.application.ProcessedStreetPublisher;
 import com.navigation.osmdataprocessor.street.application.StreetProcessor;
 import com.navigation.osmdataprocessor.street.application.StreetExporter;
 import com.navigation.osmdataprocessor.street.domain.StreetConnectionExtractor;
@@ -13,10 +13,10 @@ import org.springframework.context.annotation.Configuration;
 public class StreetProcessorConfig {
   @Bean
   public StreetProcessor streetProcessor(
-      OSMProvider provider, ProcessedStreetSender processedStreetSender) {
+      OSMProvider provider, ProcessedStreetPublisher processedStreetPublisher) {
     return new StreetProcessor(
         provider,
         new StreetExporter(
-            processedStreetSender, new StreetConnectionExtractor(), new StreetNodeExtractor()));
+                processedStreetPublisher, new StreetConnectionExtractor(), new StreetNodeExtractor()));
   }
 }

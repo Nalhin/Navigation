@@ -10,6 +10,7 @@ import java.time.Instant;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -46,7 +47,7 @@ public class RootExporter implements ApplicationListener<ApplicationReadyEvent> 
     var startTime = Instant.now(clock);
 
     List.of(addressProcessor, streetDataProcessor).stream()
-        .map(OSMProcessor -> Future.of(OSMProcessor::processAndSend))
+        .map(OSMProcessor -> Future.of(OSMProcessor::processAndPublish))
         .map(
             future ->
                 future.onComplete(
@@ -58,8 +59,11 @@ public class RootExporter implements ApplicationListener<ApplicationReadyEvent> 
         .forEach(Future::await);
 
     logger.info("Export completed");
-    logger.info("Shutting down!!!");
-    SpringApplication.exit(context, () -> 0);
+
+    if (Arrays.asList(context.getEnvironment().getActiveProfiles()).contains("prod")) {
+      logger.info("Shutting down!!!");
+      SpringApplication.exit(context, () -> 0);
+    }
   }
 
   private String printSummary(Instant startTime, ExportSummary summary) {
@@ -73,8 +77,7 @@ public class RootExporter implements ApplicationListener<ApplicationReadyEvent> 
         + MessageFormat.format("Finished at {0}", LocalTime.now(clock))
         + "\n"
         + MessageFormat.format(
-            "Export took {0} seconds",
-            ChronoUnit.SECONDS.between(startTime, Instant.now(clock)))
+            "Export took {0} seconds", ChronoUnit.SECONDS.between(startTime, Instant.now(clock)))
         + "\n";
   }
 }
