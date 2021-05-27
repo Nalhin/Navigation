@@ -1,5 +1,5 @@
 import React from 'react';
-import { AddressItem } from '../list-item.type';
+import { AddressItem } from '../../types/address-item.type';
 import {
   Button,
   Card,
@@ -8,7 +8,7 @@ import {
   Divider,
   Typography,
 } from '@material-ui/core';
-import { usePathfinding } from '../../context/pathfinding/pathfinding-context';
+import { usePathfinding } from '../../context/pathfinding-context/pathfinding-context';
 
 interface Props {
   item: AddressItem;

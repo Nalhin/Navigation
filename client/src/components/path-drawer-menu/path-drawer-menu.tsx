@@ -1,5 +1,5 @@
 import React from 'react';
-import DrawerContent from './drawer-content';
+import PathDrawerMenuContent from './path-drawer-menu-content';
 import {
   Box,
   Drawer as MaterialDrawer,
@@ -8,14 +8,14 @@ import {
 } from '@material-ui/core';
 import { css } from '@emotion/css';
 import { Close, Settings } from '@material-ui/icons';
-import PathfindingSettings from '../pathfinding/pathfinding-settings';
+import PathfindingSettingsModal from '../pathfinding-settings-modal/pathfinding-settings-modal';
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const Drawer = ({ isOpen, onClose }: Props) => {
+const PathDrawerMenu = ({ isOpen, onClose }: Props) => {
   const [isSettingsOpen, setSettingsOpen] = React.useState(false);
 
   return (
@@ -34,13 +34,15 @@ const Drawer = ({ isOpen, onClose }: Props) => {
       }}
       variant="persistent"
       ModalProps={{
-        keepMounted: true,
+        keepMounted: false,
       }}
     >
-      <PathfindingSettings
-        isOpen={isSettingsOpen}
-        onClose={() => setSettingsOpen(false)}
-      />
+      {isOpen && (
+        <PathfindingSettingsModal
+          isOpen={isSettingsOpen}
+          onClose={() => setSettingsOpen(false)}
+        />
+      )}
       <Box>
         <Grid container justify="flex-end">
           <IconButton onClick={() => setSettingsOpen(true)}>
@@ -50,10 +52,10 @@ const Drawer = ({ isOpen, onClose }: Props) => {
             <Close />
           </IconButton>
         </Grid>
-        <DrawerContent />
+        {isOpen && <PathDrawerMenuContent />}
       </Box>
     </MaterialDrawer>
   );
 };
 
-export default Drawer;
+export default PathDrawerMenu;

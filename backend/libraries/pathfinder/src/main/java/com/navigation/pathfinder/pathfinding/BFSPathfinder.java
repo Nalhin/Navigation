@@ -7,7 +7,6 @@ import com.navigation.pathfinder.graph.Vertex;
 import com.navigation.pathfinder.path.PathSummaryCreator;
 import java.util.ArrayDeque;
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class BFSPathfinder implements PathfindingStrategy {
 

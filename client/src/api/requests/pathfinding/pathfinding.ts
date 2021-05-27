@@ -52,5 +52,5 @@ export const getAvailableOptimizationsForAlgorithm = (
   algorithm: AlgorithmTypes,
 ) =>
   axios.get<OptimizationTypes[]>(
-    `/pathfinding/algorithms/${algorithm}/available-optimizations`,
+    `/pathfinding/algorithms/${algorithm}/supported-optimizations`,
   );

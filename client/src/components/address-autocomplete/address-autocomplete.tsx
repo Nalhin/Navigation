@@ -1,5 +1,5 @@
 import React from 'react';
-import { AddressItem } from '../list-item.type';
+import { AddressItem } from '../../types/address-item.type';
 import { Grid, TextField, Typography } from '@material-ui/core';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import { useQuery } from 'react-query';
@@ -9,12 +9,12 @@ import { css } from '@emotion/css';
 import { useDebounce } from 'use-debounce';
 
 interface Props {
-  onValueSet: (item: AddressItem | null) => void;
+  onValueSelected: (item: AddressItem | null) => void;
   label: string;
   value: AddressItem | null;
 }
 
-const AddressSearch = ({ onValueSet, label, value }: Props) => {
+const AddressAutocomplete = ({ onValueSelected, label, value }: Props) => {
   const [inputValue, setInputValue] = React.useState('');
   const [options, setOptions] = React.useState<AddressItem[]>([]);
 
@@ -32,7 +32,7 @@ const AddressSearch = ({ onValueSet, label, value }: Props) => {
   return (
     <Autocomplete
       className={css`
-        width: 260px;
+        width: 100%;
         padding-bottom: 8px;
       `}
       loading={isLoading}
@@ -44,14 +44,18 @@ const AddressSearch = ({ onValueSet, label, value }: Props) => {
               option.houseNumber
             }`
       }
-      options={options}
+      options={
+        value !== null && !options.find((o) => o === value)
+          ? [...options, value as AddressItem]
+          : options
+      }
       autoComplete
       includeInputInList
       filterSelectedOptions
       value={value}
       onChange={(event: React.ChangeEvent<unknown>, newValue) => {
         setOptions(newValue ? [newValue, ...options] : options);
-        onValueSet(newValue);
+        onValueSelected(newValue);
       }}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue);
@@ -77,4 +81,4 @@ const AddressSearch = ({ onValueSet, label, value }: Props) => {
   );
 };
 
-export default AddressSearch;
+export default AddressAutocomplete;

@@ -5,7 +5,7 @@ interface Props {
   addPoint: ({ lat, lng }: LatLng) => void;
 }
 
-const PointSetter = ({ addPoint }: Props) => {
+const MapOnclickPointSetter = ({ addPoint }: Props) => {
   useMapEvents({
     click(e) {
       addPoint(e.latlng);
@@ -14,4 +14,4 @@ const PointSetter = ({ addPoint }: Props) => {
   return null;
 };
 
-export default PointSetter;
+export default MapOnclickPointSetter;

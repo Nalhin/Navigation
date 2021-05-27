@@ -44,7 +44,9 @@ public class NodeResponseDto {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     NodeResponseDto that = (NodeResponseDto) o;
-    return Double.compare(that.latitude, latitude) == 0 && Double.compare(that.longitude, longitude) == 0 && id == that.id;
+    return Double.compare(that.latitude, latitude) == 0
+        && Double.compare(that.longitude, longitude) == 0
+        && id == that.id;
   }
 
   @Override

@@ -19,7 +19,7 @@ import {
   PathfindingSettingsContextProps,
   usePathfindingSettings,
   useSetPathfindingSettings,
-} from '../../context/pathfinding-settings/pathfinding-settings-context';
+} from '../../context/pathfinding-settings-context/pathfinding-settings-context';
 import { Controller, useForm } from 'react-hook-form';
 import { Bounds } from '../../api/requests/pathfinding/pathfinding.types';
 import {
@@ -80,7 +80,7 @@ interface FormState {
   bounds: Bounds;
 }
 
-const PathfindingSettings = ({ isOpen, onClose }: Props) => {
+const PathfindingSettingsModal = ({ isOpen, onClose }: Props) => {
   const settings = usePathfindingSettings();
   const { setSettings } = useSetPathfindingSettings();
   const {
@@ -109,7 +109,7 @@ const PathfindingSettings = ({ isOpen, onClose }: Props) => {
   const { data = [], isLoading } = useQuery(
     ['availableOptimizations', selectedAlgorithm],
     () => getAvailableOptimizationsForAlgorithm(selectedAlgorithm),
-    { select: (response) => response.data },
+    { select: (response) => response.data, enabled: isOpen },
   );
 
   const onSubmit = (values: PathfindingSettingsContextProps) => {
@@ -252,4 +252,4 @@ const PathfindingSettings = ({ isOpen, onClose }: Props) => {
   );
 };
 
-export default PathfindingSettings;
+export default PathfindingSettingsModal;

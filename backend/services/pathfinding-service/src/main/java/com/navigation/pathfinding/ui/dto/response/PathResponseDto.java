@@ -105,11 +105,30 @@ public class PathResponseDto {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     PathResponseDto that = (PathResponseDto) o;
-    return Double.compare(that.totalDistance, totalDistance) == 0 && Double.compare(that.totalDuration, totalDuration) == 0 && Double.compare(that.totalNodes, totalNodes) == 0 && totalVisitedNodes == that.totalVisitedNodes && Double.compare(that.executionDuration, executionDuration) == 0 && isFound == that.isFound && Objects.equals(simplePath, that.simplePath) && Objects.equals(searchBoundaries, that.searchBoundaries) && optimization == that.optimization && algorithm == that.algorithm;
+    return Double.compare(that.totalDistance, totalDistance) == 0
+        && Double.compare(that.totalDuration, totalDuration) == 0
+        && Double.compare(that.totalNodes, totalNodes) == 0
+        && totalVisitedNodes == that.totalVisitedNodes
+        && Double.compare(that.executionDuration, executionDuration) == 0
+        && isFound == that.isFound
+        && Objects.equals(simplePath, that.simplePath)
+        && Objects.equals(searchBoundaries, that.searchBoundaries)
+        && optimization == that.optimization
+        && algorithm == that.algorithm;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(simplePath, searchBoundaries, totalDistance, totalDuration, totalNodes, totalVisitedNodes, executionDuration, optimization, algorithm, isFound);
+    return Objects.hash(
+        simplePath,
+        searchBoundaries,
+        totalDistance,
+        totalDuration,
+        totalNodes,
+        totalVisitedNodes,
+        executionDuration,
+        optimization,
+        algorithm,
+        isFound);
   }
 }

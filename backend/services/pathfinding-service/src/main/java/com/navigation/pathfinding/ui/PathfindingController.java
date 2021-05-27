@@ -1,13 +1,13 @@
 package com.navigation.pathfinding.ui;
 
+import com.navigation.pathfinding.application.AvailableOptimizationsUseCase;
+import com.navigation.pathfinding.application.PathBetweenCoordinatesUseCase;
 import com.navigation.pathfinding.ui.dto.params.BoundsRequestDtoParams;
 import com.navigation.pathfinding.ui.dto.params.PathRequestDtoParams;
 import com.navigation.pathfinding.ui.dto.response.ErrorResponseDto;
 import com.navigation.pathfinding.ui.dto.response.PathResponseDto;
 import com.navigation.pathfinding.ui.dto.shared.PathfindingAlgorithmsDto;
 import com.navigation.pathfinding.ui.dto.shared.PathfindingOptimizationsDto;
-import com.navigation.pathfinding.application.AvailableOptimizationsUseCase;
-import com.navigation.pathfinding.application.PathBetweenCoordinatesUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

@@ -1,19 +1,16 @@
 import React from 'react';
-import Map from './map/map';
-import { AddressItem } from './list-item.type';
+import Map from '../components/map/map';
+import { AddressItem } from '../types/address-item.type';
 import { useMutation } from 'react-query';
 import { getReverseGeocode } from '../api/requests/reverse-geocode/reverse-geocode.requests';
 import { LatLng } from 'leaflet';
 import { AxiosError } from 'axios';
 import { uniqueId } from '../utils/unique-id';
-import { Box, Divider, Grid, IconButton, Paper } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-import DirectionsIcon from '@material-ui/icons/Directions';
-import Drawer from './drawer/drawer';
-import CurrentPoint from './current-point/current-point';
-import TopAddressSearch from './address-search/top-address-search';
-import { usePathfinding } from '../context/pathfinding/pathfinding-context';
+import { Box } from '@material-ui/core';
+import PathDrawerMenu from '../components/path-drawer-menu/path-drawer-menu';
+import CurrentPoint from '../components/current-point/current-point';
+import { usePathfinding } from '../context/pathfinding-context/pathfinding-context';
+import MapLocationFinder from '../components/map-location-finder/map-location-finder';
 
 const Main = () => {
   const [current, setCurrent] = React.useState<AddressItem | null>(null);
@@ -54,37 +51,23 @@ const Main = () => {
 
   return (
     <div>
-      <Drawer isOpen={isOpen} onClose={() => setIsOpen(false)} />
-      <Box ml={isOpen ? '300px' : 0} position={'relative'}>
+      <PathDrawerMenu isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      <Box position={'relative'}>
         <Box
           position="absolute"
           left={48}
           top={16}
           zIndex={1000}
-          display={isOpen && 'none'}
+          display={isOpen ? 'none' : 'block'}
         >
-          <Paper>
-            <Grid container>
-              <IconButton aria-label="menu" onClick={() => setIsOpen(true)}>
-                <MenuIcon />
-              </IconButton>
-              <TopAddressSearch setCurrent={setCurrent} />
-              <IconButton type="submit" aria-label="search">
-                <SearchIcon />
-              </IconButton>
-              <Divider orientation="vertical" />
-              <IconButton
-                color="primary"
-                aria-label="directions"
-                onClick={() => {
-                  pathfinding.setEnd(current);
-                  setIsOpen(true);
-                }}
-              >
-                <DirectionsIcon />
-              </IconButton>
-            </Grid>
-          </Paper>
+          <MapLocationFinder
+            onMenuClick={() => setIsOpen(true)}
+            setCurrent={setCurrent}
+            onDirectionClick={() => {
+              pathfinding.setEnd(current);
+              setIsOpen(true);
+            }}
+          />
         </Box>
         <Map currPoint={current} addPoint={addPoint} />
         <Box

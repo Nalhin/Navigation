@@ -1,14 +1,14 @@
 import React from 'react';
 import { PathResponse } from '../../api/requests/pathfinding/pathfinding.types';
-import { AddressItem } from '../../pages/list-item.type';
+import { AddressItem } from '../../types/address-item.type';
 import { useMutation } from 'react-query';
 import {
   getPathBetween,
   getPathBetweenBounded,
 } from '../../api/requests/pathfinding/pathfinding';
 import { Coordinates } from '../../api/requests/shared.types';
-import { usePathfindingSettings } from '../pathfinding-settings/pathfinding-settings-context';
-import { useMap } from '../map/map-context';
+import { usePathfindingSettings } from '../pathfinding-settings-context/pathfinding-settings-context';
+import { useMap } from '../map-context/map-context';
 import { AxiosError } from 'axios';
 import { useSnackbar } from 'notistack';
 

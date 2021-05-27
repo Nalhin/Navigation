@@ -1,14 +1,14 @@
 import React from 'react';
-import AddressSearch from '../address-search/address-search';
-import { usePathfinding } from '../../context/pathfinding/pathfinding-context';
+import AddressAutocomplete from '../address-autocomplete/address-autocomplete';
+import { usePathfinding } from '../../context/pathfinding-context/pathfinding-context';
 import { Box, Button, IconButton, Typography } from '@material-ui/core';
 import { css } from '@emotion/css';
-import PathSummary from '../pathfinding/path-summary';
+import PathSummary from '../path-summary/path-summary';
 import { useIsMutating } from 'react-query';
 import SwapVertIcon from '@material-ui/icons/SwapVert';
 import ClearAllIcon from '@material-ui/icons/ClearAll';
 
-const DrawerContent = ({}) => {
+const PathDrawerMenuContent = ({}) => {
   const pathfinding = usePathfinding();
   const isMutating = useIsMutating({ mutationKey: 'path-between' });
 
@@ -17,15 +17,15 @@ const DrawerContent = ({}) => {
       <Typography variant="h5" gutterBottom align="center">
         Path
       </Typography>
-      <AddressSearch
+      <AddressAutocomplete
         value={pathfinding.selectedPoints.start}
         label="Start"
-        onValueSet={pathfinding.setStart}
+        onValueSelected={pathfinding.setStart}
       />
-      <AddressSearch
+      <AddressAutocomplete
         value={pathfinding.selectedPoints.end}
         label="End"
-        onValueSet={pathfinding.setEnd}
+        onValueSelected={pathfinding.setEnd}
       />
       <IconButton
         color="primary"
@@ -58,4 +58,4 @@ const DrawerContent = ({}) => {
   );
 };
 
-export default DrawerContent;
+export default PathDrawerMenuContent;

@@ -2,7 +2,6 @@ package com.navigation.parser.exporter;
 
 import com.navigation.parser.elements.*;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class ExportedOSM {

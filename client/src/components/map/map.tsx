@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   MapContainer,
-  Marker,
   Polygon,
   Polyline,
   Rectangle,
@@ -9,13 +8,15 @@ import {
 } from 'react-leaflet';
 import { LatLng } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { AddressItem } from '../list-item.type';
-import PointSetter from '../point-setter';
-import { useMap } from '../../context/map/map-context';
-import { usePathfinding } from '../../context/pathfinding/pathfinding-context';
-import { currIcon, endIcon, startIcon } from '../map-icons/icons';
+import { AddressItem } from '../../types/address-item.type';
+import MapOnclickPointSetter from './map-onclick-point-setter';
+import { useMap } from '../../context/map-context/map-context';
+import { usePathfinding } from '../../context/pathfinding-context/pathfinding-context';
 import MapLayers from './map-layers';
-import { usePathfindingSettings } from '../../context/pathfinding-settings/pathfinding-settings-context';
+import { usePathfindingSettings } from '../../context/pathfinding-settings-context/pathfinding-settings-context';
+import CurrentMarker from './map-icons/current-marker';
+import EndMarker from './map-icons/end-marker';
+import StartMarker from './map-icons/start-marker';
 
 const CENTER = {
   lat: 50.049683,
@@ -43,35 +44,12 @@ const Map = ({ addPoint, currPoint }: Props) => {
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {currPoint && (
-          <Marker
-            icon={currIcon()}
-            draggable={false}
-            position={{
-              lat: currPoint.location.latitude,
-              lng: currPoint.location.longitude,
-            }}
-          />
-        )}
+        {currPoint && <CurrentMarker position={currPoint.location} />}
         {pathfinding.selectedPoints.start && (
-          <Marker
-            icon={startIcon()}
-            draggable={false}
-            position={{
-              lat: pathfinding.selectedPoints.start.location.latitude,
-              lng: pathfinding.selectedPoints.start.location.longitude,
-            }}
-          />
+          <StartMarker position={pathfinding.selectedPoints.start.location} />
         )}
         {pathfinding.selectedPoints.end && (
-          <Marker
-            icon={endIcon()}
-            draggable={false}
-            position={{
-              lat: pathfinding.selectedPoints.end.location.latitude,
-              lng: pathfinding.selectedPoints.end.location.longitude,
-            }}
-          />
+          <EndMarker position={pathfinding.selectedPoints.end.location} />
         )}
         {pathfinding.path &&
           pathfinding.path.searchBoundaries.map((poly, index) => (
@@ -101,7 +79,7 @@ const Map = ({ addPoint, currPoint }: Props) => {
             lng: item.longitude,
           }))}
         />
-        <PointSetter addPoint={addPoint} />
+        <MapOnclickPointSetter addPoint={addPoint} />
         <MapLayers />
       </MapContainer>
     </>

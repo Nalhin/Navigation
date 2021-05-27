@@ -3,7 +3,7 @@ import { LayersControl, TileLayer } from 'react-leaflet';
 
 const MapLayers = () => {
   return (
-    <LayersControl position="topright">
+    <LayersControl position="bottomleft">
       <LayersControl.BaseLayer checked name="OpenStreetMap.Mapnik">
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
