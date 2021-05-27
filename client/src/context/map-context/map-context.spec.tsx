@@ -2,6 +2,7 @@ import { MapProvider, useMap } from './map-context';
 import React from 'react';
 import { act, renderHook } from '@testing-library/react-hooks';
 import L from 'leaflet';
+import { waitFor } from '@testing-library/react';
 
 describe('MapContext', () => {
   it('should allow to set and access map', () => {
@@ -15,6 +16,6 @@ describe('MapContext', () => {
       result.current.setMap((map as unknown) as L.Map);
     });
 
-    expect(result.current.map).toBe(map);
+    waitFor(() => expect(result.current.map).toBe(map));
   });
 });
