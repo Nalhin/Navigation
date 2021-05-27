@@ -5,6 +5,8 @@ import com.navigation.pathfinder.graph.Vertex;
 
 public final class DurationEdgeWeightCalculator implements EdgeWeightCalculator {
 
+  private static final int MAX_ALLOWED_SPEED = 140;
+
   private static final HaversineDistanceCalculator distanceCalculator =
       new HaversineDistanceCalculator();
 
@@ -18,6 +20,8 @@ public final class DurationEdgeWeightCalculator implements EdgeWeightCalculator 
 
   @Override
   public double estimateWeight(Vertex start, Vertex end) {
-    return calculateWeight(new Edge(start, end, 140));
+    return distanceCalculator.calculateDistance(start.getCoordinates(), end.getCoordinates())
+        / MAX_ALLOWED_SPEED
+        * 60;
   }
 }

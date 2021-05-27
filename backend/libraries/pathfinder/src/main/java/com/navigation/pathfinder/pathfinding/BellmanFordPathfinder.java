@@ -29,13 +29,13 @@ public class BellmanFordPathfinder implements PathfindingStrategy {
     var vertices = graph.vertices();
 
     for (int i = 0; i < vertices.size() - 1; i++) {
-      boolean changed = false;
+      var changed = false;
 
       for (var edge : edges) {
         if (!minWeights.containsKey(edge.getFrom())) {
           continue;
         }
-        double weight = minWeights.get(edge.getFrom()) + calculator.calculateWeight(edge);
+        var weight = minWeights.get(edge.getFrom()) + calculator.calculateWeight(edge);
         if (weight < minWeights.getOrDefault(edge.getTo(), Double.MAX_VALUE)) {
           minWeights.put(edge.getTo(), weight);
           predecessorTree.put(edge.getTo(), edge);

@@ -37,7 +37,7 @@ public class AStarPathfinder implements PathfindingStrategy {
 
       for (var edge : graph.getVertexEdges(curr)) {
         var neighbour = edge.getTo();
-        double newScore = gScores.get(curr) + calculator.calculateWeight(edge);
+        var newScore = gScores.get(curr) + calculator.calculateWeight(edge);
 
         if (newScore < gScores.getOrDefault(neighbour, Double.MAX_VALUE)) {
           gScores.put(neighbour, newScore);

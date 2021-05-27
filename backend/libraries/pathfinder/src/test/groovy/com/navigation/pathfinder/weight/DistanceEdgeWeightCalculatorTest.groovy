@@ -28,6 +28,19 @@ class DistanceEdgeWeightCalculatorTest extends Specification {
     new Coordinates(14.552797, 121.058805) | new Coordinates(14.593999, 120.994260)  || 8.3209
     new Coordinates(77.870317, 96.591876)  | new Coordinates(21.719527, -4.815018)   || 7910.8280
     new Coordinates(-17.727830, 23.704799) | new Coordinates(58.585396, -130.279576) || 15001.64302
+  }
 
+  def "estimateWeight() should return distance between vertices "(Coordinates fromCoordinates,
+      Coordinates toCoordinates, double expected) {
+    when:
+    def actualDistance = edgeWeightCalculator.
+        estimateWeight(new Vertex(1, fromCoordinates), new Vertex(2, toCoordinates))
+    then:
+    actualDistance closeTo(expected, 0.0001)
+    where:
+    fromCoordinates                        | toCoordinates                           || expected
+    new Coordinates(14.552797, 121.058805) | new Coordinates(14.593999, 120.994260)  || 8.3209
+    new Coordinates(77.870317, 96.591876)  | new Coordinates(21.719527, -4.815018)   || 7910.8280
+    new Coordinates(-17.727830, 23.704799) | new Coordinates(58.585396, -130.279576) || 15001.64302
   }
 }

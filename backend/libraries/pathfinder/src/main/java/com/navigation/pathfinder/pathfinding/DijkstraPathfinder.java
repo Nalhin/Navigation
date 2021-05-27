@@ -31,7 +31,7 @@ public class DijkstraPathfinder implements PathfindingStrategy {
     while (!pq.isEmpty()) {
       var curr = pq.poll();
       var currVertex = curr.vertex();
-      var distanceSoFar = curr.getScore();
+      var distanceSoFar = curr.score();
 
       if (distanceSoFar > minDistances.getOrDefault(currVertex, Double.MAX_VALUE)) {
         continue;
@@ -42,7 +42,7 @@ public class DijkstraPathfinder implements PathfindingStrategy {
       }
 
       for (var edge : graph.getVertexEdges(currVertex)) {
-        double distance = distanceSoFar + calculator.calculateWeight(edge);
+        var distance = distanceSoFar + calculator.calculateWeight(edge);
 
         if (distance < minDistances.getOrDefault(edge.getTo(), Double.MAX_VALUE)) {
           minDistances.put(edge.getTo(), distance);

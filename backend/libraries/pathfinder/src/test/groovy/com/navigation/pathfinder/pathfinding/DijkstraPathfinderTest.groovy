@@ -12,11 +12,11 @@ class DijkstraPathfinderTest extends Specification {
 
   def "findPath() should return the shortest path"(TestGraphSummary testGraph) {
     given:
-    def strategy = new DijkstraPathfinder(testGraph.calculator)
+    def pathfinder = new DijkstraPathfinder(testGraph.calculator)
     when:
-    def path = strategy.findPath(testGraph.start, testGraph.end, testGraph.graph)
+    def result = pathfinder.findPath(testGraph.start, testGraph.end, testGraph.graph)
     then:
-    path.simplePath() == testGraph.shortestPath
+    result.simplePath() == testGraph.shortestPath
     where:
     testGraph                                || _
     euclideanDistanceTestGraphConnected()    || _

@@ -26,7 +26,7 @@ class BidirectionalCenterVertexFinder {
         continue;
       }
 
-      double currScore = scoresBackward.get(forwardEntry.getKey()) + forwardEntry.getValue();
+      var currScore = scoresBackward.get(forwardEntry.getKey()) + forwardEntry.getValue();
       if (minScore > currScore) {
         minScore = currScore;
         minVertex = forwardEntry.getKey();
@@ -39,6 +39,6 @@ class BidirectionalCenterVertexFinder {
   private Map<Vertex, Double> buildMinVertexScoreMap(Queue<ScoredGraphVertex> scoredVertices) {
     return scoredVertices.stream()
         .collect(
-            Collectors.toMap(ScoredGraphVertex::vertex, ScoredGraphVertex::getScore, Math::min));
+            Collectors.toMap(ScoredGraphVertex::vertex, ScoredGraphVertex::score, Math::min));
   }
 }

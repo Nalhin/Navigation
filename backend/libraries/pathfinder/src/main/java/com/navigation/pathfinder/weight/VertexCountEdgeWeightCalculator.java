@@ -11,6 +11,6 @@ public final class VertexCountEdgeWeightCalculator implements EdgeWeightCalculat
 
   @Override
   public double estimateWeight(Vertex start, Vertex end) {
-    return 0;
+    return 1;
   }
 }

@@ -1,6 +1,8 @@
 package com.navigation.parser.elements;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -11,7 +13,7 @@ abstract class TaggedElement {
 
   protected TaggedElement(long id, Map<String, String> tags) {
     this.id = id;
-    this.tags = tags;
+    this.tags = Map.copyOf(tags);
   }
 
   public boolean containsTag(String tag) {
@@ -77,9 +79,6 @@ abstract class TaggedElement {
 
   @Override
   public String toString() {
-    return "TaggedElement{" +
-        "id='" + id + '\'' +
-        ", tags=" + tags +
-        '}';
+    return "TaggedElement{" + "id='" + id + '\'' + ", tags=" + tags + '}';
   }
 }

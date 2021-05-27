@@ -10,7 +10,7 @@ public final class Way extends TaggedElement implements Element {
 
   public Way(long id, Map<String, String> tags, List<Long> nodeReferences) {
     super(id, tags);
-    this.nodeReferences = nodeReferences;
+    this.nodeReferences = List.copyOf(nodeReferences);
   }
 
   @Override

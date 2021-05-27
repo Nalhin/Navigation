@@ -10,7 +10,7 @@ public final class Relation extends TaggedElement implements Element{
 
   public Relation(long id, Map<String, String> tags, List<Member> members) {
     super(id, tags);
-    this.members = members;
+    this.members = List.copyOf(members);
   }
 
   @Override

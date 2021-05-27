@@ -83,7 +83,7 @@ public class BidirectionalDijkstraPathfinder implements PathfindingStrategy {
       Map<Vertex, Edge> predecessorTree,
       Map<Vertex, Double> minDistances) {
     var currVertex = curr.vertex();
-    var distanceSoFar = curr.getScore();
+    var distanceSoFar = curr.score();
 
     if (distanceSoFar > minDistances.getOrDefault(currVertex, Double.MAX_VALUE)) {
       return;
@@ -91,7 +91,7 @@ public class BidirectionalDijkstraPathfinder implements PathfindingStrategy {
 
     for (var edge : graph.getVertexEdges(currVertex)) {
       var neighbour = edge.getTo();
-      double distance = distanceSoFar + calculator.calculateWeight(edge);
+      var distance = distanceSoFar + calculator.calculateWeight(edge);
 
       if (distance < minDistances.getOrDefault(neighbour, Double.MAX_VALUE)) {
         minDistances.put(neighbour, distance);

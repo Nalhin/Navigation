@@ -92,7 +92,7 @@ public class BidirectionalAStarPathfinder implements PathfindingStrategy {
       Vertex end) {
     for (var edge : graph.getVertexEdges(currVertex)) {
       var neighbour = edge.getTo();
-      double newScore = gScores.get(currVertex) + calculator.calculateWeight(edge);
+      var newScore = gScores.get(currVertex) + calculator.calculateWeight(edge);
 
       if (newScore < gScores.getOrDefault(neighbour, Double.MAX_VALUE)) {
         gScores.put(neighbour, newScore);

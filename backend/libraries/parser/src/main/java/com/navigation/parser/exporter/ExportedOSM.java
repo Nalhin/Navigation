@@ -19,9 +19,9 @@ public class ExportedOSM {
       Map<Long, Relation> relations,
       Bounds bounds,
       Metadata metadata) {
-    this.nodes = new HashMap<>(nodes);
-    this.ways = new HashMap<>(ways);
-    this.relations = new HashMap<>(relations);
+    this.nodes = Map.copyOf(nodes);
+    this.ways = Map.copyOf(ways);
+    this.relations = Map.copyOf(relations);
     this.bounds = bounds;
     this.metadata = metadata;
   }
