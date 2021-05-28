@@ -71,7 +71,6 @@ const Map = ({ addPoint, currPoint }: Props) => {
             ]}
           />
         )}
-        i
         <Polyline
           pathOptions={{ color: 'blue' }}
           positions={(pathfinding.path?.simplePath ?? []).map((item) => ({

@@ -190,7 +190,6 @@ const PathfindingSettingsModal = ({ isOpen, onClose }: Props) => {
                 label="Bounded?"
               />
             </Box>
-
             <FormControl>
               <Controller
                 render={({ field }) => (
@@ -222,6 +221,8 @@ const PathfindingSettingsModal = ({ isOpen, onClose }: Props) => {
                 render={({ field }) => (
                   <TextField
                     label="Min latitude"
+                    InputLabelProps={{ id: 'min-latitude' }}
+                    InputProps={{ 'aria-labelledby': 'min-latitude' }}
                     {...field}
                     error={!!formState.errors.bounds?.minLatitude}
                   />

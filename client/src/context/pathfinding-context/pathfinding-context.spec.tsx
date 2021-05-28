@@ -8,45 +8,35 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 import { PathResponse } from '../../api/requests/pathfinding/pathfinding.types';
-import { PathfindingAlgorithmTypes } from '../../constants/pathfinding-algorithms';
-import { OptimizationTypes } from '../../constants/pathfinding-optimizations';
 import * as notistack from 'notistack';
 import { usePathfindingSettings } from '../pathfinding-settings-context/pathfinding-settings-context';
+import { exampleAddress } from '../../../test/constants/address';
+import { examplePathResponse } from '../../../test/constants/path-response';
+import { examplePathfindingSettings } from '../../../test/constants/pathfinding-settings';
 
 jest.mock('../pathfinding-settings-context/pathfinding-settings-context');
 jest.mock('../map-context/map-context');
 jest.mock('notistack');
 
-const queryClient = new QueryClient({
-  defaultOptions: { queries: { retry: false } },
-});
-
 describe('PathfindingContext', () => {
   const server = setupServer();
 
-  const DEFAULT_SETTINGS = {
-    optimization: OptimizationTypes.TIME,
-    algorithm: PathfindingAlgorithmTypes.DIJKSTRA,
-    bounded: false,
-    bounds: {
-      minLatitude: 50.0468,
-      minLongitude: 19.9172,
-      maxLatitude: 50.0562,
-      maxLongitude: 19.9427,
-    },
-  };
-  const notistackMock = {
-    enqueueSnackbar: jest.fn(),
-    closeSnackbar: jest.fn(),
-  };
   const mapMock = { fitBounds: jest.fn() };
-
-  mocked(usePathfindingSettings).mockReturnValue(DEFAULT_SETTINGS);
   mocked(useMap).mockReturnValue({
     map: (mapMock as unknown) as L.Map,
     setMap: jest.fn(),
   });
+
+  const pathfindingSettings = { ...examplePathfindingSettings };
+  mocked(usePathfindingSettings).mockReturnValue(pathfindingSettings);
+
+  const notistackMock = {
+    enqueueSnackbar: jest.fn(),
+    closeSnackbar: jest.fn(),
+  };
   mocked(notistack).useSnackbar.mockReturnValue(notistackMock);
+
+  const exampleAddressItem = { ...exampleAddress };
 
   beforeAll(() => server.listen());
   afterEach(() => {
@@ -55,34 +45,7 @@ describe('PathfindingContext', () => {
   });
   afterAll(() => server.close());
 
-  const wrapper: React.FC = ({ children }) => (
-    <QueryClientProvider client={queryClient}>
-      <PathfindingProvider>{children}</PathfindingProvider>
-    </QueryClientProvider>
-  );
-
-  const exampleAddressItem = {
-    id: 1,
-    location: { latitude: 1, longitude: 2 },
-    city: 'city',
-    country: 'country',
-    houseNumber: 'house number',
-    street: 'street',
-    postCode: 'post code',
-  };
-
-  const pathResponse = {
-    simplePath: [],
-    searchBoundaries: [[]],
-    totalDistance: 1,
-    totalDuration: 2,
-    totalNodes: 3,
-    totalVisitedNodes: 4,
-    executionDuration: 5,
-    algorithm: PathfindingAlgorithmTypes.BFS,
-    optimization: OptimizationTypes.NUMBER_OF_NODES,
-    found: false,
-  };
+  const pathResponse = { ...examplePathResponse, bounded: false };
 
   beforeEach(() => {
     server.use(
@@ -94,6 +57,18 @@ describe('PathfindingContext', () => {
       ),
     );
   });
+
+  const wrapper: React.FC = ({ children }) => (
+    <QueryClientProvider
+      client={
+        new QueryClient({
+          defaultOptions: { queries: { retry: false } },
+        })
+      }
+    >
+      <PathfindingProvider>{children}</PathfindingProvider>
+    </QueryClientProvider>
+  );
 
   describe('setStart', () => {
     it('should allow setting start point', async () => {
@@ -186,6 +161,39 @@ describe('PathfindingContext', () => {
         expect(result.current.path).toStrictEqual(pathResponse);
       });
     });
+
+    it('should call bounded pathfinding api', async () => {
+      mocked(usePathfindingSettings).mockReturnValue({
+        ...pathfindingSettings,
+        bounded: true,
+      });
+      const boundedPathResponse = { ...pathResponse, numberOfNodes: 55 };
+      server.use(
+        rest.get<PathResponse>(
+          '/api/pathfinding/path-between/bounded',
+          (req, res, ctx) => {
+            return res(ctx.status(200), ctx.json(boundedPathResponse));
+          },
+        ),
+      );
+
+      const { result, waitFor } = renderHook(() => usePathfinding(), {
+        wrapper,
+      });
+      act(() => {
+        result.current.setStart(exampleAddressItem);
+        result.current.setEnd(exampleAddressItem);
+      });
+
+      act(() => {
+        result.current.findPath();
+      });
+
+      await waitFor(() => {
+        expect(mapMock.fitBounds).toBeCalledTimes(1);
+        expect(result.current.path).toStrictEqual(boundedPathResponse);
+      });
+    });
   });
 
   it('should display error when start is not set', async () => {
@@ -194,7 +202,7 @@ describe('PathfindingContext', () => {
     });
 
     act(() => {
-      result.current.setStart(exampleAddressItem);
+      result.current.setEnd(exampleAddressItem);
       result.current.findPath();
     });
     await waitForNextUpdate();

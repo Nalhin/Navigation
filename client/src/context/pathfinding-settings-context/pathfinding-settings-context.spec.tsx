@@ -8,37 +8,30 @@ import {
 import { OptimizationTypes } from '../../constants/pathfinding-optimizations';
 import { PathfindingAlgorithmTypes } from '../../constants/pathfinding-algorithms';
 import { waitFor } from '@testing-library/react';
+import { examplePathfindingSettings } from '../../../test/constants/pathfinding-settings';
 
 describe('MapContext', () => {
-  const DEFAULT_SETTINGS = {
-    optimization: OptimizationTypes.TIME,
-    algorithm: PathfindingAlgorithmTypes.DIJKSTRA,
-    bounded: false,
-    bounds: {
-      minLatitude: 50.0468,
-      minLongitude: 19.9172,
-      maxLatitude: 50.0562,
-      maxLongitude: 19.9427,
-    },
+  const pathfindingSettings = {
+    ...examplePathfindingSettings,
   };
 
   it('should return default setting', () => {
     const wrapper: React.FC = ({ children }) => (
       <PathfindingSettingsProvider
-        defaultPathfindingSettings={DEFAULT_SETTINGS}
+        defaultPathfindingSettings={pathfindingSettings}
       >
         {children}
       </PathfindingSettingsProvider>
     );
     const { result } = renderHook(() => usePathfindingSettings(), { wrapper });
 
-    expect(result.current).toEqual(DEFAULT_SETTINGS);
+    expect(result.current).toEqual(pathfindingSettings);
   });
 
   it('should allow to modify pathfinding settings', () => {
     const wrapper: React.FC = ({ children }) => (
       <PathfindingSettingsProvider
-        defaultPathfindingSettings={DEFAULT_SETTINGS}
+        defaultPathfindingSettings={pathfindingSettings}
       >
         {children}
       </PathfindingSettingsProvider>
@@ -51,14 +44,14 @@ describe('MapContext', () => {
       },
     );
     const expectedSettings = {
-      ...DEFAULT_SETTINGS,
+      ...pathfindingSettings,
       algorithm: PathfindingAlgorithmTypes.BELLMAN_FORD,
       optimization: OptimizationTypes.DISTANCE,
     };
 
     act(() => {
       resultSetter.current.setSettings({
-        ...DEFAULT_SETTINGS,
+        ...pathfindingSettings,
         algorithm: PathfindingAlgorithmTypes.BELLMAN_FORD,
         optimization: OptimizationTypes.DISTANCE,
       });
