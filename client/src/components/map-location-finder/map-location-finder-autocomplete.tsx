@@ -9,7 +9,7 @@ interface Props {
   setCurrent: (item: AddressItem | null) => void;
 }
 
-const MapAddressAutocomplete = ({ setCurrent }: Props) => {
+const MapLocationFinderAutocomplete = ({ setCurrent }: Props) => {
   const { map } = useMap();
   const [value, setValue] = React.useState<AddressItem | null>(null);
 
@@ -43,4 +43,4 @@ const MapAddressAutocomplete = ({ setCurrent }: Props) => {
   );
 };
 
-export default MapAddressAutocomplete;
+export default MapLocationFinderAutocomplete;

@@ -1,8 +1,8 @@
 import React from 'react';
 import { PathResponse } from '../../api/requests/pathfinding/pathfinding.types';
 import { Box, Grid, Typography } from '@material-ui/core';
-import { ALGORITHM_TYPE_TRANSLATIONS } from '../../constants/algorithms';
-import { OPTIMIZATION_TYPES_TRANSLATIONS } from '../../constants/optimizations';
+import { ALGORITHM_TYPE_TRANSLATIONS } from '../../constants/pathfinding-algorithms';
+import { OPTIMIZATION_TYPES_TRANSLATIONS } from '../../constants/pathfinding-optimizations';
 
 interface Props {
   path: PathResponse;

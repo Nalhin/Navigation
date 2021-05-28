@@ -1,13 +1,13 @@
 import { axios } from '../../axios';
 import { Coordinates } from '../shared.types';
 import { Bounds, PathResponse } from './pathfinding.types';
-import { OptimizationTypes } from '../../../constants/optimizations';
-import { AlgorithmTypes } from '../../../constants/algorithms';
+import { OptimizationTypes } from '../../../constants/pathfinding-optimizations';
+import { PathfindingAlgorithmTypes } from '../../../constants/pathfinding-algorithms';
 
 export const getPathBetween = (
   start: Coordinates,
   end: Coordinates,
-  algorithm: AlgorithmTypes,
+  algorithm: PathfindingAlgorithmTypes,
   optimization: OptimizationTypes,
 ) => {
   return axios.get<PathResponse>('/pathfinding/path-between', {
@@ -31,7 +31,7 @@ export const getPathBetweenBounded = ({
 }: {
   start: Coordinates;
   end: Coordinates;
-  algorithm: AlgorithmTypes;
+  algorithm: PathfindingAlgorithmTypes;
   optimization: OptimizationTypes;
   bounds: Bounds;
 }) => {
@@ -49,7 +49,7 @@ export const getPathBetweenBounded = ({
 };
 
 export const getAvailableOptimizationsForAlgorithm = (
-  algorithm: AlgorithmTypes,
+  algorithm: PathfindingAlgorithmTypes,
 ) =>
   axios.get<OptimizationTypes[]>(
     `/pathfinding/algorithms/${algorithm}/supported-optimizations`,

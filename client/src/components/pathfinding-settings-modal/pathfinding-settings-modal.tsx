@@ -25,11 +25,11 @@ import { Bounds } from '../../api/requests/pathfinding/pathfinding.types';
 import {
   OPTIMIZATION_TYPES_TRANSLATIONS,
   OptimizationTypes,
-} from '../../constants/optimizations';
+} from '../../constants/pathfinding-optimizations';
 import {
   ALGORITHM_TYPE_TRANSLATIONS,
-  AlgorithmTypes,
-} from '../../constants/algorithms';
+  PathfindingAlgorithmTypes,
+} from '../../constants/pathfinding-algorithms';
 import { getAvailableOptimizationsForAlgorithm } from '../../api/requests/pathfinding/pathfinding';
 import { useQuery } from 'react-query';
 import * as yup from 'yup';
@@ -48,22 +48,25 @@ const SETTINGS = {
     OptimizationTypes.NONE,
   ],
   algorithms: [
-    AlgorithmTypes.DFS,
-    AlgorithmTypes.BFS,
-    AlgorithmTypes.BIDIRECTIONAL_BFS,
-    AlgorithmTypes.DIJKSTRA,
-    AlgorithmTypes.BIDIRECTIONAL_DIJKSTRA,
-    AlgorithmTypes.A_STAR,
-    AlgorithmTypes.BIDIRECTIONAL_A_STAR,
-    AlgorithmTypes.BELLMAN_FORD,
-    AlgorithmTypes.GREEDY_BEST_FIRST_SEARCH,
-    AlgorithmTypes.BIDIRECTIONAL_GREEDY_BEST_FIRST_SEARCH,
+    PathfindingAlgorithmTypes.DFS,
+    PathfindingAlgorithmTypes.BFS,
+    PathfindingAlgorithmTypes.BIDIRECTIONAL_BFS,
+    PathfindingAlgorithmTypes.DIJKSTRA,
+    PathfindingAlgorithmTypes.BIDIRECTIONAL_DIJKSTRA,
+    PathfindingAlgorithmTypes.A_STAR,
+    PathfindingAlgorithmTypes.BIDIRECTIONAL_A_STAR,
+    PathfindingAlgorithmTypes.BELLMAN_FORD,
+    PathfindingAlgorithmTypes.GREEDY_BEST_FIRST_SEARCH,
+    PathfindingAlgorithmTypes.BIDIRECTIONAL_GREEDY_BEST_FIRST_SEARCH,
   ],
 };
 
 const schema = yup.object().shape({
   optimization: yup.string().oneOf(Object.values(OptimizationTypes)).required(),
-  algorithm: yup.string().oneOf(Object.values(AlgorithmTypes)).required(),
+  algorithm: yup
+    .string()
+    .oneOf(Object.values(PathfindingAlgorithmTypes))
+    .required(),
   bounded: yup.bool().required(),
   bounds: yup.object().required().shape({
     minLatitude: yup.number().required(),
@@ -75,7 +78,7 @@ const schema = yup.object().shape({
 
 interface FormState {
   optimization: OptimizationTypes;
-  algorithm: AlgorithmTypes;
+  algorithm: PathfindingAlgorithmTypes;
   bounded: boolean;
   bounds: Bounds;
 }

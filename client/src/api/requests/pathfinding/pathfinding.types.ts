@@ -1,5 +1,5 @@
-import { OptimizationTypes } from '../../../constants/optimizations';
-import { AlgorithmTypes } from '../../../constants/algorithms';
+import { OptimizationTypes } from '../../../constants/pathfinding-optimizations';
+import { PathfindingAlgorithmTypes } from '../../../constants/pathfinding-algorithms';
 
 export interface PathResponse {
   simplePath: MapNode[];
@@ -9,7 +9,7 @@ export interface PathResponse {
   totalNodes: number;
   totalVisitedNodes: number;
   executionDuration: number;
-  algorithm: AlgorithmTypes;
+  algorithm: PathfindingAlgorithmTypes;
   optimization: OptimizationTypes;
   found: boolean;
 }

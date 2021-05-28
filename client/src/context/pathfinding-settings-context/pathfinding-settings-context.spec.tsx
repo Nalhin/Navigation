@@ -5,14 +5,14 @@ import {
   usePathfindingSettings,
   useSetPathfindingSettings,
 } from './pathfinding-settings-context';
-import { OptimizationTypes } from '../../constants/optimizations';
-import { AlgorithmTypes } from '../../constants/algorithms';
+import { OptimizationTypes } from '../../constants/pathfinding-optimizations';
+import { PathfindingAlgorithmTypes } from '../../constants/pathfinding-algorithms';
 import { waitFor } from '@testing-library/react';
 
 describe('MapContext', () => {
   const DEFAULT_SETTINGS = {
     optimization: OptimizationTypes.TIME,
-    algorithm: AlgorithmTypes.DIJKSTRA,
+    algorithm: PathfindingAlgorithmTypes.DIJKSTRA,
     bounded: false,
     bounds: {
       minLatitude: 50.0468,
@@ -52,14 +52,14 @@ describe('MapContext', () => {
     );
     const expectedSettings = {
       ...DEFAULT_SETTINGS,
-      algorithm: AlgorithmTypes.BELLMAN_FORD,
+      algorithm: PathfindingAlgorithmTypes.BELLMAN_FORD,
       optimization: OptimizationTypes.DISTANCE,
     };
 
     act(() => {
       resultSetter.current.setSettings({
         ...DEFAULT_SETTINGS,
-        algorithm: AlgorithmTypes.BELLMAN_FORD,
+        algorithm: PathfindingAlgorithmTypes.BELLMAN_FORD,
         optimization: OptimizationTypes.DISTANCE,
       });
     });

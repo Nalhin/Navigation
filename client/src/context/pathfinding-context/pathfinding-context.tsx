@@ -11,6 +11,8 @@ import { usePathfindingSettings } from '../pathfinding-settings-context/pathfind
 import { useMap } from '../map-context/map-context';
 import { AxiosError } from 'axios';
 import { useSnackbar } from 'notistack';
+import { calculateBoundaryBox } from '../../utils/calculate-boundary-box/calculate-boundary-box';
+import { DEFAULT_ERROR_STACKBAR_OPTIONS } from '../../constants/default-error-snackbar-options';
 
 const PathfindingContext = React.createContext<PathfindingContext | null>(null);
 
@@ -22,6 +24,7 @@ export interface PathfindingContext {
   swapStartAndEnd: () => void;
   clear: () => void;
   findPath: () => void;
+  isLoading: boolean;
 }
 
 export const usePathfinding = () => {
@@ -46,7 +49,7 @@ export const PathfindingProvider: React.FC = ({ children }) => {
   const { map } = useMap();
   const snackbar = useSnackbar();
 
-  const { data, mutate, reset } = useMutation(
+  const { data, mutate, reset, isLoading } = useMutation(
     ['path-between'],
     ({ start, end }: { start: Coordinates; end: Coordinates }) =>
       settings.bounded
@@ -59,28 +62,18 @@ export const PathfindingProvider: React.FC = ({ children }) => {
           })
         : getPathBetween(start, end, settings.algorithm, settings.optimization),
     {
-      onSuccess: (data) => {
-        const latitudes = data.data.searchBoundaries.flatMap((el) =>
-          el.map((e) => e.latitude),
+      onSuccess: ({ data }) => {
+        map?.fitBounds(
+          calculateBoundaryBox([
+            ...data.searchBoundaries.flat(),
+            ...data.searchBoundaries.flat(),
+          ]),
         );
-        const longitudes = data.data.searchBoundaries.flatMap((el) =>
-          el.map((e) => e.longitude),
-        );
-        map?.fitBounds([
-          [Math.min(...latitudes), Math.min(...longitudes)],
-          [Math.max(...latitudes), Math.max(...longitudes)],
-        ]);
       },
       onError: (error: AxiosError) => {
         snackbar.enqueueSnackbar(
           error.response?.data.message ?? 'Unexpected error',
-          {
-            variant: 'error',
-            anchorOrigin: {
-              vertical: 'top',
-              horizontal: 'right',
-            },
-          },
+          DEFAULT_ERROR_STACKBAR_OPTIONS,
         );
       },
     },
@@ -121,7 +114,12 @@ export const PathfindingProvider: React.FC = ({ children }) => {
   }, []);
 
   const findPath = React.useCallback(() => {
-    if (!selectedPoints.start || !selectedPoints.end) {
+    if (!selectedPoints.start) {
+      snackbar.enqueueSnackbar('Start not set', DEFAULT_ERROR_STACKBAR_OPTIONS);
+      return;
+    }
+    if (!selectedPoints.end) {
+      snackbar.enqueueSnackbar('End not set', DEFAULT_ERROR_STACKBAR_OPTIONS);
       return;
     }
     mutate({
@@ -138,6 +136,7 @@ export const PathfindingProvider: React.FC = ({ children }) => {
         selectedPoints,
         setEnd,
         setStart,
+        isLoading,
         path: data?.data as PathResponse,
         findPath,
       }}

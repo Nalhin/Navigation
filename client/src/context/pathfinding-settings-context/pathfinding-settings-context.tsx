@@ -1,7 +1,7 @@
 import React from 'react';
 import { Bounds } from '../../api/requests/pathfinding/pathfinding.types';
-import { OptimizationTypes } from '../../constants/optimizations';
-import { AlgorithmTypes } from '../../constants/algorithms';
+import { OptimizationTypes } from '../../constants/pathfinding-optimizations';
+import { PathfindingAlgorithmTypes } from '../../constants/pathfinding-algorithms';
 
 export const PathfindingSettingsContext = React.createContext<PathfindingSettingsContextProps | null>(
   null,
@@ -12,7 +12,7 @@ export const SetPathfindingSettingsContext = React.createContext<SetPathfindingS
 
 export interface PathfindingSettingsContextProps {
   optimization: OptimizationTypes;
-  algorithm: AlgorithmTypes;
+  algorithm: PathfindingAlgorithmTypes;
   bounded: boolean;
   bounds: Bounds;
 }
@@ -47,7 +47,7 @@ interface Props {
 
 const DEFAULT_SETTINGS = {
   optimization: OptimizationTypes.TIME,
-  algorithm: AlgorithmTypes.DIJKSTRA,
+  algorithm: PathfindingAlgorithmTypes.DIJKSTRA,
   bounded: false,
   bounds: {
     minLatitude: 50.0468,

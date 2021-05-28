@@ -1,7 +1,7 @@
 import { AddressItem } from '../../types/address-item.type';
 import { Divider, Grid, IconButton, Paper } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import MapAddressAutocomplete from './map-address-autocomplete';
+import MapLocationFinderAutocomplete from './map-location-finder-autocomplete';
 import SearchIcon from '@material-ui/icons/Search';
 import DirectionsIcon from '@material-ui/icons/Directions';
 import React from 'react';
@@ -23,7 +23,7 @@ const MapLocationFinder = ({
         <IconButton aria-label="menu" onClick={onMenuClick}>
           <MenuIcon />
         </IconButton>
-        <MapAddressAutocomplete setCurrent={setCurrent} />
+        <MapLocationFinderAutocomplete setCurrent={setCurrent} />
         <IconButton type="submit" aria-label="search">
           <SearchIcon />
         </IconButton>

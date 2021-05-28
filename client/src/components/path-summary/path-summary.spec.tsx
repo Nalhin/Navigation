@@ -1,5 +1,5 @@
-import { AlgorithmTypes } from '../../constants/algorithms';
-import { OptimizationTypes } from '../../constants/optimizations';
+import { PathfindingAlgorithmTypes } from '../../constants/pathfinding-algorithms';
+import { OptimizationTypes } from '../../constants/pathfinding-optimizations';
 import { render, screen } from '@testing-library/react';
 import PathSummary from './path-summary';
 import React from 'react';
@@ -13,7 +13,7 @@ describe('PathSummary', () => {
     totalNodes: 0,
     totalVisitedNodes: 10,
     executionDuration: 2.22,
-    algorithm: AlgorithmTypes.DIJKSTRA,
+    algorithm: PathfindingAlgorithmTypes.DIJKSTRA,
     optimization: OptimizationTypes.NONE,
     found: true,
   };
