@@ -102,6 +102,7 @@ services:
     image: consul:1.9.5
     ports:
       - 8500:8500
+
   redis:
     image: redis:6.0.9-alpine
     ports:
