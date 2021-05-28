@@ -1,12 +1,13 @@
-package com.navigation.reversegeocodingapi;
+package com.navigation.pathfinding;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ReverseGeocodingApiApplication {
+public class PathfindingApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(ReverseGeocodingApiApplication.class, args);
+    SpringApplication.run(PathfindingApplication.class, args);
   }
+
 }

@@ -9,6 +9,12 @@ import {
   Typography,
 } from '@material-ui/core';
 import { usePathfinding } from '../../context/pathfinding-context/pathfinding-context';
+import styled from '@emotion/styled';
+
+const StyledCardActions = styled(CardActions)`
+  display: flex;
+  justify-content: space-between;
+`;
 
 interface Props {
   item: AddressItem;
@@ -35,14 +41,14 @@ const CurrentPoint = ({ item }: Props) => {
           {item.location.longitude}
         </Typography>
       </CardContent>
-      <CardActions>
+      <StyledCardActions>
         <Button size="small" onClick={() => pathfinding.setStart(item)}>
           Set start
         </Button>
         <Button size="small" onClick={() => pathfinding.setEnd(item)}>
           Set end
         </Button>
-      </CardActions>
+      </StyledCardActions>
     </Card>
   );
 };

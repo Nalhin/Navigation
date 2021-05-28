@@ -2,6 +2,7 @@ import React from 'react';
 import { Bounds } from '../../api/requests/pathfinding/pathfinding.types';
 import { OptimizationTypes } from '../../constants/pathfinding-optimizations';
 import { PathfindingAlgorithmTypes } from '../../constants/pathfinding-algorithms';
+import { PATHFINDING_SETTINGS } from '../../constants/pathfinding-settings';
 
 export const PathfindingSettingsContext = React.createContext<PathfindingSettingsContextProps | null>(
   null,
@@ -45,20 +46,8 @@ interface Props {
   defaultPathfindingSettings?: PathfindingSettingsContextProps;
 }
 
-const DEFAULT_SETTINGS = {
-  optimization: OptimizationTypes.TIME,
-  algorithm: PathfindingAlgorithmTypes.DIJKSTRA,
-  bounded: false,
-  bounds: {
-    minLatitude: 50.0468,
-    minLongitude: 19.9172,
-    maxLatitude: 50.0562,
-    maxLongitude: 19.9427,
-  },
-};
-
 export const PathfindingSettingsProvider: React.FC<Props> = ({
-  defaultPathfindingSettings = DEFAULT_SETTINGS,
+  defaultPathfindingSettings = PATHFINDING_SETTINGS,
   children,
 }) => {
   const [setting, setSetting] = React.useState<PathfindingSettingsContextProps>(

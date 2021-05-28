@@ -17,11 +17,7 @@ import { usePathfindingSettings } from '../../context/pathfinding-settings-conte
 import CurrentMarker from './map-icons/current-marker';
 import EndMarker from './map-icons/end-marker';
 import StartMarker from './map-icons/start-marker';
-
-const CENTER = {
-  lat: 50.049683,
-  lng: 19.944544,
-};
+import { DEFAULT_MAP_POSITION } from '../../constants/map-position';
 
 interface Props {
   currPoint: AddressItem | null;
@@ -35,7 +31,7 @@ const Map = ({ addPoint, currPoint }: Props) => {
   return (
     <>
       <MapContainer
-        center={CENTER}
+        center={DEFAULT_MAP_POSITION}
         zoom={15}
         style={{ height: '100vh', width: '100%' }}
         whenCreated={map.setMap}
