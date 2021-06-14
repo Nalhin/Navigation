@@ -30,8 +30,7 @@ const PathSummary = ({ path }: Props) => {
         </Typography>
         <Typography>
           <StyledKey>Total distance: </StyledKey>
-          {path.totalDistance.toFixed(2)}
-          km
+          {path.totalDistance.toFixed(2)} km
         </Typography>
         <Typography>
           <StyledKey>Total duration: </StyledKey>
@@ -46,7 +45,7 @@ const PathSummary = ({ path }: Props) => {
         </Typography>
         <Typography>
           <StyledKey>Result: </StyledKey>
-          {path.found ? 'Found' : 'Not found'}
+          {path.found ? 'Success' : 'Failure'}
         </Typography>
       </Grid>
     </Box>
