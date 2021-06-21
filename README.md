@@ -4,15 +4,16 @@
 
 # Navigation
 
-Real-world navigation based on open source geospatial data and single-source shortest path algorithms
+Real-world navigation based on open source spatial data and single-source shortest path algorithms
 
 ## Table of contents
+
 * [Description](#description)
 * [Features](#features)
-* [Presentation](#presentation)  
+* [Presentation](#presentation)
 * [Architecture](#architecture)
 * [Prerequisites](#prerequisites)
-* [Setup](#setup)  
+* [Setup](#setup)
 * [License](#license)
 
 ## Description
@@ -22,17 +23,18 @@ Real-world navigation based on open source geospatial data and single-source sho
 * OSM file parser
 * OSM street network graph
 * Implementation and visualization of the following single-source shortest path algorithms:
-  * [BFS](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BFSPathfinder.java) 
-  * [Bidirectional BFS](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BidirectionalBFSPathfinder.java)
-  * [Bellman-Ford](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BellmanFordPathfinder.java)
-  * [Dijkstra](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/DijkstraPathfinder.java)
-  * [Bidirectional Dijkstra](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BidirectionalDijkstraPathfinder.java)
-  * [A*](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/AStarPathfinder.java)
-  * [Bidirectional A*](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BidirectionalAStarPathfinder.java)
-* Implementation and visualization of the following pathfinding algorithms (with suboptimal results):
-  * [DFS](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/DFSPathfinder.java)
-  * [Greedy Best First Search](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/GreedyBestFirstSearchPathfinder.java)
-  * [Bidirectional Greedy Best First Search](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BidirectionalGreedyBestFirstSearchPathfinder.java)
+    * [BFS](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BFSPathfinder.java)
+    * [Bidirectional BFS](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BidirectionalBFSPathfinder.java)
+    * [Bellman-Ford](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BellmanFordPathfinder.java)
+    * [Dijkstra](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/DijkstraPathfinder.java)
+    * [Bidirectional Dijkstra](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BidirectionalDijkstraPathfinder.java)
+    * [A*](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/AStarPathfinder.java)
+    * [Bidirectional A*](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BidirectionalAStarPathfinder.java)
+* Implementation and visualization of the following pathfinding algorithms (with suboptimal
+  results):
+    * [DFS](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/DFSPathfinder.java)
+    * [Greedy Best First Search](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/GreedyBestFirstSearchPathfinder.java)
+    * [Bidirectional Greedy Best First Search](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BidirectionalGreedyBestFirstSearchPathfinder.java)
 * Geocoding - converting addresses to coordinates
 * Reverse Geocoding - converting coordinates to addresses
 * Data distribution pipeline in microservice architecture
@@ -40,10 +42,66 @@ Real-world navigation based on open source geospatial data and single-source sho
 
 ## Presentation
 
+### Overview
+
+<p align="center">
+  <a href="https://youtu.be/qL4kbjQwHUM">
+    <img width="400px" src="/assets/screenshots/overview.gif" alt="overview"/>
+  </a>
+</p>
+
+### DFS
+
+<p align="center">
+  <img src="assets/screenshots/dfs.png" alt="dfs" />
+</p>
+
+### BFS
+
+<p align="center">
+  <img src="assets/screenshots/bfs.png" alt="bfs" />
+</p>
+
+### Bellman-Ford
+
+<p align="center">
+  <img src="assets/screenshots/bellman-ford.png" alt="bellman-ford" />
+</p>
+
+### Bidirectional BFS
+
+<p align="center">
+  <img src="assets/screenshots/bi-bfs.png" alt="bidirectional-bfs" />
+</p>
+
+### Dijkstra
+
+<p align="center">
+  <img src="assets/screenshots/dijkstra.png" alt="dijkstra" />
+</p>
+
+### Bidirectional Dijkstra
+
+<p align="center">
+  <img src="assets/screenshots/bi-dijkstra.png" alt="bidirectional-dijkstra" />
+</p>
+
+### A*
+
+<p align="center">
+  <img src="assets/screenshots/a-star.png" alt="a-star" />
+</p>
+
+### Bidirectional A*
+
+<p align="center">
+  <img src="assets/screenshots/bi-a-star.png" alt="bidirectional-a-star" />
+</p>
+
 ## Architecture
 
 <p align="center">
-    <img src="architecture/architecture.png" alt="architecture"/>
+    <img src="assets/architecture/architecture.png" alt="architecture"/>
 </p>
 
 ### Modules
@@ -51,14 +109,15 @@ Real-world navigation based on open source geospatial data and single-source sho
 ```
 modules
   services 
-    reverse-geocoding-api
-    geocoding-api
-    pathfinding-api
-    osm-data-exporter
+    reverse-geocoding-service
+    geocoding-service
+    pathfinding-service
+    osm-data-exporter-service
+    gateway
+    
   libraries 
     parser
     pathfinder
-
 ```
 
 ## Prerequisites
@@ -67,22 +126,26 @@ Install [jdk16](https://www.oracle.com/java/technologies/javase-jdk16-downloads.
 and [gradle](https://gradle.org/).
 
 You should be able to run the following commands:
+
 ```bash
 java --version
 gradle --version
 ```
 
-Install [docker](https://docs.docker.com/install/) and [docker-compose](https://docs.docker.com/compose/). 
+Install [docker](https://docs.docker.com/install/)
+and [docker-compose](https://docs.docker.com/compose/).
 
 You should be able to run the following commands:
+
 ```bash
 docker --version
 docker-compsoe --version
 ```
 
-Install [node](https://nodejs.org/en), [npm](https://www.npmjs.com) and [yarn](https://yarnpkg.com). 
+Install [node](https://nodejs.org/en), [npm](https://www.npmjs.com) and [yarn](https://yarnpkg.com).
 
 You should be able to run the following commands:
+
 ```bash
 node --version
 npm --version
@@ -132,8 +195,8 @@ bash init-prod.sh
 
 ### Wait for export
 
-Wait for the export process to finish (osm-data-processor should shut itself down).
-This process should take approximately 3-5 min per 100Mb of compressed map data.
+Wait for the export process to finish (osm-data-processor should shut itself down). This process
+should take approximately 3-5 min per 100Mb of compressed map data.
 
 ### Open client
 
