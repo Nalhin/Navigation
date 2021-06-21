@@ -4,7 +4,7 @@
 
 # Navigation
 
-Real-world navigation based on open source spatial data and single-source shortest path algorithms
+Real-world navigation based on open source geospatial and pathfinding algorithms.
 
 ## Table of contents
 
@@ -12,11 +12,18 @@ Real-world navigation based on open source spatial data and single-source shorte
 * [Features](#features)
 * [Presentation](#presentation)
 * [Architecture](#architecture)
+* [Technology Stack](#technology-stack)
 * [Prerequisites](#prerequisites)
 * [Setup](#setup)
 * [License](#license)
 
 ## Description
+
+The project provides the graphical interface to visualize and simulate the execution process of
+various pathfinding algorithms. To ensure the most accurate and up-to-date results, it operates on
+spatial data provided by the OpenStreetMap community. The use of microservice architecture enables
+the entire application to be scalable, reliable and fault-tolerant. The infrastructure abstracts the
+process of distributing the data between services.
 
 ## Features
 
@@ -46,7 +53,7 @@ Real-world navigation based on open source spatial data and single-source shorte
 
 <p align="center">
   <a href="https://youtu.be/qL4kbjQwHUM">
-    <img width="400px" src="/assets/screenshots/overview.gif" alt="overview"/>
+    <img src="/assets/screenshots/overview.gif" alt="overview"/>
   </a>
 </p>
 
@@ -107,7 +114,7 @@ Real-world navigation based on open source spatial data and single-source shorte
 ### Modules
 
 ```
-modules
+backend
   services 
     reverse-geocoding-service
     geocoding-service
@@ -119,6 +126,36 @@ modules
     parser
     pathfinder
 ```
+
+## Technology Stack
+
+### Frontend
+
+* Typescript
+* React
+* Leaflet
+* React Query
+* Material-UI
+* React Testing Library
+* Jest
+* React Hook Form
+
+### Backend
+
+* Java
+* Spring
+* Hibernate
+* Elasticsearch
+* MongoDB
+* Kafka
+* Groovy
+* Spock
+* Testcontainers
+* Gradle
+
+### CI/CD
+* Github Actions
+* Codecov
 
 ## Prerequisites
 
