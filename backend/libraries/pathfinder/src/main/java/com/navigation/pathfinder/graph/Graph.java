@@ -35,10 +35,9 @@ public final class Graph {
 
     for (var entry : adjacencyList.entrySet()) {
       for (var edge : entry.getValue()) {
-        var reversed = edge.reversed();
-        var list = reversedAdjacencyList.getOrDefault(reversed.getFrom(), new ArrayList<>());
-        list.add(reversed);
-        reversedAdjacencyList.put(reversed.getFrom(), list);
+        reversedAdjacencyList
+            .computeIfAbsent(edge.getTo(), (e) -> new ArrayList<>())
+            .add(edge.reversed());
       }
     }
 

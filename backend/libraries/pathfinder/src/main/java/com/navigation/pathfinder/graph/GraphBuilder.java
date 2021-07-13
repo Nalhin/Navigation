@@ -27,11 +27,7 @@ public final class GraphBuilder {
   }
 
   private void connectVertices(Vertex from, Vertex to, int maxSpeed) {
-    if (!adjacencyList.containsKey(from)) {
-      adjacencyList.put(from, new ArrayList<>());
-    }
-    var edges = adjacencyList.get(from);
-    edges.add(new Edge(from, to, maxSpeed));
+    adjacencyList.computeIfAbsent(from, (e) -> new ArrayList<>()).add(new Edge(from, to, maxSpeed));
   }
 
   public GraphBuilder connectByIds(long fromId, long toId, int maxSpeed) {
