@@ -90,7 +90,7 @@ services:
         /etc/confluent/docker/run
 
   kafka-gui:
-    image: obsidiandynamics/kafdrop
+    image: obsidiandynamics/kafdrop:3.27.0
     depends_on:
       - kafka
     ports:
