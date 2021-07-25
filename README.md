@@ -4,7 +4,7 @@
 
 # Navigation
 
-Real-world navigation based on open source geospatial and pathfinding algorithms.
+Real-world navigation based on open source spatial data and pathfinding algorithms.
 
 ## Table of contents
 
@@ -22,14 +22,14 @@ Real-world navigation based on open source geospatial and pathfinding algorithms
 The project provides the graphical interface to visualize and simulate the execution process of
 various pathfinding algorithms. To ensure the most accurate and up-to-date results, it operates on
 spatial data provided by the OpenStreetMap community. The use of microservice architecture enables
-the entire application to be scalable, reliable and fault-tolerant. The infrastructure abstracts the
-process of distributing the data between services.
+the entire application to be scalable, reliable and fault-tolerant. Using Kafka Connect allows to
+abstract the process of data distribution between services.
 
 ## Features
 
 * OSM file parser
 * OSM street network graph
-* Implementation and visualization of the following single-source shortest path algorithms:
+* Implementation and visualization of the following single-source shortest path (SSSP) algorithms:
     * [BFS](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BFSPathfinder.java)
     * [Bidirectional BFS](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BidirectionalBFSPathfinder.java)
     * [Bellman-Ford](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BellmanFordPathfinder.java)
@@ -37,8 +37,8 @@ process of distributing the data between services.
     * [Bidirectional Dijkstra](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BidirectionalDijkstraPathfinder.java)
     * [A*](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/AStarPathfinder.java)
     * [Bidirectional A*](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BidirectionalAStarPathfinder.java)
-* Implementation and visualization of the following pathfinding algorithms (with suboptimal
-  results):
+* Implementation and visualization of the following pathfinding algorithms (their results might be
+  suboptimal):
     * [DFS](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/DFSPathfinder.java)
     * [Greedy Best First Search](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/GreedyBestFirstSearchPathfinder.java)
     * [Bidirectional Greedy Best First Search](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BidirectionalGreedyBestFirstSearchPathfinder.java)
@@ -111,7 +111,25 @@ process of distributing the data between services.
     <img src="assets/architecture/architecture.png" alt="architecture"/>
 </p>
 
+### Services
+
+The application functionality is split between the following services:
+
+* Geocoding - converts addresses to coordinates
+* Reverse Geocoding - converts coordinates to addresses
+* Pathfinding - generates summary statistics and data to visualize the execution of pathfinding
+  algorithms
+* OSM Data Processor - parses and loads the OSM data
+
+The services are deployed as independent docker containers. Their API is provided to customers
+through the Spring Cloud Gateway.
+
 ### Modules
+
+The project consists of two main modules -- services and libraries.
+Libraries provide universal functionality decoupled from services and infrastructure.
+The pathfinder library provides pathfinding, convex hull and edge weight calculation algorithms, and the implementation of graph data structure.
+On the other hand, the parser library provides an API to load and extract data from OSM files.
 
 ```
 backend
@@ -154,6 +172,7 @@ backend
 * Gradle
 
 ### CI/CD
+
 * Github Actions
 * Codecov
 
@@ -201,7 +220,7 @@ bash download.sh
 
 #### Manual download
 
-Visit [geofabrik website](http://download.geofabrik.de/europe) and download any .osm.bzip of choice.
+Visit [geofabrik website](http://download.geofabrik.de/europe) and download any .osm.bzip file.
 Rename the downloaded file to ``osm-data.osm.bz2`` and move it to the `data` directory.
 
 ### Build the application
