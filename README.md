@@ -44,7 +44,7 @@ abstract the process of data distribution between services.
     * [Bidirectional Greedy Best First Search](backend/libraries/pathfinder/src/main/java/com/navigation/pathfinder/pathfinding/BidirectionalGreedyBestFirstSearchPathfinder.java)
 * Geocoding - converting addresses to coordinates
 * Reverse Geocoding - converting coordinates to addresses
-* Data distribution pipeline in microservice architecture
+* Data distribution pipeline in a microservice architecture
 * Interactive visualization on street and satellite maps
 
 ## Presentation
@@ -113,7 +113,11 @@ abstract the process of data distribution between services.
 
 ### Services
 
-The application functionality is split between the following services:
+In the process of designing the division of responsibility, a strategic pattern proposed by Eric
+Evans in the DDD methodology called Bounded Context was used. Contexts divide a complex domain into
+smaller subdomains while encapsulating internal models and business logic. Each of the resulting
+contexts have a well-defined interface, defining its communication with the outside world. The
+resulting contexts have been used to divide the application into the following services:
 
 * Geocoding - converts addresses to coordinates
 * Reverse Geocoding - converts coordinates to addresses
@@ -124,12 +128,38 @@ The application functionality is split between the following services:
 The services are deployed as independent docker containers. Their API is provided to customers
 through the Spring Cloud Gateway.
 
+### Databases
+
+#### Mongodb
+
+MongoDB was used to manage spatial data, as it offered extensive support for data based on the
+GeoJson standard. It allows for horizontal scaling using the master-slave model and sharding. The
+read-only nature of the data facilitates internal replication.
+
+#### Elasticsearch
+
+Elasticsearch was used for text-based queries in Geocoding service. It allows for complex text-based
+queries while offering high scalability and advanced replication.
+
+#### Redis
+
+Redis was used as an external cache of choice for the Geocoding service. It reduces the load on the
+database, improving the speed of queries executed.
+
+### Data Pipeline
+
+By combining the Producer API and the Kafka Connect API, Kafka can propagate data across a
+distributed system. Kafka Connect has many built-in, highly configurable connectors, but it also
+provides the ability to implement case-specific variants. Each service has a separate Kafka Connect
+API configuration, responsible for adapting data to internal schemas and persistence.
+
 ### Modules
 
-The project consists of two main modules -- services and libraries.
-Libraries provide universal functionality decoupled from services and infrastructure.
-The pathfinder library provides pathfinding, convex hull and edge weight calculation algorithms, and the implementation of graph data structure.
-On the other hand, the parser library provides an API to load and extract data from OSM files.
+The project consists of two main modules - services and libraries. Libraries provide universal
+functionality decoupled from services and infrastructure. The pathfinder library provides
+pathfinding, convex hull and edge weight calculation algorithms, and the implementation of graph
+data structure. On the other hand, the parser library provides an API to load and extract data from
+OSM files.
 
 ```
 backend
@@ -144,6 +174,13 @@ backend
     parser
     pathfinder
 ```
+
+### Testing
+
+One of the goals of separating domain components into separate libraries (based on interfaces) was
+to simplify their testability at the unit level. Using interfaces instead of classes allows
+designing particular implementations for testing purposes (e.g. an in-memory version of an exporter)
+, thus reducing the need to create mocks and stubs for specific test scenarios.
 
 ## Technology Stack
 
@@ -163,13 +200,18 @@ backend
 * Java
 * Spring
 * Hibernate
-* Elasticsearch
-* MongoDB
-* Kafka
 * Groovy
 * Spock
 * Testcontainers
 * Gradle
+
+### Infrastructure
+
+* Docker
+* Kafka
+* Kafka Connect
+* MongoDB
+* Elasticsearch
 
 ### CI/CD
 
