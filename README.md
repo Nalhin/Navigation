@@ -22,8 +22,7 @@ Real-world navigation based on open source spatial data and pathfinding algorith
 The project provides the graphical interface to visualize and simulate the execution process of
 various pathfinding algorithms. To ensure the most accurate and up-to-date results, it operates on
 spatial data provided by the OpenStreetMap community. The use of microservice architecture enables
-the entire application to be scalable, reliable and fault-tolerant. Using Kafka Connect allows to
-abstract the process of data distribution between services.
+the entire application to be scalable, reliable and fault-tolerant.
 
 ## Features
 
@@ -52,7 +51,7 @@ abstract the process of data distribution between services.
 ### Overview
 
 <p align="center">
-  <a href="https://youtu.be/qL4kbjQwHUM">
+  <a href="https://www.youtube.com/watch?v=IceDA-gvo3M">
     <img src="/assets/screenshots/overview.gif" alt="overview"/>
   </a>
 </p>
@@ -113,11 +112,10 @@ abstract the process of data distribution between services.
 
 ### Services
 
-In the process of designing the division of responsibility, a strategic pattern proposed by Eric
+In the process of designing the separation of responsibility, a strategic pattern proposed by Eric
 Evans in the DDD methodology called Bounded Context was used. Contexts divide a complex domain into
-smaller subdomains while encapsulating internal models and business logic. Each of the resulting
-contexts have a well-defined interface, defining its communication with the outside world. The
-resulting contexts have been used to divide the application into the following services:
+smaller subdomains while encapsulating internal models and business logic. The application was
+divided into the following contexts (represented as services)
 
 * Geocoding - converts addresses to coordinates
 * Reverse Geocoding - converts coordinates to addresses
@@ -128,37 +126,18 @@ resulting contexts have been used to divide the application into the following s
 The services are deployed as independent docker containers. Their API is provided to customers
 through the Spring Cloud Gateway.
 
-### Databases
-
-#### Mongodb
-
-MongoDB was used to manage spatial data, as it offered extensive support for data based on the
-GeoJson standard. It allows for horizontal scaling using the master-slave model and sharding. The
-read-only nature of the data facilitates internal replication.
-
-#### Elasticsearch
-
-Elasticsearch was used for text-based queries in Geocoding service. It allows for complex text-based
-queries while offering high scalability and advanced replication.
-
-#### Redis
-
-Redis was used as an external cache of choice for the Geocoding service. It reduces the load on the
-database, improving the speed of queries executed.
-
 ### Data Pipeline
 
 By combining the Producer API and the Kafka Connect API, Kafka can propagate data across a
-distributed system. Kafka Connect has many built-in, highly configurable connectors, but it also
-provides the ability to implement case-specific variants. Each service has a separate Kafka Connect
-API configuration, responsible for adapting data to internal schemas and persistence.
+distributed system. Each service has a separate Kafka Connect API configuration, responsible for
+adapting data to internal schemas and data persistence.
 
 ### Modules
 
-The project consists of two main modules - services and libraries. Libraries provide universal
-functionality decoupled from services and infrastructure. The pathfinder library provides
+The project consists of two main modules - services and libraries. Libraries offer universal
+functionality decoupled from services and infrastructure. The pathfinder library provide
 pathfinding, convex hull and edge weight calculation algorithms, and the implementation of graph
-data structure. On the other hand, the parser library provides an API to load and extract data from
+data structure. On the other hand, the parser library exports an API to load and extract data from
 OSM files.
 
 ```
@@ -178,8 +157,8 @@ backend
 ### Testing
 
 One of the goals of separating domain components into separate libraries (based on interfaces) was
-to simplify their testability at the unit level. Using interfaces instead of classes allows
-designing particular implementations for testing purposes (e.g. an in-memory version of an exporter)
+to simplify their testability. Using interfaces instead of classes allows designing particular
+implementations for testing purposes (e.g. an in-memory version of an exporter)
 , thus reducing the need to create mocks and stubs for specific test scenarios.
 
 ## Technology Stack
