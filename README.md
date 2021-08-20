@@ -20,7 +20,7 @@ Real-world navigation based on open source spatial data and pathfinding algorith
 ## Description
 
 The project provides the graphical interface to visualize and simulate the execution process of
-various pathfinding algorithms. To ensure the most accurate and up-to-date results, it operates on
+various pathfinding algorithms on a street map. To ensure the most accurate and up-to-date results, it operates on
 spatial data provided by the OpenStreetMap community. The use of microservice architecture enables
 the entire application to be scalable, reliable and fault-tolerant.
 
@@ -137,7 +137,7 @@ adapting data to internal schemas and data persistence.
 The project consists of two main modules - services and libraries. Libraries offer universal
 functionality decoupled from services and infrastructure. The pathfinder library provide
 pathfinding, convex hull and edge weight calculation algorithms, and the implementation of graph
-data structure. On the other hand, the parser library exports an API to load and extract data from
+data structure. On the other hand, the parser library exports API to load and extract data from
 OSM files.
 
 ```
@@ -157,7 +157,7 @@ backend
 ### Testing
 
 One of the goals of separating domain components into separate libraries (based on interfaces) was
-to simplify their testability. Using interfaces instead of classes allows designing particular
+to simplify their testability. Using interfaces instead of classes allows providing particular
 implementations for testing purposes (e.g. an in-memory version of an exporter)
 , thus reducing the need to create mocks and stubs for specific test scenarios.
 
